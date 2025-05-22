@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="120" height="120" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+  <!-- Title for accessibility -->
+  <title>Network Nodes Logo</title>
+  <desc>A modern network connection logo with central hub and connected nodes</desc>
+  
+  <!-- Central hub with gradient -->
+  <circle cx="60" cy="60" r="20" fill="#8B5CF6"/>
+  
+  <!-- Connecting lines -->
+  <g stroke="#8B5CF6" stroke-width="3" stroke-linecap="round">
+    <line x1="60" y1="40" x2="60" y2="20"/>
+    <line x1="80" y1="60" x2="100" y2="60"/>
+    <line x1="60" y1="80" x2="60" y2="100"/>
+    <line x1="40" y1="60" x2="20" y2="60"/>
+  </g>
+  
+  <!-- Outer nodes -->
+  <g fill="#EC4899">
+    <circle cx="60" cy="20" r="8"/>
+    <circle cx="100" cy="60" r="8"/>
+    <circle cx="60" cy="100" r="8"/>
+    <circle cx="20" cy="60" r="8"/>
+  </g>
+  
+  <!-- Optional: Add gradients for enhanced visual -->
+  <defs>
+    <linearGradient id="hub-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8B5CF6"/>
+      <stop offset="100%" stop-color="#7C3AED"/>
+    </linearGradient>
+  </defs>
+</svg>
