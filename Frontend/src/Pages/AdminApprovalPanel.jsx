@@ -8,7 +8,7 @@ function AdminApprovalPanel({ teamId }) {
   const fetchUpdateRequests = async () => {
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch(`http://localhost:5000/api/tasks/getPendingUpdates/${teamId}`, {
+      const response = await fetch(`${BASE_URL}/api/tasks/getPendingUpdates/${teamId}`, {
         method: "GET",
         headers: {
           "Authorization": `Bearer ${token}`
@@ -33,7 +33,7 @@ function AdminApprovalPanel({ teamId }) {
   const handleDecision = async (requestId, action) => {
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch(`http://localhost:5000/api/tasks/handleStageUpdate/${requestId}`, {
+      const response = await fetch(`${BASE_URL}/api/tasks/handleStageUpdate/${requestId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

@@ -13,6 +13,8 @@ export const ChatProvider = ({ children }) => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  const BASE_URL = "https://researchub-pbl.onrender.com"
+
   useEffect(() => {
     const initializeChat = async () => {
       try {
@@ -27,7 +29,7 @@ export const ChatProvider = ({ children }) => {
         }
 
         // Initialize socket connection
-        const newSocket = io('http://localhost:5000', {
+        const newSocket = io(`${BASE_URL}`, {
           auth: {
             token: token
           },
@@ -75,7 +77,7 @@ export const ChatProvider = ({ children }) => {
 
         // Fetch current user data
         console.log('Fetching user data with token:', token.substring(0, 20) + '...');
-        const userRes = await fetch('http://localhost:5000/api/users/me', {
+        const userRes = await fetch(`${BASE_URL}/api/users/me`, {
           method : "GET",
           headers: {
             'Content-Type' : "application/json",
@@ -94,7 +96,7 @@ export const ChatProvider = ({ children }) => {
         setCurrentUser(userData);
 
         // Fetch all users
-        const usersRes = await fetch('http://localhost:5000/api/users/all', {
+        const usersRes = await fetch(`${BASE_URL}/api/users/all`, {
           method : "GET",
           headers: {
             'Content-Type' : 'application/json',
@@ -111,7 +113,7 @@ export const ChatProvider = ({ children }) => {
         setAllUsers(usersData);
 
         // Fetch initial chats
-        const chatsRes = await fetch('http://localhost:5000/api/chats/', {
+        const chatsRes = await fetch(`${BASE_URL}/api/chats/`, {
           method : "GET",
           headers: {
             'Authorization': `Bearer ${token}`
@@ -187,7 +189,7 @@ export const ChatProvider = ({ children }) => {
         throw new Error('No authentication token found');
       }
 
-      const res = await fetch('http://localhost:5000/api/chats', {
+      const res = await fetch(`${BASE_URL}/api/chats`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

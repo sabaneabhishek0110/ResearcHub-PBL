@@ -59,7 +59,7 @@
 //         try{
 //           const token = localStorage.getItem('token');
 //           console.log("Token before fetch:", token);
-//           const response = await fetch('http://localhost:5000/api/yourTeams/getYourTeams',{
+//           const response = await fetch('https://researchub-pbl.onrender.com/api/yourTeams/getYourTeams',{
 //             method : 'GET',
 //             headers : {
 //               'Content-Type' : 'application/json',
@@ -91,7 +91,7 @@
 //             console.log("entered in fetchParticularTeam in YourTeams.jsx");
 //             const token = localStorage.getItem('token');
 //             console.log("Token before fetch:", token);
-//             const response = await fetch(`http://localhost:5000/api/yourTeams/getParticularTeam/${team._id}`,{
+//             const response = await fetch(`https://researchub-pbl.onrender.com/api/yourTeams/getParticularTeam/${team._id}`,{
 //                 method : 'GET',
 //                 headers : {
 //                     'Content-Type' : 'application/json',
@@ -119,7 +119,7 @@
 //     //     try{
 //     //         console.log("Entered in CheckIsAdmin in YourTeams.jsx")
 //     //         const token = localStorage.getItem("token");
-//     //         const response = await fetch(`http://localhost:5000/api/yourTeams/CheckAdminOrNot/${Team.team.Admin._id}`,{
+//     //         const response = await fetch(`https://researchub-pbl.onrender.com/api/yourTeams/CheckAdminOrNot/${Team.team.Admin._id}`,{
 //     //             method : "GET",
 //     //             headers : {
 //     //                 'Content-Type' : 'application/json',
@@ -147,7 +147,7 @@
 //         try {
 //             console.log("Entered in CheckIsAdmin in YourTeams.jsx");
 //             const token = localStorage.getItem("token");
-//             const response = await fetch(`http://localhost:5000/api/yourTeams/CheckAdminOrNot/${team.Admin._id}`,{
+//             const response = await fetch(`https://researchub-pbl.onrender.com/api/yourTeams/CheckAdminOrNot/${team.Admin._id}`,{
 //                 method: "GET",
 //                 headers: {
 //                     'Content-Type': 'application/json',
@@ -222,7 +222,7 @@
 
 //     const getUsers = async() => {
 //         try{
-//           const response = await fetch("http://localhost:5000/api/users/getAllUsers",{
+//           const response = await fetch("https://researchub-pbl.onrender.com/api/users/getAllUsers",{
 //             method:"GET",
 //             headers:{"Content-type" : "application/json"},
 //           })
@@ -263,7 +263,7 @@
 //             }
 //             console.log("kjdjfjkfjkf : ",task);
 //             console.log("relatedTeam : ",relatedTeam);
-//             const response = await fetch("http://localhost:5000/api/tasks/createtask",{
+//             const response = await fetch("https://researchub-pbl.onrender.com/api/tasks/createtask",{
 //                 method : "POST",
 //                 headers:{
 //                     "Content-Type":"application/json",
@@ -659,6 +659,9 @@ function YourTeams() {
         stages: [],
     };
 
+    const BASE_URL = "https://researchub-pbl.onrender.com"
+
+
     useEffect(() => {
         getUsers();
         fetchTeams();
@@ -668,7 +671,7 @@ function YourTeams() {
         try {
             const token = localStorage.getItem('token');
             
-            const response = await fetch(`http://localhost:5000/api/notification/userUnread/${teamId}`, {
+            const response = await fetch(`${BASE_URL}/api/notification/userUnread/${teamId}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -691,7 +694,7 @@ function YourTeams() {
     const fetchTeams = async () => {
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch('http://localhost:5000/api/yourTeam/getYourTeams', {
+            const response = await fetch(`${BASE_URL}/api/yourTeam/getYourTeams`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -731,7 +734,7 @@ function YourTeams() {
             CheckIsAdmin(team);
             const token = localStorage.getItem('token');
             console.log("kfjdkfd",team._id);
-            const response = await fetch(`http://localhost:5000/api/yourTeam/getParticularTeam/${team._id}`, {
+            const response = await fetch(`${BASE_URL}/api/yourTeam/getParticularTeam/${team._id}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -753,7 +756,7 @@ function YourTeams() {
     const CheckIsAdmin = async (team) => {
         try {
             const token = localStorage.getItem("token");
-            const response = await fetch(`http://localhost:5000/api/yourTeam/CheckAdminOrNot/${team.Admin._id}`, {
+            const response = await fetch(`${BASE_URL}/api/yourTeam/CheckAdminOrNot/${team.Admin._id}`, {
                 method: "GET",
                 headers: {
                     'Content-Type': 'application/json',
@@ -815,7 +818,7 @@ function YourTeams() {
 
     const getUsers = async () => {
         try {
-            const response = await fetch("http://localhost:5000/api/users/getAllUsers", {
+            const response = await fetch(`${BASE_URL}/api/users/getAllUsers`, {
                 method: "GET",
                 headers: { "Content-type": "application/json" },
             })
@@ -838,7 +841,7 @@ function YourTeams() {
     const createTasks = async (relatedTeam) => {
         try {
             const token = localStorage.getItem("token");
-            const response = await fetch("http://localhost:5000/api/tasks/createtask", {
+            const response = await fetch(`${BASE_URL}/api/tasks/createtask`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

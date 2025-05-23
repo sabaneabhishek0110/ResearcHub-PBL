@@ -4,12 +4,15 @@ const jwt = require('jsonwebtoken');
 const User = require('../Models/User');
 require('dotenv').config();
 
+const BASE_URL = "https://researchub-pbl.onrender.com"
+
+
 passport.use(
   new GoogleStrategy( // Wrap options in GoogleStrategy
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: 'http://localhost:5000/api/users/google/callback',
+      callbackURL: `${BASE_URL}/api/users/google/callback`,
       passReqToCallback: true,
       scope: ['profile', 'email'],
       prompt: 'select_account consent',

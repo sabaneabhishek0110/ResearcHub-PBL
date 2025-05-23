@@ -15,7 +15,7 @@
 //   const fetchUserDocOfTeam = async () =>{
 //     try{
 //       const token = localStorage.getItem("token");
-//       const response = await fetch(`http://localhost:5000/api/yourDocuments/getUserDocumentRelatedToTeam/${selectedTeam}`,{
+//       const response = await fetch(`https://researchub-pbl.onrender.com/api/yourDocuments/getUserDocumentRelatedToTeam/${selectedTeam}`,{
 //         method : "GET",
 //         headers : {
 //           "Content-Type" : "application/json",
@@ -49,7 +49,7 @@
 //   const deleteTask = async() =>{
 //     try{
 //       const token = localStorage.getItem("token");
-//       const response = await fetch("http://localhost:5000/api/tasks/deleteTask",{
+//       const response = await fetch("https://researchub-pbl.onrender.com/api/tasks/deleteTask",{
 //         method : "PUT",
 //         headers : {
 //           "Content-Type" : "application/json",
@@ -217,11 +217,14 @@ function TaskDrawer({ selectedTask, selectedTeam, onClose }) {
   const [attachedFiles, setAttachedFiles] = useState([]);
   const [selectedTeamDocuments, setSelectedTeamDocuments] = useState([]);
 
+  const BASE_URL = "https://researchub-pbl.onrender.com"
+
+
   const fetchUserDocOfTeam = async () => {
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(
-        `http://localhost:5000/api/yourDocuments/getUserDocumentRelatedToTeam/${selectedTeam}`,
+        `${BASE_URL}/api/yourDocuments/getUserDocumentRelatedToTeam/${selectedTeam}`,
         {
           method: "GET",
           headers: {
@@ -246,7 +249,7 @@ function TaskDrawer({ selectedTask, selectedTeam, onClose }) {
   const deleteTask = async () => {
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch("http://localhost:5000/api/tasks/deleteTask", {
+      const response = await fetch(`${BASE_URL}/api/tasks/deleteTask`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -271,7 +274,7 @@ function TaskDrawer({ selectedTask, selectedTeam, onClose }) {
     try {
       console.log(selectedTask._id ," ",selectedStageIndex, " ",updateDescription, " ",attachedFiles , " ",selectedTeamDocuments," ",selectedTeam);
       const token = localStorage.getItem("token");
-      const response = await fetch("http://localhost:5000/api/tasks/submitStageUpdate", {
+      const response = await fetch(`${BASE_URL}/api/tasks/submitStageUpdate`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

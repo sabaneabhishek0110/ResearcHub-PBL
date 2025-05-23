@@ -28,6 +28,8 @@ import { FiArrowRight, FiCode, FiUsers, FiFileText, FiLock, FiShare2 } from 'rea
 const HomePage = () => {
   const navigate = useNavigate();
 
+  const BASE_URL = "https://researchub-pbl.onrender.com";
+
   // Animation variants
   const container = {
     hidden: { opacity: 0 },

@@ -55,7 +55,7 @@
   
 //         const intervalId = setInterval(simulateProgress, 300);
   
-//         const response = await fetch('http://localhost:5000/api/upload', {
+//         const response = await fetch('https://researchub-pbl.onrender.com/api/upload', {
 //           method: 'POST',
 //           body: formData,
 //         });
@@ -230,6 +230,8 @@ const UploadWindow = ({ onClose, teamDocuments, onFilesSelected, onSelectTeamDoc
   const [isUploading, setIsUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
   
+  const BASE_URL = "https://researchub-pbl.onrender.com"
+
 
   const handleFileChange = (e) => {
     setSelectedFiles([...e.target.files]);

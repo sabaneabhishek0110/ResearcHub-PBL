@@ -7,11 +7,14 @@ function Signup_Login() {
     const [confirmPassword, setconfirmPassword] = useState("");
     const navigate = useNavigate();
 
+    const BASE_URL ="https://researchub-pbl.onrender.com"
+
+
     const handleLogin = async (e) => {
         e.preventDefault();
         console.log(email, password);
         try {
-            const response = await fetch("http://localhost:5000/api/users/getUser", {
+            const response = await fetch(`${BASE_URL}/api/users/getUser`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email, password }),
@@ -35,7 +38,7 @@ function Signup_Login() {
         e.preventDefault();
         console.log(email, password);
         try {
-            const response = await fetch("http://localhost:5000/api/users/createUser", {
+            const response = await fetch(`${BASE_URL}/api/users/createUser`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email, password}),

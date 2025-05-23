@@ -8,11 +8,14 @@ function NotificationBadge({customFilter = {} }) {
   const [showNotifications, setShowNotifications] = useState(false);
   const [notifications, setNotifications] = useState([]);
   const navigate = useNavigate();
+
+   const BASE_URL = "https://researchub-pbl.onrender.com"
+
   
   const fetchUnreadCount = async () => {
     try {
       const token = localStorage.getItem("token");
-      let url = `http://localhost:5000/api/notification/unreadCount`;
+      let url = `${BASE_URL}/api/notification/unreadCount`;
       
       // Add custom filters if provided
       if (Object.keys(customFilter).length > 0) {
@@ -40,7 +43,7 @@ function NotificationBadge({customFilter = {} }) {
   const fetchNotifications = async () => {
     try {
       const token = localStorage.getItem("token");
-      let url = `http://localhost:5000/api/notification/user`;
+      let url = `${BASE_URL}/api/notification/user`;
       
       // Add custom filters if provided
       if (Object.keys(customFilter).length > 0) {
@@ -68,7 +71,7 @@ function NotificationBadge({customFilter = {} }) {
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(
-        `http://localhost:5000/api/notifications/markAsRead/${notificationId}`, 
+        `${BASE_URL}/api/notifications/markAsRead/${notificationId}`, 
         {
           method: "PUT",
           headers: {
@@ -93,7 +96,7 @@ function NotificationBadge({customFilter = {} }) {
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(
-        `http://localhost:5000/api/notification/handleAction/${notification._id}`, 
+        `${BASE_URL}/api/notification/handleAction/${notification._id}`, 
         {
           method: "POST",
           headers: {

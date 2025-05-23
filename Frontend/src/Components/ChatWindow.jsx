@@ -179,6 +179,9 @@ import { useState, useEffect, useRef } from 'react';
 import { useChat } from '../context/ChatContext';
 import { Paperclip, Send, CheckCheck,Users,User } from 'lucide-react';
 
+const BASE_URL = "https://researchub-pbl.onrender.com"
+
+
 function ChatWindow() {
   const { socket, currentChat, currentUser, activeUsers, allUsers } = useChat();
   const [messages, setMessages] = useState([]);
@@ -193,7 +196,7 @@ function ChatWindow() {
     const fetchMessages = async () => {
       try {
         const token = localStorage.getItem('token');
-        const res = await fetch(`http://localhost:5000/api/chats/${currentChat._id}/messages`, {
+        const res = await fetch(`${BASE_URL}/api/chats/${currentChat._id}/messages`, {
           method : "GET",
           headers: {
             'Authorization': `Bearer ${token}`,

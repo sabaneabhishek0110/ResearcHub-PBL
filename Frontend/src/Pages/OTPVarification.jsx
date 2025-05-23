@@ -10,13 +10,15 @@ const OTPVerification = () => {
 
   const email = location.state?.email || '';
 
+  const BASE_URL = "https://researchub-pbl.onrender.com"  
+
   const handleVerify = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     setError('');
 
     try {
-      const response = await fetch('http://localhost:5000/api/users/verify-otp', {
+      const response = await fetch(`${BASE_URL}/api/users/verify-otp`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -47,7 +49,7 @@ const OTPVerification = () => {
 
   const handleResendOTP = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/users/resend-otp', {
+      const response = await fetch(`${BASE_URL}/api/users/resend-otp`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

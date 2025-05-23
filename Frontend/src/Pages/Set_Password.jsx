@@ -10,6 +10,8 @@ function SetPassword() {
     const [success, setSuccess] = useState(false);
     const navigate = useNavigate();
 
+    const BASE_URL ="https://researchub-pbl.onrender.com"
+
     const handleSetPassword = async () => {
         if (!newPassword || !confirmPassword) {
             setError("Both password fields are required.");
@@ -25,7 +27,7 @@ function SetPassword() {
         }
 
         try {
-            const response = await fetch("http://localhost:5000/api/users/set-password", {
+            const response = await fetch(`${BASE_URL}/api/users/set-password`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"

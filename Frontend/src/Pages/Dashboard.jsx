@@ -13,6 +13,8 @@ function Dashboard() {
     Admin : ""
   });
 
+  const BASE_URL = "https://researchub-pbl.onrender.com";
+
   const [showForm,setShowForm] = useState(false);
   const [cancelForm,setCancelForm] = useState(false);
   const [AllProjects,setAllProjects] = useState([]);
@@ -41,7 +43,7 @@ function Dashboard() {
       const token = localStorage.getItem("token");
       console.log("Entered into createTeam in DashBoard at Frontend");
       
-      const response = await fetch('http://localhost:5000/api/dashboard/createTeam',{
+      const response = await fetch(`${BASE_URL}/api/dashboard/createTeam`,{
         method : 'POST',
         headers : {
           "Content-Type" : "application/json",
@@ -67,7 +69,7 @@ function Dashboard() {
     try{
       const token = localStorage.getItem('token');
       console.log("Token before fetch:", token);
-      const response = await fetch('http://localhost:5000/api/dashboard/getAllTeams',{
+      const response = await fetch(`${BASE_URL}/api/dashboard/getAllTeams`,{
         method : 'GET',
         headers : {
           'Content-Type' : 'application/json',
@@ -100,7 +102,7 @@ function Dashboard() {
         return;
       }
 
-      const response = await fetch("http://localhost:5000/api/notification/addRequest",{
+      const response = await fetch(`${BASE_URL}/api/notification/addRequest`,{
         method : "POST",
         headers : {
           "Content-Type" : "application/json",

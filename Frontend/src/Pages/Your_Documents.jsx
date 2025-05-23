@@ -13,12 +13,14 @@ function Your_Documents() {
     const [userTeams,setuserTeams] = useState([]);
     const navigate = useNavigate();
 
+    const BASE_URL = "https://researchub-pbl.onrender.com"
+
     const fetchDocuments = async() =>{
         try{
             console.log("entered in fetchDocuments in Your_Documents.jsx");
             const token = localStorage.getItem('token');
 
-            const response = await fetch("http://localhost:5000/api/yourDocuments/getUserDocuments",{
+            const response = await fetch(`${BASE_URL}/api/yourDocuments/getUserDocuments`,{
                 method : 'GET',
                 headers : {
                     'Content-Type' : 'application/json',
@@ -47,7 +49,7 @@ function Your_Documents() {
             console.log("entered in createDocument in Your_Documents.jsx");
             const token = localStorage.getItem('token');
 
-            const response = await fetch("http://localhost:5000/api/yourDocuments/createDocument",{
+            const response = await fetch(`${BASE_URL}/api/yourDocuments/createDocument`,{
                 method : 'POST',
                 headers : {
                     'Content-Type' : 'application/json',
@@ -74,7 +76,7 @@ function Your_Documents() {
     // Delete document
     const removeDocument = async (id) => {
       try {
-        const response = await fetch(`http://localhost:5000/api/yourDocuments/removeDocument/${id}`, {
+        const response = await fetch(`${BASE_URL}/api/yourDocuments/removeDocument/${id}`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
@@ -92,7 +94,7 @@ function Your_Documents() {
     const showDocument = async(id) =>{
       try{
         const token = localStorage.getItem("token");
-        const response = await fetch(`http://localhost:5000/api/yourDocuments/getUserAccess/${id}`,{
+        const response = await fetch(`${BASE_URL}/api/yourDocuments/getUserAccess/${id}`,{
           method : "GET",
           headers : {
             "Content-Type" : "application/json",
@@ -119,7 +121,7 @@ function Your_Documents() {
       try{
           console.log("khdkjfhjdh")
           const token = localStorage.getItem("token");
-          const response = await fetch(`http://localhost:5000/api/yourDocuments/getUserTeams`,{
+          const response = await fetch(`${BASE_URL}/api/yourDocuments/getUserTeams`,{
               method : "GET",
               headers : {
                 "Content-Type" : "application/json",

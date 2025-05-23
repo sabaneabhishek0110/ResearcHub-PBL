@@ -26,12 +26,13 @@ function To_Do_List() {
   const [showDrawer,setShowDrawer] = useState(false);
   const navigate = useNavigate();
 
+  const BASE_URL = "https://researchub-pbl.onrender.com"
   
   const fetchTeams = async() =>{
     try{
       const token = localStorage.getItem("token");
       console.log("entered in fetchTeams in To_Do_List.jsx");
-      const response = await fetch(`http://localhost:5000/api/yourTeam/getYourTeams`,{
+      const response = await fetch(`${BASE_URL}/api/yourTeam/getYourTeams`,{
         method : 'GET',
         headers : {
           'Content-Type' : 'application/json',
@@ -61,7 +62,7 @@ function To_Do_List() {
       const token = localStorage.getItem("token");
       console.log("entered in fetchUserTasks in To_Do_List.jsx");
       console.log(selectedTeam);
-      const response = await fetch(`http://localhost:5000/api/tasks/getUserTasks/${selectedTeam}`,{
+      const response = await fetch(`${BASE_URL}/api/tasks/getUserTasks/${selectedTeam}`,{
         method : 'GET',
         headers : {
           'Content-Type' : 'application/json',
@@ -92,7 +93,7 @@ function To_Do_List() {
     try{
       const token = localStorage.getItem("token");
       console.log("entered in fetchAllTasks in To_Do_List.jsx");
-      const response = await fetch(`http://localhost:5000/api/tasks/getAllTasks/${selectedTeam}`,{
+      const response = await fetch(`${BASE_URL}/api/tasks/getAllTasks/${selectedTeam}`,{
         method : 'GET',
         headers : {
           'Content-Type' : 'application/json',
@@ -170,7 +171,7 @@ function To_Do_List() {
   const UpdateProgress = async (taskToUpdate,stage) =>{
     try{
       const token = localStorage.getItem("token");
-      const response1 = fetch('http://localhost:5000/api/users/getUser',{
+      const response1 = fetch(`${BASE_URL}/api/users/getUser`,{
         method : "GET",
         headers : {
           'Content-Type' : 'application/json',
@@ -204,7 +205,7 @@ function To_Do_List() {
     )
   );
   if(updatedProgress){
-    const response = fetch('http://localhost:5000/api/task/updateProgress',{
+    const response = fetch(`${BASE_URL}/api/task/updateProgress`,{
       method : 'POST',
       headers : {
         'Content-Type' : 'application/json',
@@ -236,7 +237,7 @@ catch(error){
   //         toast.success("You are not logged in!");
   //         return;
   //     }
-  //     const response = await fetch("http://localhost:5000/api/tasks/createtask",{
+  //     const response = await fetch("${BASE_URL}/api/tasks/createtask",{
   //       method : "POST",
   //       headers:{
   //         "Content-Type":"application/json",
@@ -302,7 +303,7 @@ catch(error){
 
   // const  getUsers = async() => {
   //   try{
-  //     const response = await fetch("http://localhost:5000/api/users/getAllUsers",{
+  //     const response = await fetch("${BASE_URL}/api/users/getAllUsers",{
   //       method:"GET",
   //       headers:{"description-type" : "application/json"},
   //     })

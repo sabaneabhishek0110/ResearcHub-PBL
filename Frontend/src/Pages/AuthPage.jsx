@@ -2,14 +2,18 @@ import React, { useState,useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {toast} from 'react-hot-toast';
 
+
 const AuthPage = () => {
     const [isSignUp, setIsSignUp] = useState(false);
     const [email, setemail] = useState("");
     const [password, setpassword] = useState("");
     const [name,setName] = useState("");
     const navigate = useNavigate();
+    
+    const BASE_URL = "https://researchub-pbl.onrender.com"
 
     useEffect(() => {
+        console.log(BASE_URL)
         const params = new URLSearchParams(window.location.search);
         const token = params.get("token");
 
@@ -25,7 +29,7 @@ const AuthPage = () => {
                 toast.error("Please enter email and password");
                 return;
             }
-            const response = await fetch("http://localhost:5000/api/users/getParticularUser", {
+            const response = await fetch(`${BASE_URL}/api/users/getParticularUser`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email, password }),
@@ -55,7 +59,7 @@ const AuthPage = () => {
     const handlesignup = async () => {
         try {
             console.log("Entered in handlesignup in AuthPage.jsx");
-            const response = await fetch("http://localhost:5000/api/users/createUser", {
+            const response = await fetch(`${BASE_URL}/api/users/createUser`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({name, email, password}),
@@ -83,7 +87,9 @@ const AuthPage = () => {
     };
 
     const handleGoogleLogin = () => {
-        window.location.href = "http://localhost:5000/api/users/google";
+        console.log(BASE_URL);
+        window.location.href = `${BASE_URL}/api/users/google`;
+        // console.log(`${BASE_URL}/api/users/google`)
     };
     
 

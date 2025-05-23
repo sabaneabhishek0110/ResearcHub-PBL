@@ -31,6 +31,7 @@ const ChatPage = () => {
   const messagesEndRef = useRef(null);
   const [showCreateGroup, setShowCreateGroup] = useState(false);
 
+  const BASE_URL = "https://researchub-pbl.onrender.com";
 
   // Filter users based on search and online status
   const filteredUsers = allUsers.filter(user => {
@@ -80,7 +81,7 @@ const ChatPage = () => {
 
       try {
         const token = localStorage.getItem('token');
-        const res = await fetch(`http://localhost:5000/api/chats/${currentChat._id}/messages`, {
+        const res = await fetch(`${BASE_URL}/api/chats/${currentChat._id}/messages`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -136,7 +137,7 @@ const ChatPage = () => {
       formData.append('file', file);
       console.log("File being uploaded:", file.name, file.size, file.type);
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:5000/api/upload', {
+      const response = await fetch(`${BASE_URL}/api/upload`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`

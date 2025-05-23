@@ -32,7 +32,7 @@
 //           return;
 //       }
 
-//       const response = await fetch('http://localhost:5000/api/profile',{
+//       const response = await fetch('${BASE_URL}/api/profile',{
 //         method : 'GET',
 //         headers : {
 //           'Content-Type' : 'application/json',
@@ -58,7 +58,7 @@
 //     try{
 //       console.log("Entered into fetchNotifications in ProfilePage.jsx");
 //       const token = localStorage.getItem('token');
-//       const response = await fetch('http://localhost:5000/api/notification/getNotifications',{
+//       const response = await fetch('${BASE_URL}/api/notification/getNotifications',{
 //         method : 'GET',
 //         headers : {
 //           'Content-Type' : 'application/json',
@@ -89,7 +89,7 @@
 //       }
 //       const token = localStorage.getItem("token");
 
-//       const response = await fetch("http://localhost:5000/api/profile/giveAccess",{
+//       const response = await fetch("${BASE_URL}/api/profile/giveAccess",{
 //         method : 'POST',
 //         headers : {
 //           'Content-Type' : 'application/json',
@@ -260,11 +260,12 @@ function ProfilePage() {
     Teams_Admin : 0
   });
 
-  
+  const BASE_URL = "https://researchub-pbl.onrender.com"
+
   const fetchUser = async () => {
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch('http://localhost:5000/api/profile', {
+      const response = await fetch(`${BASE_URL}/api/profile`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -284,7 +285,7 @@ function ProfilePage() {
   const fetchNotifications = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:5000/api/notification/getNotifications', {
+      const response = await fetch(`${BASE_URL}/api/notification/getNotifications`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -303,7 +304,7 @@ function ProfilePage() {
   const fetchUserStats = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:5000/api/profile/stats', {
+      const response = await fetch('${BASE_URL}/api/profile/stats', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -326,7 +327,7 @@ function ProfilePage() {
       if (!notification) return;
 
       const token = localStorage.getItem("token");
-      const response = await fetch("http://localhost:5000/api/profile/giveAccess", {
+      const response = await fetch(`${BASE_URL}/api/profile/giveAccess`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -353,7 +354,7 @@ function ProfilePage() {
   const rejectRequest = async (_id) => {
     try {
       const token = localStorage.getItem("token");
-      await fetch(`http://localhost:5000/api/notification/reject_Team_join/${_id}`, {
+      await fetch(`${BASE_URL}/api/notification/reject_Team_join/${_id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -381,7 +382,7 @@ function ProfilePage() {
   const handleSave = async () => {
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch('http://localhost:5000/api/profile', {
+      const response = await fetch(`${BASE_URL}/api/profile`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -406,7 +407,7 @@ function ProfilePage() {
   const getUserStats = async() =>{
     try{
       const token = localStorage.getItem("token");
-      const response = await fetch(`http://localhost:5000/api/profile/stats`,{
+      const response = await fetch(`${BASE_URL}/api/profile/stats`,{
         method : "GET",
         headers : {
           "Content-Type" : "application/json",
@@ -430,7 +431,7 @@ function ProfilePage() {
   const getUserRecentActivities = async (userId, limit = 10) => {
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch(`http://localhost:5000/api/profile/activities?limit=${limit}`,{
+      const response = await fetch(`${BASE_URL}/api/profile/activities?limit=${limit}`,{
         method : "GET",
         headers : {
           "Content-Type" : "application/json",
@@ -490,7 +491,7 @@ function ProfilePage() {
         formData.append('profilePicture', updatedData.profilePicture);
       }
       console.log("jhjhjhjh",updatedData);
-      const response = await fetch('http://localhost:5000/api/profile/updateProfile', {
+      const response = await fetch(`${BASE_URL}/api/profile/updateProfile`, {
         method: 'PATCH',
         headers: {
           'Authorization': `Bearer ${token}`,

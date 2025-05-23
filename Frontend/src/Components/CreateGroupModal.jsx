@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useChat } from '../context/ChatContext';
 
+
 const CreateGroupModal = ({ onClose }) => {
   const { allUsers, currentUser, socket } = useChat();
   const [groupName, setGroupName] = useState('');
@@ -8,6 +9,9 @@ const CreateGroupModal = ({ onClose }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+
+  const BASE_URL = "https://researchub-pbl.onrender.com"
+
 
   // Filter users based on search term and exclude current user
   const filteredUsers = allUsers.filter(user =>
@@ -39,7 +43,7 @@ const CreateGroupModal = ({ onClose }) => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:5000/api/chats/group', {
+      const response = await fetch(`${BASE_URL}/api/chats/group`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

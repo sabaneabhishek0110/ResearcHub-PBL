@@ -8,13 +8,16 @@ function ShareDrawer({ title, id,accessType, onClose }) {
   const [accessedMembers, setAccessedMembers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [owner,setOwner] = useState({});
+  
+   const BASE_URL = "https://researchub-pbl.onrender.com"
+
 
   // Fetch all users
   const fetchTeamMembers = async () => {
     try {
       // fetchAccessedMembers();
       const token = localStorage.getItem("token");
-      const response = await fetch(`http://localhost:5000/api/yourDocuments/getTeamMembers/${id}`, {
+      const response = await fetch(`${BASE_URL}/api/yourDocuments/getTeamMembers/${id}`, {
         method: "GET",
         headers: { 
           "Content-Type": "application/json",
@@ -33,7 +36,7 @@ function ShareDrawer({ title, id,accessType, onClose }) {
   // Fetch members who already have access
   const fetchAccessedMembers = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/api/yourDocuments/getAccessedMembers/${id}`, {
+      const response = await fetch(`${BASE_URL}/api/yourDocuments/getAccessedMembers/${id}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -53,7 +56,7 @@ function ShareDrawer({ title, id,accessType, onClose }) {
   const giveAccess = async () => {
     try {
       setLoading(true);
-      const response = await fetch(`http://localhost:5000/api/yourDocuments/giveAccess/${id}`, {
+      const response = await fetch(`${BASE_URL}/api/yourDocuments/giveAccess/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -77,7 +80,7 @@ function ShareDrawer({ title, id,accessType, onClose }) {
   // Update access type of a member
   const updateAccess = async (memberId, newAccessType) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/yourDocuments/updateAccess/${id}`, {
+      const response = await fetch(`${BASE_URL}/api/yourDocuments/updateAccess/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -96,7 +99,7 @@ function ShareDrawer({ title, id,accessType, onClose }) {
   // Revoke access from a member
   const revokeAccess = async (memberId) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/yourDocuments/revokeAccess/${id}`, {
+      const response = await fetch(`${BASE_URL}/api/yourDocuments/revokeAccess/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -114,7 +117,7 @@ function ShareDrawer({ title, id,accessType, onClose }) {
 
   const getOwner = async() =>{
     try{
-      const response = await fetch(`http://localhost:5000/api/yourDocuments/getOwner/${id}`, {
+      const response = await fetch(`${BASE_URL}/api/yourDocuments/getOwner/${id}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

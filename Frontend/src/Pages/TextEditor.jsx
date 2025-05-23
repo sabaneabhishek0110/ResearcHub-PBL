@@ -93,7 +93,7 @@
 //     };
     
 //     useEffect(() => {
-//         const s = io("http://localhost:5000", {
+//         const s = io("${BASE_URL}", {
 //             transports: ["websocket", "polling"],
 //         });
 
@@ -287,7 +287,7 @@
 
 //     const fetchDocumentTeam = async () =>{
 //         try{
-//             const response = await fetch(`http://localhost:5000/api/yourDocuments/getDocumentTeam/${id}`,{
+//             const response = await fetch(`${BASE_URL}/api/yourDocuments/getDocumentTeam/${id}`,{
 //                 method : "GET",
 //                 headers : {
 //                   "Content-Type" : "application/json",
@@ -309,7 +309,7 @@
 
 //     const fetchUserTeams = async () =>{
 //         try{
-//             const response = await fetch(`http://localhost:5000/api/yourDocuments/getUserTeams`,{
+//             const response = await fetch(`${BASE_URL}/api/yourDocuments/getUserTeams`,{
 //                 method : "GET",
 //                 headers : {
 //                     "Content-Type" : "application/json",
@@ -445,6 +445,8 @@ function TextEditor() {
     const [isSavingTitle, setIsSavingTitle] = useState(false);
     let firstSaveDone = useRef(false);
 
+    const BASE_URL = "https://researchub-pbl.onrender.com"
+
     const lastSavedTitleRef = useRef(title);
     const SAVE_INTERVAL_MS = 5000;
     const DEBOUNCE_DELAY_MS = 2000;
@@ -510,7 +512,7 @@ function TextEditor() {
     };
     
     useEffect(() => {
-        const s = io("http://localhost:5000", {
+        const s = io(`${BASE_URL}`, {
             // transports: ["websocket", "polling"],
             withCredentials: true,
             auth: {
@@ -710,7 +712,7 @@ function TextEditor() {
 
     const fetchDocumentTeam = async () =>{
         try{
-            const response = await fetch(`http://localhost:5000/api/yourDocuments/getDocumentTeam/${id}`,{
+            const response = await fetch(`${BASE_URL}/api/yourDocuments/getDocumentTeam/${id}`,{
                 method : "GET",
                 headers : {
                   "Content-Type" : "application/json",
@@ -732,7 +734,7 @@ function TextEditor() {
 
     const fetchUserTeams = async () =>{
         try{
-            const response = await fetch(`http://localhost:5000/api/yourDocuments/getUserTeams`,{
+            const response = await fetch(`${BASE_URL}/api/yourDocuments/getUserTeams`,{
                 method : "GET",
                 headers : {
                     "Content-Type" : "application/json",
