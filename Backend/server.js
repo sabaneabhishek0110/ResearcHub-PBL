@@ -39,6 +39,13 @@ app.use(cors({
 app.use(express.json());
 app.use(passport.initialize());
 
+app.use(express.static(path.join(__dirname, 'dist')));
+
+// Fallback: send index.html for all other routes (React Router support)
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+});
+
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error('Global error handler:', err);
