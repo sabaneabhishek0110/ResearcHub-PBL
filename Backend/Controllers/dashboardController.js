@@ -58,6 +58,6 @@ exports.getAllTeams = async (req,res) =>{
         res.status(200).json(teams);
     }
     catch(error){
-        res.status(500).json({message : "failed to fetch teams from database."})
+        res.status(501).json({message : "failed to fetch teams from database."})
     }
 }
