@@ -39,13 +39,13 @@ app.use(cors({
 app.use(express.json());
 app.use(passport.initialize());
 
-if(process.env.NODE_ENV === "production"){
-  app.use(express.static(path.join(__dirname, '/Frontend/dist')));
-  // Fallback: send index.html for all other routes (React Router support)
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'Frontend','dist', 'index.html'));
-  });
-}
+// if(process.env.NODE_ENV === "production"){
+//   app.use(express.static(path.join(__dirname, '/Frontend/dist')));
+//   // Fallback: send index.html for all other routes (React Router support)
+//   app.get('*', (req, res) => {
+//     res.sendFile(path.join(__dirname, 'Frontend','dist', 'index.html'));
+//   });
+// }
 
 
 // Error handling middleware
