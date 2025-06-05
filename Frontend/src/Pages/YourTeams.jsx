@@ -719,10 +719,6 @@ function YourTeams() {
         }
     };
 
-    
-
-    
-
     const fetchParticularTeam = async (team) => {
         if (!team) {
             console.error("Invalid teamId provided!");
@@ -876,28 +872,29 @@ function YourTeams() {
     }, []);
 
     return (
-        <motion.div className='text-white flex flex-row h-screen w-full bg-gray-900'
+        <motion.div className='text-white flex flex-col h-full w-full bg-gray-900 p-2 sm:p-4'
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4 }}>
 
-            <div className='rounded-lg bg-gray-900 w-full h-full m-2 flex flex-col shadow-xl p-6 overflow-hidden'>
-                <div className="flex justify-between items-center mb-4">
-                    <motion.h1 className="text-3xl font-semibold text-white" whileHover={{ scale: 1.05 }}>Your Teams</motion.h1>
+            {/* <div className='rounded-lg bg-gray-900 w-full h-full m-2 flex flex-col shadow-xl p-6 overflow-hidden'> */}
+                <div className='sticky top-0 z-30 bg-gray-900 pb-2'>
+                    <div className="flex justify-between items-center mb-4 sticky">
+                        <motion.h1 className="text-3xl font-semibold text-white" whileHover={{ scale: 1.05 }}>Your Teams</motion.h1>
 
-                    <div className="relative w-72">
-                        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
-                        <input
-                            type="text"
-                            placeholder="Search"
-                            value={search}
-                            className="pl-10 pr-4 py-2 w-full rounded-2xl bg-gray-800 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            onChange={(e) => { setSearch(e.target.value) }}
-                        />
+                        <div className="relative w-72">
+                            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+                            <input
+                                type="text"
+                                placeholder="Search"
+                                value={search}
+                                className="pl-10 pr-4 py-2 w-full rounded-2xl bg-gray-800 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                onChange={(e) => { setSearch(e.target.value) }}
+                            />
+                        </div>
                     </div>
+                    <hr className='text-gray-500 mb-4' />
                 </div>
-
-                <hr className='text-gray-500 mb-4' />
 
                 <div className='flex-1 min-h-0 overflow-y-auto'>
                     <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-4'>
@@ -976,7 +973,7 @@ function YourTeams() {
                 </div>
 
                 {ShowTeam && Team && Team.team && (
-                    <div className='fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70'>
+                    <div className='fixed inset-0 z-50 flex items-center justify-center bg-opacity-50 backdrop-blur-sm'>
                         <div className='w-[90%] max-w-3xl max-h-[90vh] bg-[#2A2D32] p-6 rounded-lg shadow-lg overflow-y-auto'>
                             <div className="relative bg-gray-800 p-6 rounded-lg shadow-lg mb-4">
                                 <div className="absolute top-4 right-4 flex items-center gap-2">
@@ -1040,7 +1037,7 @@ function YourTeams() {
                                     <p>Assign Tasks</p>
                                 </div>
                             ) : (
-                                <div className='fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80 p-4'>
+                                <div className='fixed inset-0 z-50 flex items-center justify-center backdrop-blur-lg bg-opacity-10 p-4'>
                                     <div className="relative bg-gray-800 p-8 rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
                                         <button
                                             className='absolute top-4 right-4 text-gray-400 hover:text-white'
@@ -1269,7 +1266,7 @@ function YourTeams() {
                         </div>
                     </div>
                 )}
-            </div>
+            {/* </div> */}
         </motion.div>
     )
 }

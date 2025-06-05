@@ -420,14 +420,17 @@ import { useParams } from "react-router-dom";
 import Quill from "quill";
 const Delta = Quill.import('delta');
 import { io } from "socket.io-client";
-import { LockKeyhole, FileText, History,X } from "lucide-react";
+import {motion} from 'framer-motion';
+import { LockKeyhole, FileText, History,X, ArrowLeft } from "lucide-react";
 import "quill/dist/quill.snow.css";
 import "../CSS/TextEditor.css";
 import ShareDrawer from "../Components/ShareDrawer";
 import { version } from "mongoose";
 import TeamSelector from "../Components/TeamSelector";
+import { useNavigate } from "react-router-dom";''
 
 function TextEditor() {
+    const navigate = useNavigate();
     const { id: documentId } = useParams();
     const {accessType } = useParams();
     const [socket, setSocket] = useState(null);
@@ -708,6 +711,18 @@ function TextEditor() {
         q.disable();
         q.setText("Loading...");
         setQuill(q);
+        // Make toolbar horizontally scrollable
+const toolbar = wrapper.querySelector('.ql-toolbar');
+if (toolbar) {
+  toolbar.classList.add('scroll-toolbar'); // Optional extra styling
+  toolbar.style.overflowX = 'auto';
+  toolbar.style.whiteSpace = 'nowrap';
+  toolbar.style.display = 'flex';
+  toolbar.style.scrollBehavior = 'smooth';
+  toolbar.style.paddingBottom = '4px';
+  toolbar.style.position = 'relative'; // For arrows
+}
+
     }, []);
 
     const fetchDocumentTeam = async () =>{
@@ -754,82 +769,123 @@ function TextEditor() {
         }
     }
 
+    const onBack = () =>{
+        try{
+            navigate('/your_documents');
+        }
+        catch(error){
+            console.log(error);
+        }
+    }
+
     return (
-        <div>
-            <div className="toolbar flex flex-row justify-between px-8 py-2 m-1 top-0 z-10 items-center text-black">
-                <div className="flex flex-row items-center space-x-2">
-                    <FileText size={30} className="text-blue-400" />
-                    {isEditingTitle ? (
-                        <input
-                            className="title-input text-white bg-transparent w-80 border-none outline-none text-xl px-3 py-1 "
-                            value={title}
-                            onChange={(e) => setTitle(e.target.value)}
-                            onBlur={() => setIsEditingTitle(false)}
-                            autoFocus
-                        />
-                    ) : (
-                        <h1 className="title text-white text-xl m-0 cursor-pointer max-w-80 overflow-hidden" onClick={() => setIsEditingTitle(true)}>
-                            {title}
-                        </h1>
-                    )}
-                </div>
-                <div className="space-x-6 flex flex-row items-center">
-                    <button className="cursor-pointer" onClick={() => setShowHistory(!showHistory)}>
-                        <History className="w-7 h-7 text-gray-200" />
-                    </button>
-                    <button
-                        className="bg-blue-200 px-4 py-2 rounded-full flex flex-row space-x-2 items-center cursor-pointer"
-                        onClick={() => setShowShareDrawer(true)}
-                    >
-                        <LockKeyhole className="w-5 h-5" />
-                        <h1>Share</h1>
-                    </button>
-                </div>
-            </div>
-            
-            <div className="container w-[90%] h-[100vh-80px] mx-auto max-w-[1200px]" ref={wrapperRef}></div>
-            {showShareDrawer && 
-                (<div className='fixed inset-0 flex items-center justify-center bg-black/40 bg-opacity-50 backdrop-blur-md  '>
-                    <ShareDrawer id={documentId} title={title} accessType={accessType} onClose={()=>{setShowShareDrawer(false)}}/>
-                </div> )   
-            }
-
-            {showHistory && (
-                <div className="history-bar">
-                    <div className="history-header">
-                        <h2>Version History</h2>
-                        <button onClick={() => setShowHistory(false)}>
-                            <X className="w-6 h-6 text-gray-600" />
-                        </button>
-                    </div>
-                    <ul className="history-list">
-                    {versions.map((version, index) => {
-                        const date = new Date(version.timestamp);
-                        const formattedDate = date.toLocaleString("en-US", {
-                        year: "numeric",
-                        month: "long",
-                        day: "numeric",
-                        hour: "2-digit",
-                        minute: "2-digit",
-                        hour12: true,
-                        });
-
-                        return (
-                        <li
-                            key={index}
-                            className="history-item"
-                            onClick={() => restoreVersion(version)}
-                        >
-                            <li>{formattedDate}</li> 
-                            <li>{version.updated_by.name}</li>
-                        </li>
-                        );
-                    })}
-                    </ul>
-
-                </div>
+        <motion.div 
+      className="bg-gray-900 flex flex-col"
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4 }}
+    >
+      {/* Toolbar */}
+      <div className="px-4 md:px-8 py-4 flex justify-between items-center">
+        <div className="flex items-center space-x-2">
+            <button className="text-white p-2 hover:bg-gray-800 rounded-full" onClick={onBack}>
+                <ArrowLeft size={24}/>
+            </button>
+            <FileText className="text-blue-400 w-6 h-6 md:w-7 md:h-7" />
+            {isEditingTitle ? (
+                <input
+                className="bg-transparent border-b border-blue-400 text-white text-lg md:text-xl px-3 py-1 w-40 md:w-80 outline-none"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                onBlur={() => setIsEditingTitle(false)}
+                autoFocus
+                />
+            ) : (
+                <h1
+                className="text-white text-lg md:text-xl max-w-[140px] md:max-w-80 truncate cursor-pointer"
+                onClick={() => setIsEditingTitle(true)}
+                >
+                {title}
+                </h1>
             )}
         </div>
+
+        <div className="flex items-center space-x-3 md:space-x-6">
+          <button onClick={() => setShowHistory(!showHistory)} className="p-1 md:p-0">
+            <History className="w-5 h-5 md:w-7 md:h-7 text-gray-200" />
+          </button>
+          <button
+            className="bg-blue-200 px-3 py-1 md:px-4 md:py-2 rounded-full flex items-center space-x-2 text-sm md:text-base"
+            onClick={() => setShowShareDrawer(true)}
+          >
+            <LockKeyhole className="w-4 h-4 md:w-5 md:h-5" />
+            <span>Share</span>
+          </button>
+        </div>
+      </div>
+
+      {/* Editor Container */}
+      <div className="flex-1 overflow-y-auto overflow-hidden">
+        <div 
+          className="w-[95%] md:w-[90%] mx-auto max-w-[1200px] h-full"
+          ref={wrapperRef}
+        >
+          {/* Place Quill or other editor here */}
+          <div className="bg-white text-black p-4 min-h-[70vh] text-base leading-relaxed rounded-md shadow-sm">
+            {/* Example content placeholder */}
+            <p>Start writing your document...</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Share Drawer */}
+      {showShareDrawer && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black/40 backdrop-blur-md z-50">
+          <ShareDrawer 
+            id={documentId} 
+            title={title} 
+            accessType={accessType} 
+            onClose={() => setShowShareDrawer(false)}
+          />
+        </div>
+      )}
+
+      {/* History Sidebar */}
+      {showHistory && (
+        <div className="fixed top-0 right-0 w-full md:w-[300px] h-screen bg-white shadow-lg z-50 overflow-y-auto">
+          <div className="flex justify-between items-center px-4 py-3 border-b border-gray-200">
+            <h2 className="text-lg font-semibold">Version History</h2>
+            <button onClick={() => setShowHistory(false)} className="p-1">
+              <X className="w-5 h-5 text-gray-600" />
+            </button>
+          </div>
+          <ul className="p-4 space-y-3">
+            {versions.map((version, index) => {
+              const date = new Date(version.timestamp);
+              const formattedDate = date.toLocaleString("en-US", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+                hour: "2-digit",
+                minute: "2-digit",
+                hour12: true,
+              });
+
+              return (
+                <li
+                  key={index}
+                  className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer"
+                  onClick={() => restoreVersion(version)}
+                >
+                  <div className="font-medium">{formattedDate}</div>
+                  <div className="text-sm text-gray-600">{version.updated_by.name}</div>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      )}
+    </motion.div>
     );
 }
 

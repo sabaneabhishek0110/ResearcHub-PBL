@@ -16,5 +16,19 @@
         -webkit-text-fill-color: white !important;
         color: white !important;
     }
+    /* In your global CSS or tailwind.config.js */
+    .scrollbar-hide::-webkit-scrollbar {
+      display: none;
+    }
+    .scrollbar-hide {
+      -ms-overflow-style: none;  /* IE and Edge */
+      scrollbar-width: none;     /* Firefox */
+    }
+
   }
+
+  /* In your global CSS or style tag */
+.scroll-toolbar::-webkit-scrollbar {
+  display: none; /* Hide scrollbar on mobile */
+}
 

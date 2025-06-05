@@ -223,39 +223,41 @@ function Your_Documents() {
     >
       {/* Header Section */}
       <div className="rounded-lg bg-gray-900 w-full h-full mb-1 flex flex-col shadow-xl p-2">
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-white text-3xl font-bold">Your Documents</h2>
-          <button
-            className=" flex items-center gap-2 px-5 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition"
-            onClick={()=>{
-              console.log(userTeams);
-              if(userTeams.length===0){
-                toast.error("You should join atleast one team to create your document");
-                return;
+        <div className='sticky top-0 z-30 bg-gray-900'>
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-white text-3xl font-bold">Your Documents</h2>
+            <button
+              className=" flex items-center gap-2 px-5 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition"
+              onClick={()=>{
+                console.log(userTeams);
+                if(userTeams.length===0){
+                  toast.error("You should join atleast one team to create your document");
+                  return;
+                }
+                setIsOpen(true);
               }
-              setIsOpen(true);
-            }
-            }
-          >
-            <FilePlus size={20} />
-            <span className='text-white'>Create New</span>
-          </button>
+              }
+            >
+              <FilePlus size={20} />
+              {window.innerWidth > 750 && (<span className='text-white'>Create New</span>)}
+            </button>
 
-          {isOpen && (
-            <TeamSelector className="fixed inset-0 bg-black/80 bg-opacity-10 flex justify-center items-center z-50" teams={userTeams} team={team} setTeam={setTeam} onDone={()=>{
-              if (!team) {
-                toast.error("Please select a team");
-                return;
-              }
-              setTeam(team);
-              setIsOpen(false);
-              createDocument();
-            }} 
-            onClose={() => setIsOpen(false)}/>
-          )}
+            {isOpen && (
+              <TeamSelector className="fixed inset-0 bg-black/80 bg-opacity-10 flex justify-center items-center z-50" teams={userTeams} team={team} setTeam={setTeam} onDone={()=>{
+                if (!team) {
+                  toast.error("Please select a team");
+                  return;
+                }
+                setTeam(team);
+                setIsOpen(false);
+                createDocument();
+              }} 
+              onClose={() => setIsOpen(false)}/>
+            )}
+          </div>
+
+          <hr className="border-gray-700 mb-6" />
         </div>
-
-        <hr className="border-gray-700 mb-6" />
 
         {/* Documents List */}
         {documents?.length > 0 ? (

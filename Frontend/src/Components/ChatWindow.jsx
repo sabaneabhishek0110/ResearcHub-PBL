@@ -177,12 +177,12 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { useChat } from '../context/ChatContext';
-import { Paperclip, Send, CheckCheck,Users,User } from 'lucide-react';
+import { Paperclip, Send, CheckCheck,Users,User ,ArrowLeft} from 'lucide-react';
 
 const BASE_URL = "https://researchub-pbl.onrender.com"
 
 
-function ChatWindow() {
+function ChatWindow({onBack = () => {}}) {
   const { socket, currentChat, currentUser, activeUsers, allUsers } = useChat();
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
@@ -313,11 +313,14 @@ function ChatWindow() {
   const otherParticipant = !currentChat.isGroup 
     ? currentChat.participants.find(p => p._id !== currentUser._id)
     : null;
-  console.log("jdndussn",otherParticipant);
+
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-screen text-white overflow-hidden">
       {/* Chat Header */}
-      <div className="flex items-center p-3 border-b">
+      <div className="flex items-center p-3 border-b shrink-0">
+        <button className="hover:bg-gray-800 p-2 mr-1 rounded-full" onClick={onBack}>
+          <ArrowLeft size={24}/>
+        </button>
         <div className="flex items-center">
           {currentChat.isGroup ? (
             <div className="w-10 h-10 rounded-full bg-gray-500 flex items-center justify-center mr-3">
@@ -329,12 +332,6 @@ function ChatWindow() {
                 alt={otherParticipant?.name} 
                 className="w-10 h-10 rounded-full object-cover mr-3"
               />
-            // <div className="w-10 h-10 rounded-full bg-gray-500 flex items-center justify-center mr-3">
-              // {/* {otherParticipant?.profilePicture?( */}
-              // {/* (
-              //   <User size={20}/>
-              // )} */}
-            // </div>
           )}
           <div>
             <h3 className="font-medium">
@@ -413,7 +410,7 @@ function ChatWindow() {
       </div>
 
       {/* Message Input */}
-      <div className="flex items-center p-3 border-t">
+      <div className="flex items-center p-3 border-t shrink-0">
         <label className="p-2 rounded-full hover:bg-gray-100 cursor-pointer">
           <Paperclip className="text-gray-500" size={20} />
           <input

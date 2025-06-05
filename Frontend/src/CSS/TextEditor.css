@@ -1,4 +1,4 @@
-/* Base Styles */
+Base Styles
 /* .editor-container {
     display: flex;
     flex-direction: column;
@@ -220,15 +220,29 @@
 
 /* Customize Quill Toolbar */
 .ql-toolbar {
-    background: #f3f3f3;
-    border-radius: 20px;
-    padding: 10px;
-    margin-bottom: 10px;
-    width: 105%;
-    color: black !important;
-    display: flex;
-    justify-self: center;
+  background: #f3f3f3;
+  border-radius: 20px;
+  padding: 10px;
+  margin-bottom: 10px;
+  width: 100%; /* Keep it inside container */
+  color: black !important;
+  display: flex;
+  overflow-x: auto; /* Enable horizontal scroll */
+  white-space: nowrap; /* Prevent items from wrapping */
+  gap: 10px;
+  scrollbar-width: thin; /* Firefox */
 }
+
+/* Optional: For smooth scroll styling in Chrome */
+.ql-toolbar::-webkit-scrollbar {
+  height: 6px;
+}
+
+.ql-toolbar::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 10px;
+}
+
 
 
 

@@ -66,89 +66,106 @@ function NewGroupModal({ onClose }) {
   };
 
   return (
-    <div className="modal-overlay">
-      <div className="modal-content">
-        <div className="modal-header">
-          <h2>Create New Group</h2>
-          <button onClick={onClose} className="close-btn">
-            &times;
-          </button>
-        </div>
-        
-        {error && <div className="error-message">{error}</div>}
-        
-        <div className="modal-body">
-          <div className="form-group">
-            <label>Group Name</label>
-            <input
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="Enter group name"
-              className="form-input"
-            />
-          </div>
-          
-          <div className="form-group">
-            <label>Add Members</label>
-            <input
-              type="text"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="Search users..."
-              className="form-input"
-            />
-            
-            <div className="users-list">
-              {filteredUsers.length > 0 ? (
-                filteredUsers.map(user => (
-                  <div 
-                    key={user._id} 
-                    className={`user-item ${selectedUsers.includes(user._id) ? 'selected' : ''}`}
-                    onClick={() => handleUserSelect(user._id)}
-                  >
-                    <img 
-                      src={user.avatar || '/default-avatar.png'} 
-                      alt={user.name}
-                      className="user-avatar"
-                    />
-                    <div className="user-info">
-                      <h4>{user.name}</h4>
-                      <p>{user.email}</p>
-                    </div>
-                    <input
-                      type="checkbox"
-                      checked={selectedUsers.includes(user._id)}
-                      readOnly
-                      className="checkbox"
-                    />
-                  </div>
-                ))
-              ) : (
-                <div className="no-users">No users found</div>
-              )}
+    <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 px-4">
+  <div className="bg-[#1e293b] text-white rounded-lg shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto p-6">
+    
+    {/* Header */}
+    <div className="flex justify-between items-center mb-6">
+      <h2 className="text-2xl font-bold text-blue-400">Create New Group</h2>
+      <button onClick={onClose} className="text-white hover:text-red-500 text-2xl font-semibold transition">
+        &times;
+      </button>
+    </div>
+
+    {/* Error Message */}
+    {error && (
+      <div className="bg-red-600 text-white text-sm rounded-md px-4 py-2 mb-4">
+        {error}
+      </div>
+    )}
+
+    {/* Group Name */}
+    <div className="mb-5">
+      <label className="block text-blue-300 mb-1 font-medium">Group Name</label>
+      <input
+        type="text"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        placeholder="Enter group name"
+        className="w-full px-4 py-2 bg-[#334155] border border-blue-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-blue-200"
+      />
+    </div>
+
+    {/* Search & User List */}
+    <div className="mb-5">
+      <label className="block text-blue-300 mb-1 font-medium">Add Members</label>
+      <input
+        type="text"
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        placeholder="Search users..."
+        className="w-full px-4 py-2 mb-4 bg-[#334155] border border-blue-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-blue-200"
+      />
+
+      <div className="space-y-3 max-h-64 overflow-y-auto">
+        {filteredUsers.length > 0 ? (
+          filteredUsers.map((user) => (
+            <div
+              key={user._id}
+              className={`flex items-center gap-4 p-3 rounded-md cursor-pointer transition duration-200 border ${
+                selectedUsers.includes(user._id)
+                  ? 'bg-blue-700 border-blue-500'
+                  : 'bg-[#1e293b] hover:bg-blue-900 border-gray-700'
+              }`}
+              onClick={() => handleUserSelect(user._id)}
+            >
+              <img
+                src={user.avatar || '/default-avatar.png'}
+                alt={user.name}
+                className="w-10 h-10 rounded-full object-cover"
+              />
+              <div className="flex-1">
+                <h4 className="font-semibold text-white">{user.name}</h4>
+                <p className="text-sm text-blue-200">{user.email}</p>
+              </div>
+              <input
+                type="checkbox"
+                checked={selectedUsers.includes(user._id)}
+                readOnly
+                className="form-checkbox text-blue-500 accent-blue-500 w-5 h-5"
+              />
             </div>
-          </div>
-        </div>
-        
-        <div className="modal-footer">
-          <button
-            onClick={onClose}
-            className="cancel-btn"
-            disabled={isLoading}
-          >
-            Cancel
-          </button>
-          <button
-            onClick={handleCreate}
-            disabled={!name.trim() || selectedUsers.length === 0 || isLoading}
-            className={`create-btn ${isLoading ? 'loading' : ''}`}
-          >
-            {isLoading ? 'Creating...' : 'Create Group'}
-          </button>
-        </div>
+          ))
+        ) : (
+          <div className="text-blue-300 text-sm text-center">No users found</div>
+        )}
       </div>
     </div>
+
+    {/* Footer */}
+    <div className="flex justify-end gap-4 mt-6">
+      <button
+        onClick={onClose}
+        className="px-4 py-2 bg-gray-600 hover:bg-gray-700 rounded-md transition disabled:opacity-50"
+        disabled={isLoading}
+      >
+        Cancel
+      </button>
+      <button
+        onClick={handleCreate}
+        className={`px-4 py-2 rounded-md font-medium transition ${
+          isLoading || !name.trim() || selectedUsers.length === 0
+            ? 'bg-blue-700 cursor-not-allowed'
+            : 'bg-blue-600 hover:bg-blue-500'
+        }`}
+        disabled={!name.trim() || selectedUsers.length === 0 || isLoading}
+      >
+        {isLoading ? 'Creating...' : 'Create Group'}
+      </button>
+    </div>
+  </div>
+</div>
+
   );
 }
 

@@ -106,10 +106,13 @@ exports.createTask = async (req, res) => {
         const currentDate = new Date();
         let status;
         if (currentDate < formattedStartDate) {
+            console.log("1");
             status = "upcoming";
         } else if (currentDate > formattedDeadline) {
+            console.log("2");
             status = "overdue";
         } else {
+            console.log("3");
             status = "ongoing";
         }
 
@@ -225,7 +228,7 @@ exports.getAllTasks = async(req,res) =>{
         const Ongoing = [];
         const Completed = [];
         const Upcoming = [];
-        const tasks = await Tasks.find({ relatedTeam: selectedTeam })
+        const tasks = await Tasks.find({ relatedTeam: selectedTeam ,isDeleted: { $ne: true }})
             .populate({
                 path: "stages.members",
                 select: "name"
@@ -289,15 +292,22 @@ exports.deleteTask = async (req,res) =>{
     try{
         console.log("Entered in deleteTask in taskController.js");
         const userId = req.user.userId;
-        const {task} = req.body;
+        const {selectedTask} = req.body;
 
-        const task1 = await Tasks.findOne({_id:task});
+        console.log(selectedTask);
+        const task1 = await Tasks.findOne({_id:selectedTask});
+        console.log(task1);
         if(!task1){
             return res.status(500).json({message:"Task not found!!"});
         }
-        if(userId!==task1.Admin._id){
-            return res.status(500).json({message:"No access to delete task"});
+        if (!task1.assignedBy) {
+            return res.status(500).json({ message: "Task admin info missing" });
         }
+
+        if (userId !== task1.assignedBy.toString()) {
+            return res.status(403).json({ message: "No access to delete task" });
+        }
+
 
         task1.isDeleted = true;
 
@@ -336,9 +346,10 @@ exports.updateStage = async (req,res) =>{
         if(!task1){
             return res.status(500).json({message:"Task not found!!"});
         }
-        if(userId!==task1.Admin._id){
-            return res.status(500).json({message:"No access to delete task"});
+        if (userId !== task1.Admin.toString()) {
+            return res.status(403).json({ message: "No access to delete task" });
         }
+
 
         let stage = task1.stages.find(stage=>stage.no===stageNo);
         if(stageIndex===-1){

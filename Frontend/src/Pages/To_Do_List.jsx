@@ -93,6 +93,7 @@ function To_Do_List() {
     try{
       const token = localStorage.getItem("token");
       console.log("entered in fetchAllTasks in To_Do_List.jsx");
+      console.log(selectedTeam);
       const response = await fetch(`${BASE_URL}/api/tasks/getAllTasks/${selectedTeam}`,{
         method : 'GET',
         headers : {
@@ -384,171 +385,133 @@ catch(error){
 
 
   return (
-    <motion.div className='flex flex-col w-full h-screen mx-auto p-4 bg-gray-900 m-2 rounded-lg' initial = {{opacity : 0,y:-20}} animate = {{opacity : 1,y : 0}} transition={{duration : 0.4}}>
-      <div className='flex justify-between items-center mb-4'>
-          
-          <motion.h1 className='text-3xl font-semibold text-white' whileHover={{scale : 1.05}}>Tasks</motion.h1>
-          <div className='flex gap-2'>
+    <motion.div 
+      className='flex flex-col w-full h-screen overflow-hidden p-2 sm:p-4 bg-gray-900 rounded-lg'
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4 }}
+    >
+      {/* Header and filters */}
+      <div className='shrink-0'>
+        <div className='flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-4'>
+          <motion.h1 className='text-3xl font-semibold text-white' whileHover={{ scale: 1.05 }}>
+            Tasks
+          </motion.h1>
+          <div className='flex flex-col sm:flex-row gap-2 w-full md:w-auto'>
             <select
-                className="px-4 py-2 rounded-md bg-gray-800 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                value={selectedTeam}
-                onChange={(e) => setSelectedTeam(e.target.value)}
+              className="px-4 py-2 rounded-md bg-gray-800 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              value={selectedTeam}
+              onChange={(e) => setSelectedTeam(e.target.value)}
             >
-                <option value="" disabled>Select Team</option>
-                {/* Dynamically Render Teams */}
-                {teams?.length > 0 ? (
-                    teams.map((team) => (
-                        <option key={team._id} value={team._id}>
-                            {team.Team_name}
-                        </option>
-                    ))
-                ) : (
-                    <option value="" disabled>No Teams Available</option>
-                )}
+              <option value="" disabled>Select Team</option>
+              {teams?.length > 0 ? (
+                teams.map((team) => (
+                  <option key={team._id} value={team._id}>
+                    {team.Team_name}
+                  </option>
+                ))
+              ) : (
+                <option value="" disabled>No Teams Available</option>
+              )}
             </select>
-            <div className="relative w-72">
-                {/* Search Icon */}
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
-                
-                {/* Input Field */}
-                <input 
+            <div className="relative w-full sm:w-72">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+              <input 
                 type="text" 
                 placeholder="Search" 
                 value={search}
                 className="pl-10 pr-4 py-2 w-full rounded-2xl bg-gray-800 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 onChange={(e)=>{setSearch(e.target.value)}}
-                />
+              />
             </div>
           </div>
-      </div>
-
-      <hr className='text-gray-500 mb-4'/>
-      
-      <div className='flex justify-start gap-4 mb-4'>
-          <label className='text-white flex items-center gap-2'>
-              <input type='radio' name='taskFilter' value='all' className='accent-blue-500' defaultChecked onChange={()=>{setShowAllTasks(true)}}/>
-              All Tasks
-          </label>
-          <label className='text-white flex items-center gap-2'>
-              <input type='radio' name='taskFilter' value='my' className='accent-blue-500' onChange={()=>{setShowAllTasks(false)}}/>
-              My Tasks
-          </label>
-      </div>
-      
-      <div className='flex justify-between gap-4'>
-          {/* Ongoing Tasks */}
-          <div className='w-1/3 bg-gray-800 p-4 rounded-lg'>
-              <h2 className='text-lg font-semibold text-blue-400 mb-3'>On Going ({Ongoing.length})</h2>
-              <div className='space-y-3'>
-                {Ongoing.filter(task => task.title.toLowerCase().includes(search.toLowerCase())).map((task, index) => (
-                    <div key={index} className='bg-gray-800 p-3 rounded-md shadow-md text-white cursor-pointer' 
-                        onClick={() => {
-                          setSelectedTask((prev)=>task);
-                          setTimeout(() => setShowDrawer(true), 0); 
-                        }}
-                    >
-                        <h3 className='text-lg font-semibold'>{task.title}</h3>
-                        <p className='text-md text-gray-400'>{task.description}</p>
-                        <div className='text-sm text-gray-500 flex space-x-2'>
-                            <p>Deadline :</p> 
-                            <div className='flex space-x-1'>
-                                <p>{(new Date(task.deadline)).toLocaleDateString('en-US', { month: "long" })}</p>
-                                <p>{(new Date(task.deadline)).getDate()} ,</p>
-                                <p>{(new Date(task.deadline)).getFullYear()}</p>
-                            </div>
-                        </div>
-                        <div className='mt-2 flex items-center space-x-2'>
-                            <div className='relative w-full h-2 bg-gray-700 rounded-full'>
-                                <div className='h-2 bg-blue-500 rounded-full' style={{ width: `${task.progress}%` }}></div>
-                            </div>
-                            <p>{task.progress}%</p>
-                        </div>
-                    </div>
-                ))}
-            </div>
-          </div>
-
-          {/* Completed Tasks */}
-          <div className='w-1/3 bg-gray-800 p-4 rounded-lg'>
-              <h2 className='text-lg font-semibold text-green-400 mb-3'>Completed ({Completed.length})</h2>
-              <div className='space-y-3'>
-            {Completed.filter(task => task.title.toLowerCase().includes(search.toLowerCase())).map((task, index) => (
-                <div key={index} className='bg-gray-800 p-3 rounded-md shadow-md text-white cursor-pointer' 
-                    onClick={() => {
-                      setSelectedTask((prev)=>task);
-                      setTimeout(() => setShowDrawer(true), 0); 
-                    }}
-                >
-                    <h3 className='text-lg font-semibold'>{task.title}</h3>
-                    <p className='text-md text-gray-400'>{task.description}</p>
-                    <div className='text-sm text-gray-500 flex space-x-2'>
-                        <p>Deadline :</p> 
-                        <div className='flex space-x-1'>
-                            <p>{(new Date(task.deadline)).toLocaleDateString('en-US', { month: "long" })}</p>
-                            <p>{(new Date(task.deadline)).getDate()} ,</p>
-                            <p>{(new Date(task.deadline)).getFullYear()}</p>
-                        </div>
-                    </div>
-                    <div className='mt-2 flex items-center space-x-2'>
-                        <div className='relative w-full h-2 bg-gray-700 rounded-full'>
-                            <div className='h-2 bg-blue-500 rounded-full' style={{ width: `${task.progress}%` }}></div>
-                        </div>
-                        <p>{task.progress}%</p>
-                    </div>
-                </div>
-            ))}
         </div>
-          </div>
 
-          {/* Upcoming Tasks */}
-          <div className='w-1/3 bg-gray-800 p-4 rounded-lg'>
-              <h2 className='text-lg font-semibold text-yellow-400 mb-3'>Upcoming ({Upcoming.length})</h2>
+        <hr className='text-gray-500 mb-4' />
+
+        {/* Radio Filter */}
+        <div className='flex flex-wrap gap-4 mb-4'>
+          <label className='text-white flex items-center gap-2'>
+            <input type='radio' name='taskFilter' value='all' className='accent-blue-500' defaultChecked onChange={()=>{setShowAllTasks(true)}}/>
+            All Tasks
+          </label>
+          <label className='text-white flex items-center gap-2'>
+            <input type='radio' name='taskFilter' value='my' className='accent-blue-500' onChange={()=>{setShowAllTasks(false)}}/>
+            My Tasks
+          </label>
+        </div>
+      </div>
+
+      {/* Scrollable Grid Area */}
+      <div className="flex-grow overflow-hidden">
+        <div className='grid grid-cols-1 md:grid-cols-3 gap-4 h-full'>
+          {[{ label: "On Going", color: "text-blue-400", data: Ongoing },
+            { label: "Completed", color: "text-green-400", data: Completed },
+            { label: "Upcoming", color: "text-yellow-400", data: Upcoming }]
+            .map(({ label, color, data }, idx) => (
+            <div 
+              key={idx} 
+              className='bg-gray-800 px-4 pb-4 rounded-lg flex flex-col h-full overflow-y-auto scrollbar-hide'
+            >
+              <div className='sticky top-0 bg-gray-800 z-10 pt-4'>
+                <h2 className={`text-lg font-semibold ${color} mb-3 `}>
+                  {label} ({data.length})
+                </h2>
+              </div>
               <div className='space-y-3'>
-            {Upcoming.filter(task => task.title.toLowerCase().includes(search.toLowerCase())).map((task, index) => (
-                <div key={index} className='bg-gray-800 p-3 rounded-md shadow-md text-white cursor-pointer' 
+                {data.filter(task => task.title.toLowerCase().includes(search.toLowerCase()))
+                  .map((task, index) => (
+                    <div 
+                      key={index} 
+                      className='bg-gray-600 p-3 rounded-md shadow-md text-white cursor-pointer' 
                       onClick={() => {
-                        setSelectedTask((prev)=>task);
+                        setSelectedTask(() => task);
                         setTimeout(() => setShowDrawer(true), 0);
-                      
-                        console.log("Selected Task Set:", selectedTask); 
                       }}
                     >
-                    <h3 className='text-lg font-semibold'>{task.title}</h3>
-                    <p className='text-md text-gray-400'>{task.description}</p>
-                    <div className='text-sm text-gray-500 flex space-x-2'>
-                        <p>StartDate :</p> 
+                      <h3 className='text-lg font-semibold'>{task.title}</h3>
+                      <p className='text-md text-gray-400'>{task.description}</p>
+                      <div className='text-sm text-gray-500 flex space-x-2'>
+                        <p>{task.startDate ? "StartDate" : "Deadline"}:</p> 
                         <div className='flex space-x-1'>
-                            <p>{(new Date(task.startDate)).toLocaleDateString('en-US', { month: "long" })}</p>
-                            <p>{(new Date(task.startDate)).getDate()} ,</p>
-                            <p>{(new Date(task.startDate)).getFullYear()}</p>
+                          <p>{new Date(task.startDate || task.deadline).toLocaleDateString('en-US', { month: "long" })}</p>
+                          <p>{new Date(task.startDate || task.deadline).getDate()} ,</p>
+                          <p>{new Date(task.startDate || task.deadline).getFullYear()}</p>
                         </div>
-                    </div>
-                    <div className='text-sm text-gray-500 flex space-x-2'>
-                        <p>Deadline :</p> 
-                        <div className='flex space-x-1'>
-                            <p>{(new Date(task.deadline)).toLocaleDateString('en-US', { month: "long" })}</p>
-                            <p>{(new Date(task.deadline)).getDate()} ,</p>
-                            <p>{(new Date(task.deadline)).getFullYear()}</p>
+                      </div>
+                      {task.startDate && (
+                        <div className='text-sm text-gray-500 flex space-x-2'>
+                          <p>Deadline:</p> 
+                          <div className='flex space-x-1'>
+                            <p>{new Date(task.deadline).toLocaleDateString('en-US', { month: "long" })}</p>
+                            <p>{new Date(task.deadline).getDate()} ,</p>
+                            <p>{new Date(task.deadline).getFullYear()}</p>
+                          </div>
                         </div>
-                    </div>
-                    <div className='mt-2 flex items-center space-x-2'>
+                      )}
+                      <div className='mt-2 flex items-center space-x-2'>
                         <div className='relative w-full h-2 bg-gray-700 rounded-full'>
-                            <div className='h-2 bg-blue-500 rounded-full' style={{ width: `${task.progress}%` }}></div>
+                          <div className='h-2 bg-blue-500 rounded-full' style={{ width: `${task.progress}%` }}></div>
                         </div>
                         <p>{task.progress}%</p>
+                      </div>
                     </div>
-                </div>
-            ))}
+                ))}
+              </div>
+            </div>
+          ))}
         </div>
-          </div>
       </div>
+
+      {/* Drawer */}
       {showDrawer && selectedTask && (
-        <div className='fixed inset-0 flex items-center justify-center bg-opacity-100 backdrop-blur-xs'>
+        <div className='fixed inset-0 flex items-center justify-center bg-opacity-100 backdrop-blur-xs z-50'>
           <TaskDrawer selectedTask={selectedTask} selectedTeam={selectedTeam} onClose={() => setShowDrawer(false)} />
         </div>
       )}
-        
     </motion.div>
+
+
   )
 }
 

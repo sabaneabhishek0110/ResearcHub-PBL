@@ -49,39 +49,44 @@ function SetPassword() {
     };
 
     return (
-        <div className="flex items-center justify-center min-h-screen bg-gray-900">
-            <div className="bg-gray-800 p-6 rounded-lg shadow-lg w-96 text-white">
-                <h2 className="text-2xl font-semibold mb-4 text-center">Set Your Password</h2>
-                <p className="text-gray-400 mb-4 text-center">
-                    Email: <span className="text-gray-300">{email}</span>
-                </p>
+        <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-[#0f172a] via-[#1e3a8a] to-[#1e40af] px-4">
+  <div className="bg-[#1e293b] p-8 sm:p-10 rounded-xl shadow-2xl w-full max-w-md text-white transition-all duration-300">
+    <h2 className="text-3xl font-bold mb-6 text-center text-blue-400">Set Your Password</h2>
 
-                <input
-                    type="password"
-                    className="w-full p-2 mb-3 rounded bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    placeholder="Enter New Password"
-                    value={newPassword}
-                    onChange={(e) => setNewPassword(e.target.value)}
-                />
-                <input
-                    type="password"
-                    className="w-full p-2 mb-3 rounded bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    placeholder="Confirm New Password"
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                />
+    <p className="text-blue-200 mb-6 text-center text-sm">
+      Email: <span className="text-blue-100 font-medium">{email}</span>
+    </p>
 
-                {error && <p className="text-red-500 text-sm mb-2">{error}</p>}
-                {success && <p className="text-green-500 text-sm mb-2">Password set successfully! Redirecting...</p>}
+    <input
+      type="password"
+      className="w-full p-3 mb-4 rounded-lg bg-[#334155] text-white placeholder:text-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
+      placeholder="Enter New Password"
+      value={newPassword}
+      onChange={(e) => setNewPassword(e.target.value)}
+    />
 
-                <button
-                    className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 rounded transition duration-200"
-                    onClick={handleSetPassword}
-                >
-                    Submit
-                </button>
-            </div>
-        </div>
+    <input
+      type="password"
+      className="w-full p-3 mb-4 rounded-lg bg-[#334155] text-white placeholder:text-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
+      placeholder="Confirm New Password"
+      value={confirmPassword}
+      onChange={(e) => setConfirmPassword(e.target.value)}
+    />
+
+    {error && <p className="text-red-400 text-sm mb-3 text-center">{error}</p>}
+    {success && <p className="text-green-400 text-sm mb-3 text-center">Password set successfully! Redirecting...</p>}
+
+    <button
+      className="w-full bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-semibold py-2.5 rounded-lg transition duration-300 shadow-lg"
+      onClick={handleSetPassword}
+    >
+      Submit
+    </button>
+  </div>
+</div>
+
+
+        
     );
 }
 

@@ -231,8 +231,10 @@ import { motion } from 'framer-motion';
 import { Tooltip } from 'react-tooltip';
 import ProfileUpdateForm from '../Components/ProfileUpdateForm';
 import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
 function ProfilePage() {
+  const navigate = useNavigate();
   const [user, setUser] = useState({
     name: "",
     email: "",
@@ -281,6 +283,13 @@ function ProfilePage() {
       console.error("Failed to fetch user details", error);
     }
   };
+
+  useEffect(() => {
+      const token = localStorage.getItem("token");
+      if (!token) {  
+        navigate("/AuthPage"); 
+      }
+  }, [navigate]);
 
   const fetchNotifications = async () => {
     try {
@@ -519,14 +528,14 @@ function ProfilePage() {
   }, []);
 
   return (
-    <motion.div 
-      className="flex w-full min-h-screen bg-gray-900 p-6" 
+   <motion.div 
+      className="flex flex-col lg:flex-row w-full min-h-screen bg-gray-900 p-4 lg:p-6" 
       initial={{ opacity: 0, y: -20 }} 
       animate={{ opacity: 1, y: 0 }} 
       transition={{ duration: 0.4 }}
     >
-      {/* Profile Sidebar */}
-      <div className="w-1/4 h-full bg-gray-800 text-white rounded-xl p-6 shadow-lg flex flex-col space-y-4 sticky top-6">
+      {/* Profile Sidebar - Mobile first: full width, then fixed width on larger screens */}
+      <div className="w-full lg:w-1/4 h-auto lg:h-[calc(100vh-48px)] bg-gray-800 text-white rounded-xl p-4 lg:p-6 shadow-lg flex flex-col space-y-4 lg:sticky lg:top-6 mb-4 lg:mb-0">
         <div className="flex justify-between items-center">
           <h2 className="text-xl font-bold text-[#38BDF8]">Profile</h2>
           <button 
@@ -544,11 +553,11 @@ function ProfilePage() {
           <img
             src={user?.profilePicture || "/default-profile.png"}
             alt="Profile"
-            className="w-32 h-32 rounded-full border-4 border-[#38BDF8] object-cover"
+            className="w-24 h-24 lg:w-32 lg:h-32 rounded-full border-4 border-[#38BDF8] object-cover"
           />
           
           <h2 className="text-xl font-semibold text-center">{user?.name || "Unknown User"}</h2>
-          <p className="text-sm text-gray-300 text-center">{user?.email}</p>
+          <p className="text-sm text-gray-300 text-center break-all">{user?.email}</p>
 
           <p className="text-sm text-gray-400 text-center">{user?.bio || "No bio available"}</p>
           <div className="flex flex-wrap justify-center gap-2">
@@ -558,64 +567,19 @@ function ProfilePage() {
               </span>
             ))}
           </div>
-          
-          {/* {isEditing ? (
-            <>
-              <textarea
-                value={editData.bio}
-                onChange={(e) => setEditData({...editData, bio: e.target.value})}
-                className="w-full bg-gray-700 rounded p-2 text-sm"
-                placeholder="Tell us about yourself..."
-                rows={3}
-              />
-              <input
-                type="text"
-                value={editData.researchFields}
-                onChange={(e) => setEditData({...editData, researchFields: e.target.value})}
-                className="w-full bg-gray-700 rounded p-2 text-sm"
-                placeholder="Research fields (comma separated)"
-              />
-              <div className="flex space-x-2">
-                <button 
-                  onClick={handleSave}
-                  className="px-4 py-2 bg-blue-600 rounded hover:bg-blue-700 transition"
-                >
-                  Save
-                </button>
-                <button 
-                  onClick={() => setIsEditing(false)}
-                  className="px-4 py-2 bg-gray-600 rounded hover:bg-gray-700 transition"
-                >
-                  Cancel
-                </button>
-              </div>
-            </>
-          ) : (
-            <>
-              <p className="text-sm text-gray-400 text-center">{user?.bio || "No bio available"}</p>
-              <div className="flex flex-wrap justify-center gap-2">
-                {user?.researchFields?.map((field, i) => (
-                  <span key={i} className="bg-[#334155] px-3 py-1 rounded-full text-xs">
-                    {field}
-                  </span>
-                ))}
-              </div>
-            </>
-          )} */}
-
 
           {isEditing && (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 flex items-center justify-center bg-opacity-100 backdrop-blur-xs"
+              className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm z-50 p-4"
             >
-                <ProfileUpdateForm 
-                  userData={user}
-                  onUpdate={handleUpdateProfile}
-                  onCancel={() => setIsEditing(false)}
-                />
+              <ProfileUpdateForm 
+                userData={user}
+                onUpdate={handleUpdateProfile}
+                onCancel={() => setIsEditing(false)}
+              />
             </motion.div>
           )}
         </div>
@@ -626,18 +590,21 @@ function ProfilePage() {
             <span>Role: <span className="font-medium">{user?.role || "Not specified"}</span></span>
           </div>
         </div>
-
       </div>
 
-      {/* Main Content */}
-      <div className="w-3/4 h-full flex flex-col space-y-4 pl-6">
-        {/* Tabs */}
-        <div className="flex border-b border-gray-700">
+      {/* Main Content - Mobile first: full width, then 3/4 on larger screens */}
+      <div className="w-full lg:w-3/4 h-full flex flex-col space-y-4 lg:pl-6">
+        {/* Tabs - Stack on mobile, row on larger screens */}
+        <div className="flex overflow-x-auto border-b border-gray-700 scrollbar-hide">
           {['overview', 'requests'].map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className={`px-4 py-2 font-medium text-sm capitalize ${activeTab === tab ? 'text-[#38BDF8] border-b-2 border-[#38BDF8]' : 'text-gray-400 hover:text-white'}`}
+              className={`px-4 py-2 font-medium text-sm capitalize whitespace-nowrap ${
+                activeTab === tab 
+                  ? 'text-[#38BDF8] border-b-2 border-[#38BDF8]' 
+                  : 'text-gray-400 hover:text-white'
+              }`}
             >
               {tab}
             </button>
@@ -648,20 +615,19 @@ function ProfilePage() {
         {activeTab === 'overview' && (
           <div className="space-y-4">
             {/* Recent Activity */}
-            <div className="bg-gray-800 rounded-xl p-6 shadow-lg">
+            <div className="bg-gray-800 rounded-xl p-4 lg:p-6 shadow-lg">
               <h3 className="text-lg font-semibold text-[#38BDF8] mb-4 flex items-center">
                 <BarChart2 size={18} className="mr-2" /> Recent Activity
               </h3>
-              <div className="space-y-3 h-50 overflow-y-auto overflow-hidden">
-                {console.log(recentActivities.length)}
+              <div className="space-y-3 max-h-60 overflow-y-auto">
                 {recentActivities.length > 0 ? (
                   recentActivities.map((item) => (
                     <div key={item.id} className="flex items-start space-x-3 p-3 bg-gray-700 rounded-lg">
                       <div className="bg-[#334155] p-2 rounded-full">
                         <Clock size={16} className="text-[#38BDF8]" />
                       </div>
-                      <div>
-                        <p className="text-sm">{item.message}</p>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm truncate">{item.message}</p>
                         <p className="text-xs text-gray-400">
                           {new Date(item.timestamp).toLocaleString()}
                         </p>
@@ -675,142 +641,27 @@ function ProfilePage() {
                 )}
               </div>
             </div>
-
-            {/* Research Groups */}
-            {/* <div className="bg-gray-800 rounded-xl p-6 shadow-lg">
-              <h3 className="text-lg font-semibold text-[#38BDF8] mb-4 flex items-center">
-                <Users size={18} className="mr-2" /> Your Teams
-              </h3>
-              {user.groups.length > 0 ? (
-                <div className="grid grid-cols-2 gap-4">
-                  {user.groups.map((group, index) => (
-                    <div key={index} className="bg-gray-700 p-4 rounded-lg hover:bg-gray-600 transition cursor-pointer">
-                      <h4 className="font-medium">{group.Team_name}</h4>
-                      <p className="text-sm text-gray-400 mt-1">5 members</p>
-                      <div className="flex mt-2">
-                        {[1, 2, 3].map((i) => (
-                          <div key={i} className="w-6 h-6 rounded-full bg-gray-500 -ml-2 first:ml-0 border-2 border-gray-700"></div>
-                        ))}
-                        <div className="w-6 h-6 rounded-full bg-gray-800 -ml-2 border-2 border-gray-700 flex items-center justify-center text-xs">
-                          +2
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <p className="text-gray-400">You haven't joined any teams yet.</p>
-              )}
-            </div> */}
           </div>
         )}
 
-        {/* {activeTab === 'teams' && (
-          <div className="bg-gray-800 rounded-xl p-6 shadow-lg">
-            <h3 className="text-lg font-semibold text-[#38BDF8] mb-4">Your Research Groups</h3>
-            {user.groups.length > 0 ? (
-              <div className="space-y-4">
-                {user.groups.map((group, index) => (
-                  <div key={index} className="bg-gray-700 p-4 rounded-lg">
-                    <div className="flex justify-between items-center">
-                      <h4 className="font-medium">{group.Team_name}</h4>
-                      <span className="text-xs bg-[#334155] px-2 py-1 rounded">
-                        {group.members?.length || 0} members
-                      </span>
-                    </div>
-                    <p className="text-sm text-gray-400 mt-1">{group.description || "No description"}</p>
-                    <div className="flex justify-between items-center mt-3">
-                      <div className="flex -space-x-2">
-                        {group.members?.slice(0, 5).map((member, i) => (
-                          <img 
-                            key={i}
-                            src={member.profilePicture} 
-                            alt={member.name}
-                            className="w-6 h-6 rounded-full border-2 border-gray-700"
-                          />
-                        ))}
-                        {group.members?.length > 5 && (
-                          <div className="w-6 h-6 rounded-full bg-gray-800 border-2 border-gray-700 flex items-center justify-center text-xs">
-                            +{group.members.length - 5}
-                          </div>
-                        )}
-                      </div>
-                      <button className="text-xs bg-[#2563EB] hover:bg-[#1D4ED8] px-3 py-1 rounded transition">
-                        View Team
-                      </button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div className="text-center py-8">
-                <Users size={48} className="mx-auto text-gray-600 mb-4" />
-                <p className="text-gray-400">You haven't joined any research groups yet.</p>
-                <button className="mt-4 px-4 py-2 bg-[#2563EB] hover:bg-[#1D4ED8] rounded transition">
-                  Browse Groups
-                </button>
-              </div>
-            )}
-          </div>
-        )} */}
-
-        {/* {activeTab === 'tasks' && (
-          <div className="bg-gray-800 rounded-xl p-6 shadow-lg">
-            <h3 className="text-lg font-semibold text-[#38BDF8] mb-4">Your Tasks</h3>
-            {user.assignedTasks.length > 0 ? (
-              <div className="space-y-3">
-                {user.assignedTasks.map((task, index) => (
-                  <div key={index} className="bg-gray-700 p-4 rounded-lg">
-                    <div className="flex justify-between">
-                      <h4 className="font-medium">{task.title}</h4>
-                      <span className={`text-xs px-2 py-1 rounded ${
-                        task.status === 'completed' ? 'bg-green-900 text-green-300' : 
-                        task.status === 'in-progress' ? 'bg-yellow-900 text-yellow-300' : 
-                        'bg-red-900 text-red-300'
-                      }`}>
-                        {task.status}
-                      </span>
-                    </div>
-                    <p className="text-sm text-gray-400 mt-1">{task.description}</p>
-                    <div className="flex justify-between items-center mt-3">
-                      <div className="flex items-center space-x-2 text-xs text-gray-400">
-                        <Calendar size={14} />
-                        <span>Due: {new Date(task.dueDate).toLocaleDateString()}</span>
-                      </div>
-                      <button className="text-xs bg-[#2563EB] hover:bg-[#1D4ED8] px-3 py-1 rounded transition">
-                        View Task
-                      </button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div className="text-center py-8">
-                <FileText size={48} className="mx-auto text-gray-600 mb-4" />
-                <p className="text-gray-400">You don't have any assigned tasks.</p>
-              </div>
-            )}
-          </div>
-        )} */}
-
         {activeTab === 'requests' && (
-          <div className="bg-gray-800 rounded-xl p-6 shadow-lg">
+          <div className="bg-gray-800 rounded-xl p-4 lg:p-6 shadow-lg">
             <h3 className="text-lg font-semibold text-[#38BDF8] mb-4 flex items-center">
               <Bell size={18} className="mr-2" /> Pending Requests
             </h3>
             {user.pendingRequests.length > 0 ? (
               <div className="space-y-3">
                 {user.pendingRequests.map((notification, index) => (
-                  <div key={index} className="bg-gray-700 p-4 rounded-lg">
+                  <div key={index} className="bg-gray-700 p-3 lg:p-4 rounded-lg">
                     <div className="flex items-center space-x-3">
                       <img 
                         src={notification.requestedBy.profilePicture} 
                         alt={notification.requestedBy.name}
-                        className="w-10 h-10 rounded-full"
+                        className="w-8 h-8 lg:w-10 lg:h-10 rounded-full"
                       />
-                      <div>
-                        <h4 className="font-medium">{notification.requestedBy.name}</h4>
-                        <p className="text-sm text-gray-400">
+                      <div className="flex-1 min-w-0">
+                        <h4 className="font-medium truncate">{notification.requestedBy.name}</h4>
+                        <p className="text-sm text-gray-400 truncate">
                           Wants to join <span className="text-[#38BDF8]">{notification.relatedTeam.Team_name}</span>
                         </p>
                       </div>
@@ -818,14 +669,14 @@ function ProfilePage() {
                     <div className="flex space-x-2 mt-3">
                       <button
                         onClick={() => giveAccess(notification._id)}
-                        className="flex-1 flex items-center justify-center space-x-1 px-4 py-2 bg-green-600 hover:bg-green-700 rounded transition"
+                        className="flex-1 flex items-center justify-center space-x-1 px-3 py-1 lg:px-4 lg:py-2 bg-green-600 hover:bg-green-700 rounded transition text-sm"
                       >
                         <Check size={16} />
                         <span>Accept</span>
                       </button>
                       <button
                         onClick={() => rejectRequest(notification._id)}
-                        className="flex-1 flex items-center justify-center space-x-1 px-4 py-2 bg-red-600 hover:bg-red-700 rounded transition"
+                        className="flex-1 flex items-center justify-center space-x-1 px-3 py-1 lg:px-4 lg:py-2 bg-red-600 hover:bg-red-700 rounded transition text-sm"
                       >
                         <X size={16} />
                         <span>Reject</span>
@@ -842,21 +693,22 @@ function ProfilePage() {
             )}
           </div>
         )}
-        {/* Stats */}
-        <div className="bg-gray-800 rounded-xl p-6 shadow-lg">
+
+        {/* Stats - Grid changes from 1 column on mobile to 3 on larger screens */}
+        <div className="bg-gray-800 rounded-xl p-4 lg:p-6 shadow-lg">
           <h3 className="text-lg font-semibold text-[#38BDF8] mb-4 flex items-center">
             <BarChart2 size={18} className="mr-2" /> Your Stats
           </h3>
-          <div className="grid grid-cols-3 gap-4">
-            <div className="bg-gray-700 p-4 rounded-lg">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 lg:gap-4">
+            <div className="bg-gray-700 p-3 lg:p-4 rounded-lg">
               <div className="text-2xl font-bold text-[#38BDF8]">{stats.documents || 0}</div>
               <div className="text-sm text-gray-400">Documents</div>
             </div>
-            <div className="bg-gray-700 p-4 rounded-lg">
+            <div className="bg-gray-700 p-3 lg:p-4 rounded-lg">
               <div className="text-2xl font-bold text-[#38BDF8]">{stats.tasks || 0}</div>
               <div className="text-sm text-gray-400">Tasks Completed</div>
             </div>
-            <div className="bg-gray-700 p-4 rounded-lg">
+            <div className="bg-gray-700 p-3 lg:p-4 rounded-lg">
               <div className="text-2xl font-bold text-[#38BDF8]">{stats.Teams_Admin || 0}</div>
               <div className="text-sm text-gray-400">Teams Admin</div>
             </div>

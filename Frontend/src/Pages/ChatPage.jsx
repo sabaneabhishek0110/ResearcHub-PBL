@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useChat } from '../context/ChatContext';
 import CreateGroupModal from '../Components/CreateGroupModal';
 import { FaPaperPlane, FaPaperclip, FaTimes } from 'react-icons/fa';
-import {FileIcon} from 'lucide-react';
+import {FileIcon, MessageSquarePlus, Search,Users,PanelLeftOpen ,ArrowLeft,MessageCircle,Menu } from 'lucide-react';
 import '../CSS/Chat.css';
 import ChatList from '../Components/ChatList';
 import ChatWindow from '../Components/ChatWindow';
@@ -30,6 +30,7 @@ const ChatPage = () => {
   const fileInputRef = useRef(null);
   const messagesEndRef = useRef(null);
   const [showCreateGroup, setShowCreateGroup] = useState(false);
+  const [isOpen,setIsOpen] = useState(false);
 
   const BASE_URL = "https://researchub-pbl.onrender.com";
 
@@ -257,7 +258,7 @@ const ChatPage = () => {
   };
 
   if (loading) {
-    return <div className="chat-loading">Loading...</div>;
+    return <div className="chat-loading text-2xl">Loading...</div>;
   }
 
   if (error) {
@@ -265,170 +266,181 @@ const ChatPage = () => {
   }
 
   return (
-    <div className="chat-container overflow-y-auto overflow-hidden">
-      {/* Sidebar */}
-      <div className="chat-sidebar">
-        <div className="chat-sidebar-header">
-          <h2>Contacts</h2>
-          <div className="chat-search">
-            <input
-              type="text"
-              placeholder="Search contacts..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-          </div>
-          <div className="online-toggle">
-            <input
-              type="checkbox"
-              id="onlineOnly"
-              checked={showOnlineOnly}
-              onChange={(e) => setShowOnlineOnly(e.target.checked)}
-            />
-            <label htmlFor="onlineOnly">Show online only ({activeUsers.length})</label>
-          </div>
-          <button 
-            className="create-group-btn"
-            onClick={() => setShowCreateGroup(true)}
-          >
-            Create Group
-          </button>
-        </div>
-        
-        {/* <div className="users-list">
-          {filteredUsers.map(user => (
-            <div
-              key={user._id}
-              className={`user-item ${currentChat?.participants.includes(user._id) ? 'active' : ''}`}
-              onClick={() => handleUserClick(user)}
-            >
-              <div className="user-avatar">
-                <img src={user.profilePicture || 'https://via.placeholder.com/40'} alt={user.name} />
-                <div className={`status-indicator ${activeUsers.includes(user._id) ? 'online' : 'offline'}`} />
-              </div>
-              <div className="user-info">
-                <div className="user-name">{user.name}</div>
-                <div className="user-email">{user.email}</div>
-              </div>
-            </div>
-          ))}
-        </div> */}
-
-        <ChatList searchQuery={searchQuery} />
+    <div className="flex h-screen bg-gray-900 overflow-hidden">
+  {/* Mobile: Always full screen for either chat list or chat window */}
+  <div className="w-full h-[100dvh] flex flex-col md:hidden overflow-hidden">
+    {currentChat ? (
+      <div className="h-full flex flex-col">
+        {/* Mobile Chat Window */}
+        <ChatWindow onBack={() => setCurrentChat(null)}/>
       </div>
-
-      {/* Main Chat Area */}
-      {/* <div className="chat-main">
-        {currentChat ? (
-          <>
-            <div className="chat-header">
-              <h3>{currentChat.isGroup ? currentChat.name : 
-                allUsers.find(u => u._id === currentChat.participants.find(p => p !== currentUser._id))?.name
-              }</h3>
-            </div>
-            
-            <div className="messages-container">
-              {messages.map((msg, index) => (
-                <div
-                  key={index}
-                  className={`message ${msg.sender === currentUser._id ? 'sent' : 'received'}`}
-                >
-                  <div className="message-content">
-                    {msg.content}
-                    {msg.file && (
-                      <div className="message-file">
-
-                      {msg.file && (
-                        <div className="message-file">
-                          {msg.file.type.startsWith('image/') ? (
-                            <img src={msg.file.url} alt="Attachment" />
-                          ) : (
-                            <a href={msg.file.url} target="_blank" rel="noopener noreferrer">
-                              <FileIcon type={msg.file.type} />
-                              {msg.file.name}
-                            </a>
-                          )}
-                        </div>
-                      )}
-                      </div>
-                    )}
-                  </div>
-                  <div className="message-time">
-                    {formatTime(msg.timestamp)}
-                  </div>
-                </div>
-              ))}
-              {typing && (
-                <div className="typing-indicator">
-                  <span>Typing...</span>
-                </div>
-              )}
-              <div ref={messagesEndRef} />
-            </div>
-
-            <div className="message-input">
-              <input
-                type="file"
-                ref={fileInputRef}
-                onChange={handleFileSelect}
-                style={{ display: 'none' }}
-              />
-              <button
-                className="attach-button"
-                onClick={() => fileInputRef.current?.click()}
-                disabled={isUploading}
-              >
-                <FaPaperclip />
-              </button>
-              {selectedFile && (
-                <div className="selected-file">
-                  <span>{selectedFile.name}</span>
-                  <button onClick={() => setSelectedFile(null)}>
-                    <FaTimes />
-                  </button>
-                </div>
-              )}
+    ) : (
+      <div className="h-full flex flex-col text-white">
+        {/* Mobile Chat List Header */}
+        <div className="bg-gray-800 p-4 border-b border-gray-700">
+          <h2 className="text-xl font-semibold mb-4">Contacts</h2>
+          <div className="flex flex-col space-y-4">
+            {/* Search and filter inputs */}
+            <div className="relative">
               <input
                 type="text"
-                value={message}
-                onChange={(e) => {
-                  setMessage(e.target.value);
-                  handleTyping(e);
-                }}
-                placeholder="Type a message..."
-                disabled={isUploading}
+                className="w-full p-2 pl-8 rounded bg-gray-700 text-white text-sm"
+                placeholder="Search..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
               />
+              <Search 
+                className="w-4 h-4 absolute left-2 top-3 text-gray-400" 
+                size={16}
+              />
+            </div>
+            
+            <div className="flex items-center">
+              <input
+                type="checkbox"
+                id="onlineOnly"
+                className="mr-2"
+                checked={showOnlineOnly}
+                onChange={(e) => setShowOnlineOnly(e.target.checked)}
+              />
+              <label htmlFor="onlineOnly" className="text-sm">
+                Online ({activeUsers.length})
+              </label>
+            </div>
+            
+            <button
+              className="bg-blue-600 hover:bg-blue-700 flex justify-center items-center text-white py-2 px-4 rounded text-sm"
+              onClick={() => setShowCreateGroup(true)}
+            >
+              <div className='flex flex-row gap-2'>
+                <Users size={16} />
+                <p>Create Group</p>
+              </div>
+            </button>
+          </div>
+        </div>
+        {/* Mobile Contacts List */}
+        <div className="flex-1 overflow-y-auto">
+          <ChatList searchQuery={searchQuery} />
+        </div>
+      </div>
+    )}
+  </div>
+
+  {/* Desktop Layout */}
+  <div className="hidden md:flex w-full h-full">
+    {/* Desktop Sidebar - always visible but collapsible */}
+    <div className={`bg-gray-800 text-white transition-all duration-300 ease-in-out ${currentChat ? 'w-20' : 'w-80'}`}>
+      {!currentChat ? (
+        <div className="h-full flex flex-col">
+          {/* Expanded Sidebar Content */}
+          <div className="p-4 border-b border-gray-700">
+            <h2 className="text-xl font-semibold mb-4">Contacts</h2>
+            <div className="flex flex-col space-y-4">
+              <div className="relative">
+                <input
+                  type="text"
+                  className="w-full p-2 pl-8 rounded bg-gray-700 text-white text-sm"
+                  placeholder="Search..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+                <Search 
+                  className="w-4 h-4 absolute left-2 top-3 text-gray-400" 
+                  size={16}
+                />
+              </div>
+              
+              <div className="flex items-center">
+                <input
+                  type="checkbox"
+                  id="onlineOnly"
+                  className="mr-2"
+                  checked={showOnlineOnly}
+                  onChange={(e) => setShowOnlineOnly(e.target.checked)}
+                />
+                <label htmlFor="onlineOnly" className="text-sm">
+                  Online ({activeUsers.length})
+                </label>
+              </div>
+              
               <button
-                className="send-button"
-                onClick={handleSendMessage}
-                disabled={isUploading || (!message.trim() && !selectedFile)}
+                className="bg-blue-600 hover:bg-blue-700 flex justify-center items-center text-white py-2 px-4 rounded text-sm"
+                onClick={() => setShowCreateGroup(true)}
               >
-                <FaPaperPlane />
+                <div className='flex flex-row gap-2'>
+                  <Users size={16} />
+                  <p>Create Group</p>
+                </div>
               </button>
             </div>
-          </>
-        ) : (
-          <div className="no-chat-selected">
-            <h3>Select a contact to start chatting</h3>
           </div>
-        )}
-      </div> */}
-
-      <div className='chat-main'>
-        {currentChat ? (
-          <ChatWindow />
-        ) : (
-          <div className="no-chat-selected">
-            <h3>Select a contact to start chatting</h3>
+          
+          {/* Desktop Contacts List */}
+          <div className="flex-1 overflow-y-auto">
+            <ChatList searchQuery={searchQuery} />
           </div>
-        )}
-      </div>
-
-      {showCreateGroup && (
-        <CreateGroupModal onClose={() => setShowCreateGroup(false)} />
+        </div>
+      ) : (
+        <div className="h-full flex flex-col justify-between items-center pt-4 pb-4">
+          {/* Collapsed Sidebar Icons */}
+          <div className='flex flex-col items-center space-y-4'>
+            <button 
+              onClick={() => setCurrentChat(null)}
+              className="p-2 rounded-full hover:bg-gray-700"
+            >
+              <Menu size={24}/>
+            </button>
+            <button 
+              onClick={() => {/* Implement search functionality */}}
+              className="p-2 rounded-full hover:bg-gray-700"
+            >
+              <Search size={24}/>
+            </button>
+            <button 
+              onClick={() => {/* Implement new chat functionality */}}
+              className="p-2 rounded-full hover:bg-gray-700"
+            >
+              <MessageSquarePlus size={24}/>
+            </button>
+          </div>
+          <button 
+            onClick={() => setCurrentChat(null)}
+            className="p-2 rounded-full hover:bg-gray-700"
+          >
+            <PanelLeftOpen size={24}/>
+          </button>
+        </div>
       )}
     </div>
+
+    {/* Desktop Chat Area - should take remaining width */}
+    <div className={`flex-1 flex flex-col bg-gray-900`}>
+      {currentChat ? (
+        <ChatWindow onBack={()=>{setCurrentChat(null)}}/>
+      ) : (
+        <div className="flex-1 flex items-center justify-center bg-gray-900">
+          <div className="text-center p-6 max-w-md">
+            <MessageCircle className="w-16 h-16 mx-auto text-gray-400 mb-4" size={64} />
+            <h3 className="text-xl font-medium text-gray-300 mb-2">No chat selected</h3>
+            <p className="text-gray-500">Select a contact from the sidebar to start chatting</p>
+          </div>
+        </div>
+      )}
+    </div>
+  </div>
+
+  {/* Create Group Modal */}
+  {showCreateGroup && (
+    <CreateGroupModal onClose={() => setShowCreateGroup(false)} />
+  )}
+</div>
   );
 };
 
 export default ChatPage;
+
+
+
+
+

@@ -68,42 +68,47 @@ const OTPVerification = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-        <h2 className="text-2xl font-bold mb-6 text-center">Verify Your Email</h2>
-        {error && <p className="text-red-500 mb-4 text-center">{error}</p>}
-        
-        <form onSubmit={handleVerify}>
-          <div className="mb-4">
-            <label htmlFor="otp" className="block text-sm font-medium text-gray-700 mb-1">
-              Enter 6-digit OTP sent to {email}
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-blue-900 to-black text-white px-4">
+      <div className="bg-[#0f172a] p-8 sm:p-10 rounded-2xl shadow-2xl w-full max-w-md border border-blue-700">
+        <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-center text-blue-400">Verify Your Email</h2>
+
+        {error && <p className="text-red-500 mb-4 text-center text-sm">{error}</p>}
+
+        <form onSubmit={handleVerify} className="space-y-5">
+          <div>
+            <label htmlFor="otp" className="block text-sm font-medium text-blue-100 mb-1">
+              Enter 6-digit OTP sent to <span className="font-semibold text-blue-300">{email}</span>
             </label>
             <input
               type="text"
               id="otp"
               value={otp}
               onChange={(e) => setOtp(e.target.value.replace(/\D/g, '').slice(0, 6))}
-              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-2 border border-blue-600 rounded-lg bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-gray-400"
               placeholder="123456"
               maxLength={6}
               required
               autoComplete="one-time-code"
             />
           </div>
-          
+
           <button
             type="submit"
             disabled={isLoading || otp.length !== 6}
-            className={`w-full py-2 px-4 rounded-md text-white ${isLoading || otp.length !== 6 ? 'bg-blue-300 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'}`}
+            className={`w-full py-2 px-4 rounded-lg font-semibold transition duration-200 text-white 
+              ${isLoading || otp.length !== 6 
+                ? 'bg-blue-800 cursor-not-allowed opacity-60' 
+                : 'bg-blue-600 hover:bg-blue-700'}
+            `}
           >
             {isLoading ? 'Verifying...' : 'Verify OTP'}
           </button>
         </form>
 
-        <div className="mt-4 text-center">
+        <div className="mt-5 text-center">
           <button 
             onClick={handleResendOTP}
-            className="text-blue-600 hover:underline focus:outline-none"
+            className="text-blue-400 hover:underline hover:text-blue-300 transition"
             type="button"
           >
             Resend OTP
@@ -111,6 +116,7 @@ const OTPVerification = () => {
         </div>
       </div>
     </div>
+
   );
 };
 

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import {BrowserRouter,Routes,Route} from 'react-router-dom';
+import {BrowserRouter,Routes,Route, HashRouter} from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import HomePage from './Pages/HomePage';
 import AuthPage from './Pages/AuthPage';
@@ -35,7 +35,6 @@ function App() {
           <Route path="/" element={<HomePage/>}/>
           <Route path="/AuthPage" element={<AuthPage />}/>
           <Route path="/set-Password" element={<Set_Password />}/>
-          <Route path="/textEditor/:id/:accessType" element={<TextEditor />}/>
           <Route path="/verify-otp" element={<OTPVerification />} />
           
           <Route path='/' element={<Layout />}>
@@ -45,6 +44,7 @@ function App() {
             <Route path='your_Teams' element={<YourTeams />}/>
             <Route path='your_documents' element={<Your_Documents />}/>
             <Route path='chat' element={<ChatPage />}/>
+            <Route path="/textEditor/:id/:accessType" element={<TextEditor />}/>
           </Route>
         </Routes>
       </BrowserRouter>
