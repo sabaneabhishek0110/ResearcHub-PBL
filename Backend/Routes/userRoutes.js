@@ -85,10 +85,10 @@ router.get("/google/callback",
 
         if (!hasPassword) {
             // Redirect user to set password page if they don't have one
-            return res.redirect(`http://localhost:5173/set-password?email=${req.user.email}`);
+            return res.redirect(`https://researc-hub-pbl.vercel.app/set-password?email=${req.user.email}`);
         }
 
-        res.redirect(`http://localhost:5173/dashboard?token=${token}`);
+        res.redirect(`https://researc-hub-pbl.vercel.app/dashboard?token=${token}`);
     }
 );
 
