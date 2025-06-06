@@ -4,6 +4,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 function SetPassword() {
     const [searchParams] = useSearchParams();
     const email = searchParams.get("email"); // Get email from URL
+    const token = searchParams.get("token");
     const [newPassword, setNewPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [error, setError] = useState("");
@@ -42,7 +43,14 @@ function SetPassword() {
             setSuccess(true);
             setError("");
 
-            setTimeout(() => navigate("/dashboard"), 2000);
+            setTimeout(() => {
+              if(token){
+                navigate(`/dashboard?token=${token}`);
+              }
+              else{
+                navigate("/AuthPage?error=token-missing");
+              }
+            }, 2000);
         } catch (error) {
             setError("Error setting password. Please try again.");
         }

@@ -204,6 +204,7 @@ exports.set_password = async(req,res) =>{
         await user.save();
         console.log("completed set_password successfully in usercontroller.js");
         res.status(200).json("Password set successfully");
+        
     }
     catch(error){
         res.status(500).json({message : "failed to set password",error});
