@@ -337,11 +337,28 @@ const ChatPage = () => {
               </div>
             </div>
             {/* Mobile Contacts List */}
-            <div className="flex-1 overflow-y-auto">
-              <ChatList searchQuery={searchQuery} />
+            {/* <div className="flex-1 overflow-y-auto">
+              <ChatList searchQuery={searchQuery} /> */}
 
               {/* Floating Action Button */}
-              <div className="sticky bottom-6 right-2 md:right-4">
+              {/* <div className="sticky bottom-6 right-2 md:right-4">
+                <button
+                  onClick={() => setShowFabMenu(true)}
+                  className="bg-blue-600 hover:bg-blue-700 text-white rounded-full p-4 shadow-lg"
+                >
+                  <MessageSquarePlus size={24} />
+                </button>
+              </div> */}
+            {/* </div> */}
+
+            {/* Mobile Contacts List */}
+            <div className="flex-1 relative">
+              <div className="overflow-y-auto h-full">
+                <ChatList searchQuery={searchQuery} />
+              </div>
+
+              {/* Floating Action Button */}
+              <div className="absolute bottom-6 right-2 md:right-4 z-10">
                 <button
                   onClick={() => setShowFabMenu(true)}
                   className="bg-blue-600 hover:bg-blue-700 text-white rounded-full p-4 shadow-lg"
@@ -350,6 +367,7 @@ const ChatPage = () => {
                 </button>
               </div>
             </div>
+
           </div>
         )}
       </div>
@@ -476,7 +494,7 @@ const ChatPage = () => {
       )}
 
       {showFabMenu && (
-        <div className="fixed inset-0 backdrop-blur-sm bg-opacity-40 z-50 flex justify-end items-end p-6">
+        <div className="fixed inset-0 backdrop-blur-sm bg-opacity-40 z-50 flex justify-center items-center p-6">
           <div className="bg-gray-800 text-white rounded-lg p-4 w-full max-w-sm">
             <h3 className="text-lg font-semibold mb-4">Choose Action</h3>
             <div className="space-y-3">
