@@ -22,7 +22,7 @@ function Sidebar({onClose}) {
       localStorage.removeItem("token");
       toast.success("Logout Successful...");
       setTimeout(() => {
-        window.location.href = "/#/AuthPage"; // or window.location.reload() if needed
+        window.location.href = "/AuthPage"; // or window.location.reload() if needed
       }, 500); // give time for toast to show
     }
     catch(error){
