@@ -85,6 +85,7 @@ const socketRoutes = (socket, io) => {
         try {
             const decoded = jwt.verify(token, JWT_SECRET);
             socket.userId = decoded.userId;
+            socket.join(socket.userId);
             activeUsers.add(decoded.userId);
             io.emit('userOnline', decoded.userId);
             io.emit('activeUsers', Array.from(activeUsers));

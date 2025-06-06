@@ -6,6 +6,7 @@ import {FileIcon, MessageSquarePlus, Search,Users,PanelLeftOpen ,ArrowLeft,Messa
 import '../CSS/Chat.css';
 import ChatList from '../Components/ChatList';
 import ChatWindow from '../Components/ChatWindow';
+import CreateChatModal from '../Components/CreateChatModal';
 
 const ChatPage = () => {
   const { 
@@ -31,6 +32,9 @@ const ChatPage = () => {
   const messagesEndRef = useRef(null);
   const [showCreateGroup, setShowCreateGroup] = useState(false);
   const [isOpen,setIsOpen] = useState(false);
+  const [showFabMenu, setShowFabMenu] = useState(false);
+  const [showCreateChat, setShowCreateChat] = useState(false); // For future chat modal
+
 
   const BASE_URL = "https://researchub-pbl.onrender.com";
 
@@ -43,6 +47,8 @@ const ChatPage = () => {
     }
     return matchesSearch;
   });
+
+  
 
   // Scroll to bottom of messages
   const scrollToBottom = () => {
@@ -98,6 +104,17 @@ const ChatPage = () => {
 
     loadMessages();
   }, [currentChat]);
+
+  useEffect(() => {
+    if (!socket || !currentChat) return;
+
+    socket.emit('joinChat', currentChat._id);
+
+    return () => {
+      socket.emit('leaveChat', currentChat._id);
+    };
+  }, [socket, currentChat]);
+
 
   const handleUserClick = async (user) => {
     try {
@@ -308,7 +325,7 @@ const ChatPage = () => {
               </label>
             </div>
             
-            <button
+            {/* <button
               className="bg-blue-600 hover:bg-blue-700 flex justify-center items-center text-white py-2 px-4 rounded text-sm"
               onClick={() => setShowCreateGroup(true)}
             >
@@ -316,13 +333,24 @@ const ChatPage = () => {
                 <Users size={16} />
                 <p>Create Group</p>
               </div>
-            </button>
+            </button> */}
           </div>
         </div>
         {/* Mobile Contacts List */}
         <div className="flex-1 overflow-y-auto">
           <ChatList searchQuery={searchQuery} />
         </div>
+
+        {/* Floating Action Button */}
+        <div className="fixed bottom-6 right-6 z-50 md:right-10">
+          <button
+            onClick={() => setShowFabMenu(true)}
+            className="bg-blue-600 hover:bg-blue-700 text-white rounded-full p-4 shadow-lg"
+          >
+            <MessageSquarePlus size={24} />
+          </button>
+        </div>
+
       </div>
     )}
   </div>
@@ -364,7 +392,7 @@ const ChatPage = () => {
                 </label>
               </div>
               
-              <button
+              {/* <button
                 className="bg-blue-600 hover:bg-blue-700 flex justify-center items-center text-white py-2 px-4 rounded text-sm"
                 onClick={() => setShowCreateGroup(true)}
               >
@@ -372,7 +400,7 @@ const ChatPage = () => {
                   <Users size={16} />
                   <p>Create Group</p>
                 </div>
-              </button>
+              </button> */}
             </div>
           </div>
           
@@ -380,6 +408,16 @@ const ChatPage = () => {
           <div className="flex-1 overflow-y-auto">
             <ChatList searchQuery={searchQuery} />
           </div>
+          {/* Floating Action Button */}
+          <div className="fixed bottom-6 right-6 z-50 md:right-10">
+            <button
+              onClick={() => setShowFabMenu(true)}
+              className="bg-blue-600 hover:bg-blue-700 text-white rounded-full p-4 shadow-lg"
+            >
+              <MessageSquarePlus size={24} />
+            </button>
+          </div>
+
         </div>
       ) : (
         <div className="h-full flex flex-col justify-between items-center pt-4 pb-4">
@@ -434,7 +472,47 @@ const ChatPage = () => {
   {showCreateGroup && (
     <CreateGroupModal onClose={() => setShowCreateGroup(false)} />
   )}
-</div>
+  {/* Create Chat Modal */}
+  {showCreateChat && (
+    <CreateChatModal onClose={() => setShowCreateChat(false)} />
+  )}
+
+  {showFabMenu && (
+    <div className="fixed inset-0 backdrop-blur-sm bg-opacity-40 z-50 flex justify-end items-end p-6">
+      <div className="bg-gray-800 text-white rounded-lg p-4 w-full max-w-sm">
+        <h3 className="text-lg font-semibold mb-4">Choose Action</h3>
+        <div className="space-y-3">
+          <button
+            onClick={() => {
+              setShowFabMenu(false);
+              setShowCreateChat(true);
+            }}
+            className="w-full text-left px-4 py-2 bg-gray-700 rounded hover:bg-gray-600"
+          >
+            ➕ Create New Chat
+          </button>
+          <button
+            onClick={() => {
+              setShowFabMenu(false);
+              setShowCreateGroup(true);
+            }}
+            className="w-full text-left px-4 py-2 bg-gray-700 rounded hover:bg-gray-600"
+          >
+            👥 Create Group
+          </button>
+          <button
+            onClick={() => setShowFabMenu(false)}
+            className="w-full text-left px-4 py-2 text-sm text-gray-400 hover:text-gray-200"
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  )}
+
+
+  </div>
   );
 };
 

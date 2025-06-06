@@ -65,7 +65,9 @@ exports.getMessages = async (req, res) => {
 // Create a new chat (1:1)
 exports.createChat = async (req, res) => {
   try {
-    const { participants } = req.body;
+    const { participant } = req.body;
+    const userId = req.user?.userId;
+    const participants = [userId,participant];
 
     // Check if participants array has exactly 2 users
     if (participants.length !== 2) {
@@ -89,6 +91,12 @@ exports.createChat = async (req, res) => {
 
     await chat.save();
     await chat.populate('participants', 'name email profilePicture');
+
+    // 🔌 Emit new chat to both users
+    const io = req.app.get('io');
+    participants.forEach(userId => {
+      io.to(userId.toString()).emit('newChat', chat); // emit to both users
+    });
 
     res.status(201).json(chat);
   } catch (error) {
