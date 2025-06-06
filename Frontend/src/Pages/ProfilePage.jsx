@@ -593,7 +593,7 @@ function ProfilePage() {
       </div>
 
       {/* Main Content - Mobile first: full width, then 3/4 on larger screens */}
-      <div className="w-full lg:w-3/4 h-full flex flex-col space-y-4 lg:pl-6">
+      <div className="w-full lg:w-3/4 flex flex-col space-y-4 lg:pl-6 flex-grow">
         {/* Tabs - Stack on mobile, row on larger screens */}
         <div className="flex overflow-x-auto border-b border-gray-700 scrollbar-hide">
           {['overview', 'requests'].map((tab) => (
@@ -615,7 +615,7 @@ function ProfilePage() {
         {activeTab === 'overview' && (
           <div className="space-y-4">
             {/* Recent Activity */}
-            <div className="bg-gray-800 rounded-xl p-4 lg:p-6 shadow-lg">
+            <div className="bg-gray-800 rounded-xl p-4 lg:p-6 shadow-lg flex flex-col max-h-[35vh]">
               <h3 className="text-lg font-semibold text-[#38BDF8] mb-4 flex items-center">
                 <BarChart2 size={18} className="mr-2" /> Recent Activity
               </h3>
@@ -645,7 +645,7 @@ function ProfilePage() {
         )}
 
         {activeTab === 'requests' && (
-          <div className="bg-gray-800 rounded-xl p-4 lg:p-6 shadow-lg">
+          <div className="bg-gray-800 rounded-xl p-4 lg:p-6 shadow-lg flex flex-col max-h-[35vh]">
             <h3 className="text-lg font-semibold text-[#38BDF8] mb-4 flex items-center">
               <Bell size={18} className="mr-2" /> Pending Requests
             </h3>
