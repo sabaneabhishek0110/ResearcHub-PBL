@@ -68,7 +68,7 @@ exports.uploadFile = [
         // folder: 'your_folder_name', // Optional folder in Cloudinary
         folder: `users/${req.user._id}/${new Date().toISOString().split('T')[0]}`,
         resource_type: 'auto', // Automatically detect file type
-        type: 'authenticated', // Changed from default
+        // type: 'authenticated', // Changed from default
         access_mode: 'public', // Explicitly make files public
         sign_url: true // For secure access if needed
       });
@@ -78,11 +78,11 @@ exports.uploadFile = [
       let fileUrl = result.secure_url;
 
       // For non-image files, generate a signed URL
-      if (!result.resource_type === 'image') {
+      if (result.resource_type !== 'image') {
         fileUrl = cloudinary.url(result.public_id, {
           secure: true,
           sign_url: true,
-          type: 'authenticated'
+          // type: 'authenticated'
         });
       }
 
