@@ -249,7 +249,7 @@ function ChatWindow({onBack = () => {}}) {
         formData.append('file', file);
         
         const token = localStorage.getItem('token');
-        const res = await fetch('/api/upload', {
+        const res = await fetch(`${BASE_URL}/api/upload`, {
           method: 'POST',
           headers: {
             'Authorization': `Bearer ${token}`
