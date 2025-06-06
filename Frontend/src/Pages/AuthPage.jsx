@@ -188,10 +188,6 @@ const AuthPage = () => {
 
     useEffect(() => {
 
-        if (!localStorage.getItem('token')) {
-            navigate('/authPage');
-        }
-
         //This is for BrowerRouter
         const params = new URLSearchParams(window.location.search);
         const token = params.get("token");
@@ -308,6 +304,7 @@ const AuthPage = () => {
     const handleGoogleResponse = async (token) => {
         if (token) {
             localStorage.setItem("token", token);
+            console.log("token at frontend : ",localStorage.getItem("token"));
             navigate('/dashboard');
             window.location.reload(); // Ensure proper state update
             window.location.href = '/dashboard';

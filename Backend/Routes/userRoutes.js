@@ -77,23 +77,23 @@ router.get("/google/callback",
     passport.authenticate("google",{
         failureRedirect: "/login",
         session: false, // Disable session (using JWT)
-      }),
+    }),
     (req, res) => {
-        const token = req.user.token;
+      const token = req.user.token;
+      console.log("Token at userRoutes.js in backend : ",token);
+      const hasPassword = !!req.user.password; // Check dynamically
 
-        const hasPassword = !!req.user.password; // Check dynamically
+      if (!token) {
+          console.error("Token missing in Google callback");
+          return res.redirect(`https://researc-hub-pbl.vercel.app/AuthPage?error=token-missing`);
+      }
 
-        if (!token) {
-            console.error("Token missing in Google callback");
-            return res.redirect(`https://researc-hub-pbl.vercel.app/AuthPage?error=token-missing`);
-        }
+      if (!hasPassword) {
+          // Redirect user to set password page if they don't have one
+          return res.redirect(`https://researc-hub-pbl.vercel.app/set-password?email=${req.user.email}`);
+      }
 
-        if (!hasPassword) {
-            // Redirect user to set password page if they don't have one
-            return res.redirect(`https://researc-hub-pbl.vercel.app/set-password?email=${req.user.email}`);
-        }
-
-        res.redirect(`https://researc-hub-pbl.vercel.app/dashboard?token=${token}`);
+      res.redirect(`https://researc-hub-pbl.vercel.app/dashboard?token=${token}`);
     }
 );
 
