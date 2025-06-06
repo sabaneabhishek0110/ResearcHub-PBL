@@ -66,7 +66,8 @@ exports.getMessages = async (req, res) => {
 exports.createChat = async (req, res) => {
   try {
     const { participant } = req.body;
-    const userId = req.user?.userId;
+    console.log("req.user : ",req.user);
+    const userId = req.user?._id;
     const participants = [userId,participant];
 
     // Check if participants array has exactly 2 users
