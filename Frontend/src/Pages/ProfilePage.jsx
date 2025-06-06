@@ -615,7 +615,7 @@ function ProfilePage() {
         {activeTab === 'overview' && (
           <div className="space-y-4">
             {/* Recent Activity */}
-            <div className="bg-gray-800 rounded-xl p-4 lg:p-6 shadow-lg flex flex-col max-h-[35vh]">
+            <div className="bg-gray-800 rounded-xl p-4 lg:p-6 shadow-lg flex flex-col max-h-[45vh]">
               <h3 className="text-lg font-semibold text-[#38BDF8] mb-4 flex items-center">
                 <BarChart2 size={18} className="mr-2" /> Recent Activity
               </h3>
