@@ -83,6 +83,11 @@ router.get("/google/callback",
 
         const hasPassword = !!req.user.password; // Check dynamically
 
+        if (!token) {
+            console.error("Token missing in Google callback");
+            return res.redirect(`https://researc-hub-pbl.vercel.app/AuthPage?error=token-missing`);
+        }
+
         if (!hasPassword) {
             // Redirect user to set password page if they don't have one
             return res.redirect(`https://researc-hub-pbl.vercel.app/set-password?email=${req.user.email}`);

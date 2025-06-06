@@ -198,9 +198,9 @@ const AuthPage = () => {
         if(token){
             handleGoogleResponse(token);
         }
-        const hash = window.location.hash;
-        const search = window.location.search;
         
+        // const hash = window.location.hash;
+        // const search = window.location.search;
 
         // // Case 1: Token in hash (HashRouter)
         // const hashTokenMatch = hash.match(/token=([^&]*)/);
@@ -310,6 +310,7 @@ const AuthPage = () => {
             localStorage.setItem("token", token);
             navigate('/dashboard');
             window.location.reload(); // Ensure proper state update
+            window.location.href = '/dashboard';
         } else {
             console.error("Google Login Failed");
             toast.error("Google login failed. Please try again.");

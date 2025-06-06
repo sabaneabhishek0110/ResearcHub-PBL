@@ -34,8 +34,10 @@ passport.use(
               googleId: profile.id,
               name: profile.displayName,
               email: profile.emails?.[0]?.value || '',
+              isEmailVerified: true,
             });
             await user.save();
+            console.log("New User");
           }
         }
 
@@ -44,6 +46,7 @@ passport.use(
           process.env.JWT_SECRET,
           { expiresIn: '10h' }
         );
+        console.log("token : ",token);
 
         return done(null, { ...user.toObject(), token });
       } catch (error) {
