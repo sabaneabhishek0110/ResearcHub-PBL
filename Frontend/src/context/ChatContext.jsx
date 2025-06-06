@@ -115,7 +115,7 @@ export const ChatProvider = ({ children }) => {
 
 
 
-        const usersResponse = await fetch(`${BASE_URL}/api/chat/availableUsersForNewChat`, {
+        const usersResponse = await fetch(`${BASE_URL}/api/chat/getAvailableUsersForNewChat`, {
           method : "GET",
           headers: {
             'Content-Type' : 'application/json',
