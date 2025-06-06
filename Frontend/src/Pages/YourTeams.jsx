@@ -836,7 +836,7 @@ function YourTeams() {
     }
     const getUsersRelatedToTeam = async () => {
         try {
-            const teamId = selectedTeam;
+            const teamId = Team.team._id;
             const response = await fetch(`${BASE_URL}/api/yourTeam/getUsersRealtedToTeam/:${teamId}`, {
                 method: "GET",
                 headers: { "Content-type": "application/json" },
@@ -927,7 +927,7 @@ function YourTeams() {
                                 className="relative border-2 rounded-lg bg-gradient-to-br from-[#2A2D32] to-[#1F2225] p-6 flex flex-col shadow-lg min-h-60 cursor-pointer space-y-2"
                                 whileHover={{ y: -5, scale: 1.02 }}
                                 transition={{ duration: 0.3 }}
-                                onClick={() => { fetchParticularTeam(team); setSelectedTeam(team._id); }}
+                                onClick={() => { fetchParticularTeam(team);}}
                             >
                                 {/* User-specific notification indicator */}
                                 {userNotifications[team._id] && (
