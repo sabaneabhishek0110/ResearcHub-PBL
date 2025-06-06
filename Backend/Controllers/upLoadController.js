@@ -213,8 +213,8 @@ exports.uploadFile = [
         // folder: `users/${req.user._id}/${new Date().toISOString().split('T')[0]}`,
         resource_type: resourceType,
         access_mode: 'public',
-        type: isImage ? 'upload' : 'authenticated', // authenticated only for non-images
-        sign_url: !isImage
+        // type: isImage ? 'upload' : 'authenticated', // authenticated only for non-images
+        // sign_url: !isImage
       });
 
       fs.unlinkSync(req.file.path); // Cleanup temp file
@@ -224,9 +224,9 @@ exports.uploadFile = [
       if (!isImage) {
         fileUrl = cloudinary.url(uploadResult.public_id, {
           resource_type: 'raw',
-          secure: true,
-          sign_url: true,
-          type: 'authenticated'
+          // secure: true,
+          // sign_url: true,
+          // type: 'authenticated'
         });
       }
 
