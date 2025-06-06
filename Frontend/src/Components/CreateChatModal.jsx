@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { useChat } from '../context/ChatContext';
+import { useEffect } from 'react';
 
 const CreateChatModal = ({ onClose }) => {
-  const { availableUsersForNewChat, currentUser, socket } = useChat();
+  const {  currentUser, socket } = useChat();
   const [selectedUserId, setSelectedUserId] = useState('');
+  const [availableUsersForNewChat,setAvailableUsersForNewChat] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -58,6 +60,31 @@ const CreateChatModal = ({ onClose }) => {
       setIsLoading(false);
     }
   };
+
+  const fetchAvailableUsersForNewChat = async () =>{
+    try{
+        const token = localStorage.getItem('token');
+        const response = await fetch(`${BASE_URL}/api/chat/getAvailableUsersForNewChat`,{
+            method : 'GET',
+            headers : {
+                'Content-Type' : "application/json",
+                Authorization : `Bearer ${token}`
+            }
+        })
+        if(!response.ok){
+            throw new Error("Failed to fetch availableUsersForNewChat in createChatModal.jsx");
+        }
+        const data = await response.json();
+        setAvailableUsersForNewChat(data);
+    }
+    catch(error){
+        console.log(error);
+    }
+  }
+
+  useEffect(()=>{
+    fetchAvailableUsersForNewChat();
+  },[]);
 
   return (
     <div
