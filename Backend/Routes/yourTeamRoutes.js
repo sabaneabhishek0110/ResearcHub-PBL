@@ -7,5 +7,6 @@ const router = express.Router();
 router.get('/getYourTeams',userMiddleware,yourTeamController.getAllTeams);
 router.get('/getParticularTeam/:teamId',userMiddleware,yourTeamController.getParticularTeam);
 router.get('/CheckAdminOrNot/:adminId',userMiddleware,yourTeamController.CompareIsAdminOrNot);
+router.get('/getUsersRealtedToTeam/:teamId',userMiddleware,yourTeamController.getUsersRealtedToTeam);
 
 module.exports = router;

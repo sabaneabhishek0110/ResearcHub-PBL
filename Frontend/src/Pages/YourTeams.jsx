@@ -629,6 +629,7 @@ function YourTeams() {
     const [isAdmin, setIsAdmin] = useState(null);
     const [isOpenForm, setIsOpenForm] = useState(false);
     const [users, setUsers] = useState([]);
+    const [teamUsers,setTeamUsers] = useState([]);
     const [search, setSearch] = useState('');
     const [selectedTeam, setSelectedTeam] = useState(null);
     const [stage, setStage] = useState({
@@ -833,6 +834,28 @@ function YourTeams() {
             setUsers([]);
         }
     }
+    const getUsersRelatedToTeam = async () => {
+        try {
+            const teamId = selectedTeam;
+            const response = await fetch(`${BASE_URL}/api/yourTeam/getUsersRealtedToTeam/:${teamId}`, {
+                method: "GET",
+                headers: { "Content-type": "application/json" },
+            })
+            if (!response.ok) {
+                throw new Error(`Http error! Status:${response.status}`);
+            }
+            const data = await response.json();
+            const userOptions = data.map((user) => ({
+                value: user._id,
+                label: user.name,
+            }));
+
+            setTeamUsers(userOptions);
+        } catch (error) {
+            console.log(error);
+            setUsers([]);
+        }
+    }
 
     const createTasks = async (relatedTeam) => {
         try {
@@ -1032,7 +1055,7 @@ function YourTeams() {
                             {/* {console.log(isAdmin," jhkjhkjdh ", isOpenForm)} */}
                             {isAdmin && (!isOpenForm ? (
                                 <div className='w-full bg-gray-800 p-6 rounded-lg shadow-lg cursor-pointer flex justify-center items-center text-lg space-x-2 mb-4 hover:bg-gray-700 transition-colors'
-                                    onClick={() => { setIsOpenForm(true) }}>
+                                    onClick={() => { setIsOpenForm(true); getUsersRelatedToTeam();}}>
                                     <PlusCircle size={30} className="hover:scale-110 transition-transform" />
                                     <p>Assign Tasks</p>
                                 </div>
@@ -1165,7 +1188,7 @@ function YourTeams() {
 
                                                     <Select
                                                         isMulti
-                                                        options={users}
+                                                        options={teamUsers}
                                                         value={stage.members}
                                                         onChange={(selected) => setStage(prev => ({...prev, members: selected}))}
                                                         className="basic-multi-select"

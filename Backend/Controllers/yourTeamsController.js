@@ -62,3 +62,18 @@ exports.CompareIsAdminOrNot = async (req,res) =>{
         res.status(500).json({message : "failed to fetch team from database."})
     }
 }
+
+exports.getUsersRealtedToTeam = async (req,res) =>{
+    try{
+        console.log("Entered into getUsersRealtedToTeam in yourTeamsController.js");
+        const {teamId} = req.params;
+        const team = await Team.findOne({_id : teamId},'Team_name description Admin members').populate('members','name email profilePicture').populate('Admin','name email profilePicture');
+        console.log("Team : ",team);
+        console.log("Completed getUsersRealtedToTeam in yourTeamsController.js");
+        const members = team.members;
+        res.status(200).json({message : "Users Related to mteam fetched successfully",members});
+    }
+    catch(error){
+        res.status(500).json({message : "failed to fetch users realated to team from database."})
+    }
+}
