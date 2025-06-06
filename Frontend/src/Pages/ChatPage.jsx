@@ -292,83 +292,53 @@ const ChatPage = () => {
             <ChatWindow onBack={() => setCurrentChat(null)}/>
           </div>
         ) : (
-          <div className="flex-1 relative">
-          <div className="h-full flex flex-col text-white">
-            {/* Mobile Chat List Header */}
-            <div className="bg-gray-800 p-4 border-b border-gray-700">
-              <h2 className="text-xl font-semibold mb-4">Contacts</h2>
-              <div className="flex flex-col space-y-4">
-                {/* Search and filter inputs */}
-                <div className="relative">
-                  <input
-                    type="text"
-                    className="w-full p-2 pl-8 rounded bg-gray-700 text-white text-sm"
-                    placeholder="Search..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                  />
-                  <Search 
-                    className="w-4 h-4 absolute left-2 top-3 text-gray-400" 
-                    size={16}
-                  />
-                </div>
-                
-                <div className="flex items-center">
-                  <input
-                    type="checkbox"
-                    id="onlineOnly"
-                    className="mr-2"
-                    checked={showOnlineOnly}
-                    onChange={(e) => setShowOnlineOnly(e.target.checked)}
-                  />
-                  <label htmlFor="onlineOnly" className="text-sm">
-                    Online ({activeUsers.length})
-                  </label>
-                </div>
-                
-                {/* <button
-                  className="bg-blue-600 hover:bg-blue-700 flex justify-center items-center text-white py-2 px-4 rounded text-sm"
-                  onClick={() => setShowCreateGroup(true)}
-                >
-                  <div className='flex flex-row gap-2'>
-                    <Users size={16} />
-                    <p>Create Group</p>
-                  </div>
-                </button> */}
-              </div>
-            </div>
-            {/* Mobile Contacts List */}
-            {/* <div className="flex-1 overflow-y-auto">
-              <ChatList searchQuery={searchQuery} /> */}
+          <div className="flex-1 relative flex flex-col bg-gray-900 text-white">
+  {/* Header - Fixed */}
+  <div className="bg-gray-800 p-4 border-b border-gray-700 sticky top-0 z-10">
+    <h2 className="text-xl font-semibold mb-4">Contacts</h2>
+    <div className="flex flex-col space-y-4">
+      {/* Search and filter */}
+      <div className="relative">
+        <input
+          type="text"
+          className="w-full p-2 pl-8 rounded bg-gray-700 text-white text-sm"
+          placeholder="Search..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+        <Search className="w-4 h-4 absolute left-2 top-3 text-gray-400" />
+      </div>
+      <div className="flex items-center">
+        <input
+          type="checkbox"
+          id="onlineOnly"
+          className="mr-2"
+          checked={showOnlineOnly}
+          onChange={(e) => setShowOnlineOnly(e.target.checked)}
+        />
+        <label htmlFor="onlineOnly" className="text-sm">
+          Online ({activeUsers.length})
+        </label>
+      </div>
+    </div>
+  </div>
 
-              {/* Floating Action Button */}
-              {/* <div className="sticky bottom-6 right-2 md:right-4">
-                <button
-                  onClick={() => setShowFabMenu(true)}
-                  className="bg-blue-600 hover:bg-blue-700 text-white rounded-full p-4 shadow-lg"
-                >
-                  <MessageSquarePlus size={24} />
-                </button>
-              </div> */}
-            {/* </div> */}
+  {/* Scrollable Chat List */}
+  <div className="flex-1 overflow-y-auto">
+    <ChatList searchQuery={searchQuery} />
+  </div>
 
-            {/* Mobile Contacts List */}
-            
-              <div className="overflow-y-auto h-full">
-                <ChatList searchQuery={searchQuery} />
-              </div>
+  {/* Floating Action Button - Fixed at Bottom Right */}
+  <div className="fixed bottom-6 right-2 md:right-4 z-20">
+    <button
+      onClick={() => setShowFabMenu(true)}
+      className="bg-blue-600 hover:bg-blue-700 text-white rounded-full p-4 shadow-lg"
+    >
+      <MessageSquarePlus size={24} />
+    </button>
+  </div>
+</div>
 
-              {/* Floating Action Button */}
-              <div className="absolute bottom-6 right-2 md:right-4 z-10">
-                <button
-                  onClick={() => setShowFabMenu(true)}
-                  className="bg-blue-600 hover:bg-blue-700 text-white rounded-full p-4 shadow-lg"
-                >
-                  <MessageSquarePlus size={24} />
-                </button>
-              </div>
-          </div>
-          </div>
         )}
       </div>
 
