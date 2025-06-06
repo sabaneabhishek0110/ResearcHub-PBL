@@ -258,3 +258,29 @@ exports.updateGroupName = async (req, res) => {
     res.status(500).json({ message: 'Error updating group name' });
   }
 }; 
+
+exports.getAvailableUsersForNewChat = async (req, res) => {
+  try {
+    const currentUserId = req.user?._id;
+
+    const existingChats = await Chat.find({ participants: currentUserId, isGroup : false});
+
+    const chattedUserIds = new Set();
+    existingChats.forEach(chat => {
+      chat.participants.forEach(participantId => {
+        if (participantId.toString() !== currentUserId.toString()) {
+          chattedUserIds.add(participantId.toString());
+        }
+      });
+    });
+
+    const availableUsers = await User.find({
+      _id: { $nin: [...chattedUserIds, currentUserId] }
+    }).select('name email'); // select only needed fields
+
+    res.status(200).json(availableUsers);
+  } catch (err) {
+    console.error("Error fetching available users:", err);
+    res.status(500).json({ error: "Server error" });
+  }
+};

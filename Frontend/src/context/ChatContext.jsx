@@ -9,6 +9,7 @@ export const ChatProvider = ({ children }) => {
   const [chats, setChats] = useState([]);
   const [currentChat, setCurrentChat] = useState(null);
   const [allUsers, setAllUsers] = useState([]);
+  const [availableUsersForNewChat,setAvailableUsersForNewChat] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -111,6 +112,26 @@ export const ChatProvider = ({ children }) => {
         
         const usersData = await usersRes.json();
         setAllUsers(usersData);
+
+
+
+        const usersResponse = await fetch(`${BASE_URL}/api/chat/availableUsersForNewChat`, {
+          method : "GET",
+          headers: {
+            'Content-Type' : 'application/json',
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        
+        if (!usersResponse.ok) {
+          const errorData1 = await usersResponse.json();
+          throw new Error(errorData1.message || 'Failed to fetch users');
+        }
+        
+        const usersData1 = await usersResponse.json();
+        setAvailableUsersForNewChat(usersData1);
+
+        
 
         // Fetch initial chats
         const chatsRes = await fetch(`${BASE_URL}/api/chats/`, {
@@ -224,6 +245,7 @@ export const ChatProvider = ({ children }) => {
       setCurrentChat,
       setChats,
       allUsers,
+      availableUsersForNewChat,
       currentUser,
       startNewChat,
       error,

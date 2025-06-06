@@ -6,6 +6,9 @@ const auth = require('../Middlewares/auth');
 // Get all chats for current user
 router.get('/', auth, chatController.getChats);
 
+// Get all available users for chat (1:1) for current user
+router.get('/getAvailableUsersForNewChat', auth, chatController.getAvailableUsersForNewChat);
+
 // Get a specific chat
 router.get('/:chatId', auth, chatController.getChat);
 

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useChat } from '../context/ChatContext';
 
 const CreateChatModal = ({ onClose }) => {
-  const { allUsers, currentUser, socket } = useChat();
+  const { availableUsersForNewChat, currentUser, socket } = useChat();
   const [selectedUserId, setSelectedUserId] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const [error, setError] = useState('');
@@ -10,7 +10,7 @@ const CreateChatModal = ({ onClose }) => {
 
   const BASE_URL = "https://researchub-pbl.onrender.com";
 
-  const filteredUsers = allUsers.filter(user =>
+  const filteredUsers = availableUsersForNewChat.filter(user =>
     user._id !== currentUser?._id &&
     (user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
      user.email.toLowerCase().includes(searchTerm.toLowerCase()))
