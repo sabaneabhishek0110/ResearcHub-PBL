@@ -143,7 +143,9 @@ const CreateChatModal = ({ onClose }) => {
 
             {/* User List */}
             <div className="space-y-3 max-h-64 overflow-y-auto">
-                {filteredUsers.length > 0 ? (
+                {isLoading ? (
+                    <div className="text-blue-300 text-sm text-center">Loading users...</div>
+                ) : filteredUsers.length > 0 ? (
                     filteredUsers.map((user) => (
                     <div
                         key={user._id}
@@ -171,7 +173,8 @@ const CreateChatModal = ({ onClose }) => {
                 ) : (
                     <div className="text-blue-300 text-sm text-center">No users found</div>
                 )}
-            </div>
+            </div>  
+
 
             {/* Footer */}
             <div className="flex justify-end gap-4 mt-6">
