@@ -92,7 +92,7 @@ router.get("/google/callback",
           // Redirect user to set password page if they don't have one
           return res.redirect(`https://researc-hub-pbl.vercel.app/set-password?email=${req.user.email}`);
       }
-
+      console.log("token after setPassword : ",token);
       res.redirect(`https://researc-hub-pbl.vercel.app/dashboard?token=${token}`);
     }
 );
