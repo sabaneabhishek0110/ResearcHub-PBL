@@ -292,6 +292,7 @@ const ChatPage = () => {
             <ChatWindow onBack={() => setCurrentChat(null)}/>
           </div>
         ) : (
+          <div className="flex-1 relative">
           <div className="h-full flex flex-col text-white">
             {/* Mobile Chat List Header */}
             <div className="bg-gray-800 p-4 border-b border-gray-700">
@@ -352,7 +353,7 @@ const ChatPage = () => {
             {/* </div> */}
 
             {/* Mobile Contacts List */}
-            <div className="flex-1 relative">
+            
               <div className="overflow-y-auto h-full">
                 <ChatList searchQuery={searchQuery} />
               </div>
@@ -366,8 +367,7 @@ const ChatPage = () => {
                   <MessageSquarePlus size={24} />
                 </button>
               </div>
-            </div>
-
+          </div>
           </div>
         )}
       </div>
