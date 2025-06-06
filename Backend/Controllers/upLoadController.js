@@ -213,7 +213,7 @@ exports.uploadFile = [
         folder: `users/${req.user._id}/${new Date().toISOString().split('T')[0]}`,
         resource_type: resourceType,
         access_mode: 'public',
-        type: isImage ? 'upload' : 'authenticated', // authenticated only for non-images
+        // type: isImage ? 'upload' : 'authenticated', // authenticated only for non-images
         sign_url: !isImage
       });
 
