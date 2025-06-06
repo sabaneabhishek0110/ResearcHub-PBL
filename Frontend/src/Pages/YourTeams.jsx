@@ -927,7 +927,7 @@ function YourTeams() {
                                 className="relative border-2 rounded-lg bg-gradient-to-br from-[#2A2D32] to-[#1F2225] p-6 flex flex-col shadow-lg min-h-60 cursor-pointer space-y-2"
                                 whileHover={{ y: -5, scale: 1.02 }}
                                 transition={{ duration: 0.3 }}
-                                onClick={() => { fetchParticularTeam(team) }}
+                                onClick={() => { fetchParticularTeam(team); setSelectedTeam(team._id); }}
                             >
                                 {/* User-specific notification indicator */}
                                 {userNotifications[team._id] && (
