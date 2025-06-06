@@ -64,7 +64,7 @@ const CreateChatModal = ({ onClose }) => {
   const fetchAvailableUsersForNewChat = async () =>{
     try{
         const token = localStorage.getItem('token');
-        const response = await fetch(`${BASE_URL}/api/chat/getAvailableUsersForNewChat`,{
+        const response = await fetch(`${BASE_URL}/api/chats/getAvailableUsersForNewChat`,{
             method : 'GET',
             headers : {
                 'Content-Type' : "application/json",
