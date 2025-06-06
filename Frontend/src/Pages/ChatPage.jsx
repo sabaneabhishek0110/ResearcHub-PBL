@@ -522,7 +522,7 @@ const ChatPage = () => {
               </button>
               <button
                 onClick={() => setShowFabMenu(false)}
-                className="w-full text-left px-4 py-2 text-sm text-gray-400 hover:text-gray-200"
+                className="w-full text-left px-4 py-2 text-sm text-gray-400 hover:text-gray-200 bg-blue-800 rounded-md"
               >
                 Cancel
               </button>

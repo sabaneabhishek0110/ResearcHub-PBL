@@ -408,6 +408,30 @@ function ChatWindow({onBack = () => {}}) {
         })}
         <div ref={messagesEndRef} />
       </div>
+      
+      {file && (
+        <div className="flex items-center gap-2 p-2 border-t bg-gray-800">
+          {file.type.startsWith('image/') ? (
+            <img
+              src={URL.createObjectURL(file)}
+              alt="Preview"
+              className="h-20 w-auto rounded"
+            />
+          ) : (
+            <div className="flex items-center text-sm text-white gap-2">
+              <Paperclip size={16} />
+              <span>{file.name}</span>
+            </div>
+          )}
+          <button
+            onClick={() => setFile(null)}
+            className="text-xs text-red-400 hover:text-red-600"
+          >
+            ✕
+          </button>
+        </div>
+      )}
+
 
       {/* Message Input */}
       <div className="flex items-center p-3 border-t shrink-0">
