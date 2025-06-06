@@ -342,7 +342,7 @@ const ChatPage = () => {
         </div>
 
         {/* Floating Action Button */}
-        <div className="fixed bottom-6 right-6 z-50 md:right-10">
+        <div className="fixed bottom-6 right-6 md:right-10">
           <button
             onClick={() => setShowFabMenu(true)}
             className="bg-blue-600 hover:bg-blue-700 text-white rounded-full p-4 shadow-lg"
@@ -409,7 +409,7 @@ const ChatPage = () => {
             <ChatList searchQuery={searchQuery} />
           </div>
           {/* Floating Action Button */}
-          <div className="fixed bottom-6 right-6 z-50 md:right-10">
+          <div className="fixed bottom-6 right-6 md:right-10">
             <button
               onClick={() => setShowFabMenu(true)}
               className="bg-blue-600 hover:bg-blue-700 text-white rounded-full p-4 shadow-lg"
