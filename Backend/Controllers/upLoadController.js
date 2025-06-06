@@ -64,10 +64,13 @@ exports.uploadFile = [
       // Create the file URL
       // const fileUrl = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
 
+      const isImage = req.file.mimetype.startsWith('image/');
+
       const result = await cloudinary.uploader.upload(req.file.path, {
         // folder: 'your_folder_name', // Optional folder in Cloudinary
         folder: `users/${req.user._id}/${new Date().toISOString().split('T')[0]}`,
-        resource_type: 'auto', // Automatically detect file type
+        // resource_type: 'auto', // Automatically detect file type
+        resource_type: isImage ? 'image' : 'raw',
         // type: 'authenticated', // Changed from default
         access_mode: 'public', // Explicitly make files public
         sign_url: true // For secure access if needed
