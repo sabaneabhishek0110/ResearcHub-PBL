@@ -143,34 +143,34 @@ const CreateChatModal = ({ onClose }) => {
 
             {/* User List */}
             <div className="space-y-3 max-h-64 overflow-y-auto">
-            {filteredUsers.length > 0 ? (
-                filteredUsers.map((user) => (
-                <div
-                    key={user._id}
-                    className={`flex items-center gap-4 p-3 rounded-md cursor-pointer transition duration-200 border ${
-                    selectedUserId === user._id
-                        ? 'bg-blue-700 border-blue-500'
-                        : 'bg-[#1e293b] hover:bg-blue-900 border-gray-700'
-                    }`}
-                    onClick={() => handleUserSelect(user._id)}
-                >
-                    <img
-                    src={user.profilePicture || 'https://via.placeholder.com/40'}
-                    alt={user.name}
-                    className="w-10 h-10 rounded-full object-cover"
-                    />
-                    <div className="flex-1">
-                    <div className="font-semibold text-white">{user.name}</div>
-                    <div className="text-sm text-blue-200">{user.email}</div>
+                {filteredUsers.length > 0 ? (
+                    filteredUsers.map((user) => (
+                    <div
+                        key={user._id}
+                        className={`flex items-center gap-4 p-3 rounded-md cursor-pointer transition duration-200 border ${
+                        selectedUserId === user._id
+                            ? 'bg-blue-700 border-blue-500'
+                            : 'bg-[#1e293b] hover:bg-blue-900 border-gray-700'
+                        }`}
+                        onClick={() => handleUserSelect(user._id)}
+                    >
+                        <img
+                        src={user.profilePicture || 'https://via.placeholder.com/40'}
+                        alt={user.name}
+                        className="w-10 h-10 rounded-full object-cover"
+                        />
+                        <div className="flex-1">
+                        <div className="font-semibold text-white">{user.name}</div>
+                        <div className="text-sm text-blue-200">{user.email}</div>
+                        </div>
+                        {selectedUserId === user._id && (
+                        <i className="fas fa-check text-green-400 text-xl"></i>
+                        )}
                     </div>
-                    {selectedUserId === user._id && (
-                    <i className="fas fa-check text-green-400 text-xl"></i>
-                    )}
-                </div>
-                ))
-            ) : (
-                <div className="text-blue-300 text-sm text-center">No users found</div>
-            )}
+                    ))
+                ) : (
+                    <div className="text-blue-300 text-sm text-center">No users found</div>
+                )}
             </div>
 
             {/* Footer */}

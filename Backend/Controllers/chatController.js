@@ -276,7 +276,7 @@ exports.getAvailableUsersForNewChat = async (req, res) => {
 
     const availableUsers = await User.find({
       _id: { $nin: [...chattedUserIds, currentUserId] }
-    }).select('name email'); // select only needed fields
+    }).select('name email profilePicture'); // select only needed fields
 
     res.status(200).json(availableUsers);
   } catch (err) {
