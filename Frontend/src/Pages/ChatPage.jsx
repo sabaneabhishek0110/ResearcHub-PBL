@@ -339,8 +339,9 @@ const ChatPage = () => {
             {/* Mobile Contacts List */}
             <div className="flex-1 overflow-y-auto">
               <ChatList searchQuery={searchQuery} />
+
               {/* Floating Action Button */}
-              <div className="sticky bottom-6 right-6 md:right-10">
+              <div className="sticky bottom-6 right-2 md:right-4">
                 <button
                   onClick={() => setShowFabMenu(true)}
                   className="bg-blue-600 hover:bg-blue-700 text-white rounded-full p-4 shadow-lg"
@@ -405,15 +406,15 @@ const ChatPage = () => {
               {/* Desktop Contacts List */}
               <div className="flex-1 overflow-y-auto">
                 <ChatList searchQuery={searchQuery} />
-              </div>
-              {/* Floating Action Button */}
-              <div className="fixed bottom-6 right-6 md:right-10">
-                <button
-                  onClick={() => setShowFabMenu(true)}
-                  className="bg-blue-600 hover:bg-blue-700 text-white rounded-full p-4 shadow-lg"
-                >
-                  <MessageSquarePlus size={24} />
-                </button>
+                {/* Floating Action Button */}
+                <div className="sticky bottom-6 right-2 md:right-4">
+                  <button
+                    onClick={() => setShowFabMenu(true)}
+                    className="bg-blue-600 hover:bg-blue-700 text-white rounded-full p-4 shadow-lg"
+                  >
+                    <MessageSquarePlus size={24} />
+                  </button>
+                </div>
               </div>
             </div>
           ) : (
