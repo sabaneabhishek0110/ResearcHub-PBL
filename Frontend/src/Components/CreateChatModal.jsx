@@ -13,16 +13,19 @@ const CreateChatModal = ({ onClose }) => {
     
     const BASE_URL = "https://researchub-pbl.onrender.com";
     
-    useEffect(()=>{
+   useEffect(() => {
         fetchAvailableUsersForNewChat();
+    }, []);
 
-        const filteredUsers1 = availableUsersForNewChat.filter(user =>
+    useEffect(() => {
+        const filtered = availableUsersForNewChat.filter(user =>
             user._id !== currentUser?._id &&
             (user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
             user.email.toLowerCase().includes(searchTerm.toLowerCase()))
         );
-        setFilteredUsers(filteredUsers1);
-    },[]);
+        setFilteredUsers(filtered);
+    }, [availableUsersForNewChat, searchTerm, currentUser?._id]);
+
     
     const fetchAvailableUsersForNewChat = async () =>{
         try{
@@ -42,7 +45,7 @@ const CreateChatModal = ({ onClose }) => {
 
             const data = await response.json();
             setAvailableUsersForNewChat(data);
-            console.log("availableUsersForNewChat",availableUsersForNewChat);
+            console.log("data",data);
         }
         catch(error){
             console.log(error);
@@ -137,35 +140,38 @@ const CreateChatModal = ({ onClose }) => {
 
             {/* User List */}
             <div className="space-y-3 max-h-64 overflow-y-auto">
-            {filteredUsers.length > 0 ? (
-                filteredUsers.map((user) => (
-                <div
-                    key={user._id}
-                    className={`flex items-center gap-4 p-3 rounded-md cursor-pointer transition duration-200 border ${
-                    selectedUserId === user._id
-                        ? 'bg-blue-700 border-blue-500'
-                        : 'bg-[#1e293b] hover:bg-blue-900 border-gray-700'
-                    }`}
-                    onClick={() => handleUserSelect(user._id)}
-                >
-                    <img
-                    src={user.profilePicture || 'https://via.placeholder.com/40'}
-                    alt={user.name}
-                    className="w-10 h-10 rounded-full object-cover"
-                    />
-                    <div className="flex-1">
-                    <div className="font-semibold text-white">{user.name}</div>
-                    <div className="text-sm text-blue-200">{user.email}</div>
-                    </div>
-                    {selectedUserId === user._id && (
-                    <i className="fas fa-check text-green-400 text-xl"></i>
-                    )}
-                </div>
-                ))
-            ) : (
-                <div className="text-blue-300 text-sm text-center">No users found</div>
-            )}
-            </div>
+  {isLoading ? (
+    <div className="text-blue-300 text-sm text-center">Loading users...</div>
+  ) : filteredUsers.length > 0 ? (
+    filteredUsers.map((user) => (
+      <div
+        key={user._id}
+        className={`flex items-center gap-4 p-3 rounded-md cursor-pointer transition duration-200 border ${
+          selectedUserId === user._id
+            ? 'bg-blue-700 border-blue-500'
+            : 'bg-[#1e293b] hover:bg-blue-900 border-gray-700'
+        }`}
+        onClick={() => handleUserSelect(user._id)}
+      >
+        <img
+          src={user.profilePicture || 'https://via.placeholder.com/40'}
+          alt={user.name}
+          className="w-10 h-10 rounded-full object-cover"
+        />
+        <div className="flex-1">
+          <div className="font-semibold text-white">{user.name}</div>
+          <div className="text-sm text-blue-200">{user.email}</div>
+        </div>
+        {selectedUserId === user._id && (
+          <i className="fas fa-check text-green-400 text-xl"></i>
+        )}
+      </div>
+    ))
+  ) : (
+    <div className="text-blue-300 text-sm text-center">No users found</div>
+  )}
+</div>
+
 
             {/* Footer */}
             <div className="flex justify-end gap-4 mt-6">
