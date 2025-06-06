@@ -957,14 +957,6 @@ function YourTeams() {
                                     </motion.div>
                                 )}
 
-                                {/* <div className="absolute -top-2 -right-2">
-                                    <NotificationBadge 
-                                        userId={localStorage.getItem('userId')}
-                                        customFilter={{ team: team._id }}
-                                        size="sm"
-                                    />
-                                </div> */}
-
                                 <h1 className='text-xl text-center font-bold text-white'>{team.Team_name}</h1>
                                 <p className='text-gray-300'>{team.description}</p>
                                 <p className='text-blue-300'><strong>Admin:</strong> {team.Admin.name}</p>
@@ -1055,7 +1047,7 @@ function YourTeams() {
                             {/* {console.log(isAdmin," jhkjhkjdh ", isOpenForm)} */}
                             {isAdmin && (!isOpenForm ? (
                                 <div className='w-full bg-gray-800 p-6 rounded-lg shadow-lg cursor-pointer flex justify-center items-center text-lg space-x-2 mb-4 hover:bg-gray-700 transition-colors'
-                                    onClick={() => { setIsOpenForm(true); getUsersRelatedToTeam();}}>
+                                    onClick={() => { setIsOpenForm(true);}}>
                                     <PlusCircle size={30} className="hover:scale-110 transition-transform" />
                                     <p>Assign Tasks</p>
                                 </div>
@@ -1182,46 +1174,50 @@ function YourTeams() {
                                                             }}
                                                             className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg"
                                                         >
-                                                            Add Stage
+                                                            Add
                                                         </button>
                                                     </div>
-
                                                     <Select
-                                                        isMulti
-                                                        options={teamUsers}
-                                                        value={stage.members}
-                                                        onChange={(selected) => setStage(prev => ({...prev, members: selected}))}
-                                                        className="basic-multi-select"
-                                                        classNamePrefix="select"
-                                                        placeholder="Select members for this stage"
-                                                        styles={{
-                                                            control: (provided) => ({
-                                                                ...provided,
-                                                                backgroundColor: '#374151',
-                                                                borderColor: '#4B5563',
-                                                                minHeight: '42px'
-                                                            }),
-                                                            menu: (provided) => ({
-                                                                ...provided,
-                                                                backgroundColor: '#374151',
-                                                            }),
-                                                            option: (provided, state) => ({
-                                                                ...provided,
-                                                                backgroundColor: state.isSelected ? '#1E40AF' : '#374151',
-                                                                ':hover': {
-                                                                    backgroundColor: '#4B5563',
-                                                                },
-                                                            }),
-                                                            multiValue: (provided) => ({
-                                                                ...provided,
-                                                                backgroundColor: '#1E40AF',
-                                                            }),
-                                                            multiValueLabel: (provided) => ({
-                                                                ...provided,
-                                                                color: 'white',
-                                                            }),
-                                                        }}
+                                                    isMulti
+                                                    options={Team.team.members.map((member) => ({
+                                                        label: member.name,
+                                                        value: member._id,
+                                                        profilePicture: member.profilePicture,
+                                                    }))}
+                                                    value={stage.members}
+                                                    onChange={(selected) => setStage(prev => ({ ...prev, members: selected }))}
+                                                    className="basic-multi-select"
+                                                    classNamePrefix="select"
+                                                    placeholder="Select members for this stage"
+                                                    styles={{
+                                                        control: (provided) => ({
+                                                        ...provided,
+                                                        backgroundColor: '#374151',
+                                                        borderColor: '#4B5563',
+                                                        minHeight: '42px',
+                                                        }),
+                                                        menu: (provided) => ({
+                                                        ...provided,
+                                                        backgroundColor: '#374151',
+                                                        }),
+                                                        option: (provided, state) => ({
+                                                        ...provided,
+                                                        backgroundColor: state.isSelected ? '#1E40AF' : '#374151',
+                                                        ':hover': {
+                                                            backgroundColor: '#4B5563',
+                                                        },
+                                                        }),
+                                                        multiValue: (provided) => ({
+                                                        ...provided,
+                                                        backgroundColor: '#1E40AF',
+                                                        }),
+                                                        multiValueLabel: (provided) => ({
+                                                        ...provided,
+                                                        color: 'white',
+                                                        }),
+                                                    }}
                                                     />
+
                                                 </div>
                                             </div>
 
