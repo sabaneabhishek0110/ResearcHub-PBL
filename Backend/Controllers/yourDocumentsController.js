@@ -342,37 +342,85 @@ exports.getOwner = async (req,res) =>{
     }
 }
 
-exports.getUserAccess = async (req,res) =>{
-    try{
-        const userId = req.user.userId;
-        const {id} = req.params;
+// exports.getUserAccess = async (req,res) =>{
+//     try{
+//         const userId = req.user.userId;
+//         const {id} = req.params;
 
-        if (!id) {
-            return res.status(400).json({ message: "Document ID and an array of users are required" });
-        }
+//         if (!id) {
+//             return res.status(400).json({ message: "Document ID and an array of users are required" });
+//         }
 
-        const document = await Document.findById(id);
+//         const document = await Document.findById(id);
 
-        if(!document){
-           return res.status(501).json({message : "No document is avilable of provided id"});
-        }
-        const Permission= document.permissions.some((perm)=>perm.user.toString()===userId);
-        const isOwner = document.owner.toString()===userId;
+//         if(!document){
+//            return res.status(501).json({message : "No document is avilable of provided id"});
+//         }
+//         const Permission= document.permissions.some((perm)=>perm.user.toString()===userId);
+//         const isOwner = document.owner.toString()===userId;
 
-        if(!Permission && !isOwner){
-            return res.status(400).json({ message: "Member is not have any access of this this document" });
-        }
-        if(!Permission){
-            return res.status(201).json({message : "accessType of user is fetch successfully",accessType : "owner"});
-        }
+//         if(!Permission && !isOwner){
+//             return res.status(400).json({ message: "Member is not have any access of this this document" });
+//         }
+//         if(!Permission){
+//             return res.status(201).json({message : "accessType of user is fetch successfully",accessType : "owner"});
+//         }
 
-        return res.status(201).json({message : "accessType of user is fetch successfully",accessType : Permission});
+//         return res.status(201).json({message : "accessType of user is fetch successfully",accessType : Permission});
+//     }
+//     catch(error){
+//         console.log(error);
+//         res.status(500).json({message : "failed to get accessType of user ",error});
+//     }
+// }
+
+exports.getUserAccess = async (req, res) => {
+  try {
+    const userId = req.user.userId;
+    const { id } = req.params;
+
+    if (!id) {
+      return res.status(400).json({ message: "Document ID is required" });
     }
-    catch(error){
-        console.log(error);
-        res.status(500).json({message : "failed to get accessType of user ",error});
+
+    const document = await Document.findById(id);
+
+    if (!document) {
+      return res.status(404).json({ message: "No document available for the provided ID" });
     }
-}
+
+    const isOwner = document.owner.toString() === userId;
+
+    if (isOwner) {
+      return res.status(200).json({ 
+        message: "Access type fetched successfully", 
+        accessType: "owner" 
+      });
+    }
+
+    // Find the permission object for this user
+    const permissionEntry = document.permissions.find(
+      (perm) => perm.user.toString() === userId
+    );
+
+    if (!permissionEntry) {
+      return res.status(403).json({ message: "You do not have access to this document" });
+    }
+
+    return res.status(200).json({
+      message: "Access type fetched successfully",
+      accessType: permissionEntry.access // "Viewer" or "Editor"
+    });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ 
+      message: "Failed to get access type of user", 
+      error: error.message 
+    });
+  }
+};
+
 
 const levenshteinDistance = (str1, str2) => {
     if (!str1 || !str2) return str1.length || str2.length;
