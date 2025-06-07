@@ -3,10 +3,13 @@ import React, { useState, useEffect } from 'react';
 function ShowPropertiesOfDocument({ documentId, onClose = () => {} }) {
   const BASE_URL = "https://researchub-pbl.onrender.com";
   const [document, setDocument] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true); // Initialize as true
 
   useEffect(() => {
-    if (!documentId) return;
+    if (!documentId) {
+      setLoading(false); // If no documentId, set loading to false
+      return;
+    }
 
     const fetchParticularDocument = async () => {
       try {
@@ -21,13 +24,11 @@ function ShowPropertiesOfDocument({ documentId, onClose = () => {} }) {
 
         if (!response.ok) {
           console.log("Failed to get document");
-          setLoading(false);
-          return;
+          throw new Error("Failed to fetch document");
         }
 
         const data = await response.json();
         setDocument(data);
-        console.log("Document fetched successfully");
       } catch (error) {
         console.log("Failed to fetch document", error);
       } finally {
@@ -35,46 +36,63 @@ function ShowPropertiesOfDocument({ documentId, onClose = () => {} }) {
       }
     };
 
-    fetchParticularDocument();
+    // Add slight delay to demonstrate loading (you can remove this in production)
+    const timer = setTimeout(() => {
+      fetchParticularDocument();
+    }, 200);
+
+    return () => clearTimeout(timer);
   }, [documentId]);
 
   if (!documentId) {
     return (
-      <div className="text-white px-6 py-4 bg-gray-800 rounded-xl shadow-md w-full max-w-md">
+      <div className="text-white px-6 py-4 bg-blue-900 rounded-xl shadow-md w-full max-w-md">
         <div className="flex items-center justify-center h-32">
-          <p className="text-gray-300">No document selected</p>
+          <p className="text-blue-200">No document selected</p>
         </div>
       </div>
     );
   }
 
-  if (loading || !document) {
+  if (loading) {
     return (
-      <div className="text-white px-6 py-4 bg-gray-800 rounded-xl shadow-md w-full max-w-md">
-        <div className="flex items-center justify-center h-32">
-          <div className="animate-pulse flex space-x-4">
-            <div className="flex-1 space-y-4 py-1">
-              <div className="h-4 bg-gray-700 rounded w-3/4"></div>
-              <div className="space-y-2">
-                <div className="h-4 bg-gray-700 rounded"></div>
-                <div className="h-4 bg-gray-700 rounded w-5/6"></div>
-              </div>
+      <div className="text-white px-6 py-4 bg-blue-900 rounded-xl shadow-xl w-full max-w-md border border-blue-700">
+        <div className="flex justify-between items-center mb-6 pb-2 border-b border-blue-700">
+          <div className="h-8 w-40 bg-blue-800 rounded animate-pulse"></div>
+          <div className="h-5 w-5 bg-blue-800 rounded-full animate-pulse"></div>
+        </div>
+        
+        <div className="space-y-4">
+          {[...Array(5)].map((_, i) => (
+            <div key={i} className="bg-blue-800/70 p-3 rounded-lg border-l-2 border-blue-500">
+              <div className="h-4 w-24 bg-blue-700 rounded mb-2 animate-pulse"></div>
+              <div className="h-5 w-full bg-blue-700 rounded animate-pulse"></div>
             </div>
-          </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  if (!document) {
+    return (
+      <div className="text-white px-6 py-4 bg-blue-900 rounded-xl shadow-md w-full max-w-md">
+        <div className="flex items-center justify-center h-32">
+          <p className="text-blue-200">Failed to load document</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="text-gray-100 px-6 py-4 bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl shadow-xl w-full max-w-md border border-gray-700">
-      <div className="flex justify-between items-center mb-6 pb-2 border-b border-gray-700">
-        <h2 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
+    <div className="text-white px-6 py-4 bg-blue-900 rounded-xl shadow-xl w-full max-w-md border border-blue-700">
+      <div className="flex justify-between items-center mb-6 pb-2 border-b border-blue-700">
+        <h2 className="text-xl font-bold text-white">
           Document Properties
         </h2>
         <button
           onClick={onClose}
-          className="text-gray-400 hover:text-red-400 transition-colors duration-200 p-1 rounded-full hover:bg-gray-700"
+          className="text-blue-300 hover:text-white transition-colors duration-200 p-1 rounded-full hover:bg-blue-800"
           aria-label="Close"
         >
           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -84,24 +102,24 @@ function ShowPropertiesOfDocument({ documentId, onClose = () => {} }) {
       </div>
 
       <div className="space-y-4">
-        <div className="bg-gray-800/50 p-3 rounded-lg border-l-4 border-blue-500">
-          <p className="text-sm font-medium text-gray-400">Title</p>
+        <div className="bg-blue-800/70 p-3 rounded-lg border-l-2 border-blue-500">
+          <p className="text-sm font-medium text-blue-300">Title</p>
           <p className="text-white font-semibold truncate">{document.title}</p>
         </div>
 
-        <div className="bg-gray-800/50 p-3 rounded-lg border-l-4 border-purple-500">
-          <p className="text-sm font-medium text-gray-400">Description</p>
+        <div className="bg-blue-800/70 p-3 rounded-lg border-l-2 border-blue-500">
+          <p className="text-sm font-medium text-blue-300">Description</p>
           <p className="text-white font-semibold">{document.description || 'N/A'}</p>
         </div>
 
         <div className="grid grid-cols-2 gap-4">
-          <div className="bg-gray-800/50 p-3 rounded-lg border-l-4 border-green-500">
-            <p className="text-sm font-medium text-gray-400">Format</p>
+          <div className="bg-blue-800/70 p-3 rounded-lg border-l-2 border-blue-500">
+            <p className="text-sm font-medium text-blue-300">Format</p>
             <p className="text-white font-semibold">Text File</p>
           </div>
 
-          <div className="bg-gray-800/50 p-3 rounded-lg border-l-4 border-yellow-500">
-            <p className="text-sm font-medium text-gray-400">Owner</p>
+          <div className="bg-blue-800/70 p-3 rounded-lg border-l-2 border-blue-500">
+            <p className="text-sm font-medium text-blue-300">Owner</p>
             <p className="text-white font-semibold truncate">
               {document.owner?.name || document.owner?._id || 'N/A'}
             </p>
@@ -109,23 +127,23 @@ function ShowPropertiesOfDocument({ documentId, onClose = () => {} }) {
         </div>
 
         <div className="grid grid-cols-2 gap-4">
-          <div className="bg-gray-800/50 p-3 rounded-lg border-l-4 border-pink-500">
-            <p className="text-sm font-medium text-gray-400">Created</p>
+          <div className="bg-blue-800/70 p-3 rounded-lg border-l-2 border-blue-500">
+            <p className="text-sm font-medium text-blue-300">Created</p>
             <p className="text-white font-semibold text-sm">
               {new Date(document.createdAt).toLocaleString()}
             </p>
           </div>
 
-          <div className="bg-gray-800/50 p-3 rounded-lg border-l-4 border-indigo-500">
-            <p className="text-sm font-medium text-gray-400">Updated</p>
+          <div className="bg-blue-800/70 p-3 rounded-lg border-l-2 border-blue-500">
+            <p className="text-sm font-medium text-blue-300">Updated</p>
             <p className="text-white font-semibold text-sm">
               {new Date(document.updatedAt).toLocaleString()}
             </p>
           </div>
         </div>
 
-        <div className="bg-gray-800/50 p-3 rounded-lg border-l-4 border-teal-500">
-          <p className="text-sm font-medium text-gray-400">Team</p>
+        <div className="bg-blue-800/70 p-3 rounded-lg border-l-2 border-blue-500">
+          <p className="text-sm font-medium text-blue-300">Team</p>
           <p className="text-white font-semibold">
             {document.team?.Team_name || 'None'}
           </p>
