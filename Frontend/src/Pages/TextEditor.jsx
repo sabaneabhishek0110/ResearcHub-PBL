@@ -535,7 +535,12 @@ function TextEditor() {
 
         socket.once("load-content", (document) => {
             if (!document) {
-                console.error("Document not found");
+                // console.error("Document not found");
+                // return;
+                console.warn("New document detected, initializing empty document...");
+                setTitle("Untitled Document");
+                quill.setContents(new Delta()); // empty content
+                quill.enable(); // allow editing
                 return;
             }
 
@@ -712,16 +717,16 @@ function TextEditor() {
         q.setText("Loading...");
         setQuill(q);
         // Make toolbar horizontally scrollable
-const toolbar = wrapper.querySelector('.ql-toolbar');
-if (toolbar) {
-  toolbar.classList.add('scroll-toolbar'); // Optional extra styling
-  toolbar.style.overflowX = 'auto';
-  toolbar.style.whiteSpace = 'nowrap';
-  toolbar.style.display = 'flex';
-  toolbar.style.scrollBehavior = 'smooth';
-  toolbar.style.paddingBottom = '4px';
-  toolbar.style.position = 'relative'; // For arrows
-}
+        const toolbar = wrapper.querySelector('.ql-toolbar');
+        if (toolbar) {
+          toolbar.classList.add('scroll-toolbar'); // Optional extra styling
+          toolbar.style.overflowX = 'auto';
+          toolbar.style.whiteSpace = 'nowrap';
+          toolbar.style.display = 'flex';
+          toolbar.style.scrollBehavior = 'smooth';
+          toolbar.style.paddingBottom = '4px';
+          toolbar.style.position = 'relative'; // For arrows
+        }
 
     }, []);
 
