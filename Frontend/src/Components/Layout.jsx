@@ -19,7 +19,6 @@
 // export default Layout;
 
 
-
 import React, { useState, useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import Sidebar from './Sidebar';
@@ -37,17 +36,13 @@ function Layout() {
   const isMobile = windowWidth <= 770;
 
   return (
-    <div className='flex flex-col h-screen w-full relative'>
-
+    <div className='flex flex-col h-screen w-full'>
       {/* Mobile Top Navbar */}
       {isMobile && (
-        <div className="w-[calc(100%-14px)] h-16 bg-gray-900 mx-2 mt-2 text-white flex items-center justify-between rounded-md px-4 shadow-md z-50 ">
-          {/* Logo */}
+        <div className="w-full h-16 bg-gray-900 text-white flex items-center justify-between px-4 shadow-md sticky top-0 z-50">
           <div className="font-bold text-lg">YourLogo</div>
-
-          {/* Hamburger Menu */}
           <button
-            onClick={() => setSidebarOpen(true)}
+            onClick={() => setSidebarOpen(!sidebarOpen)}
             className="text-white focus:outline-none"
           >
             <svg
@@ -63,7 +58,7 @@ function Layout() {
         </div>
       )}
 
-      {/* Sidebar for Desktop */}
+      {/* Desktop Layout */}
       {!isMobile && (
         <div className="flex h-full">
           <div className="min-w-[200px] p-2 bg-gray-900 text-white">
@@ -75,29 +70,28 @@ function Layout() {
         </div>
       )}
 
-      {/* Sidebar Drawer for Mobile */}
+      {/* Mobile Sidebar Drawer */}
       {isMobile && sidebarOpen && (
         <>
-          <div className="fixed inset-0 bg-black bg-opacity-10 z-40" onClick={() => setSidebarOpen(false)}></div>
-
-          <div className="fixed top-0 left-0 w-full h-full bg-gray-900 z-50 transition-transform transform translate-x-0 p-4">
-            {/* <div className="flex justify-between items-center mb-4"> */}
-              {/* <div className="text-white font-semibold text-lg">Menu</div> */}
-              <button
-                className="absolute text-white text-2xl right-4 top-2 z-10"
-                onClick={() => setSidebarOpen(false)}
-              >
-                ✖
-              </button>
-            {/* </div> */}
-            <Sidebar onClose={()=>setSidebarOpen(false)}/>
+          <div 
+            className="fixed inset-0 bg-black bg-opacity-50 z-40" 
+            onClick={() => setSidebarOpen(false)}
+          ></div>
+          <div className="fixed top-0 left-0 w-64 h-full bg-gray-900 z-50 p-4 overflow-y-auto">
+            <button
+              className="absolute text-white text-2xl right-4 top-4"
+              onClick={() => setSidebarOpen(false)}
+            >
+              ✖
+            </button>
+            <Sidebar onClose={() => setSidebarOpen(false)} />
           </div>
         </>
       )}
 
-      {/* Main content for mobile */}
+      {/* Mobile Main Content */}
       {isMobile && (
-        <div className={`flex-grow p-2 overflow-auto ${!isMobile ? "mt-2" : "" }`}>
+        <div className="flex-grow overflow-auto p-2">
           <Outlet />
         </div>
       )}
@@ -106,4 +100,3 @@ function Layout() {
 }
 
 export default Layout;
-
