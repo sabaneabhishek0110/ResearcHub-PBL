@@ -784,80 +784,77 @@ function TextEditor() {
     }
 
     return (
-      <>
-        <motion.div 
-          className="bg-gray-900 flex flex-col"
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4 }}
-        >
-          {/* Toolbar */}
-          <div className="px-4 md:px-8 py-4 flex justify-between items-center">
-            <div className="flex items-center space-x-2">
-                <button className="text-white p-2 hover:bg-gray-800 rounded-full" onClick={onBack}>
-                    <ArrowLeft size={24}/>
-                </button>
-                <FileText className="text-blue-400 w-6 h-6 md:w-7 md:h-7" />
-                {isEditingTitle ? (
-                    <input
-                    className="bg-transparent border-b border-blue-400 text-white text-lg md:text-xl px-3 py-1 w-40 md:w-80 outline-none"
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                    onBlur={() => setIsEditingTitle(false)}
-                    autoFocus
-                    />
-                ) : (
-                    <h1
-                    className="text-white text-lg md:text-xl max-w-[140px] md:max-w-80 truncate cursor-pointer"
-                    onClick={() => setIsEditingTitle(true)}
-                    >
-                    {title}
-                    </h1>
-                )}
-            </div>
-
-            <div className="flex items-center space-x-3 md:space-x-6">
-              <button onClick={() => setShowHistory(!showHistory)} className="p-1 md:p-0">
-                <History className="w-5 h-5 md:w-7 md:h-7 text-gray-200" />
+      <motion.div 
+        className="bg-gray-900 flex flex-col"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4 }}
+      >
+        {/* Toolbar */}
+        <div className="px-4 md:px-8 py-4 flex justify-between items-center">
+          <div className="flex items-center space-x-2">
+              <button className="text-white p-2 hover:bg-gray-800 rounded-full" onClick={onBack}>
+                  <ArrowLeft size={24}/>
               </button>
-              <button
-                className="bg-blue-200 px-3 py-1 md:px-4 md:py-2 rounded-full flex items-center space-x-2 text-sm md:text-base"
-                onClick={() => setShowShareDrawer(true)}
-              >
-                <LockKeyhole className="w-4 h-4 md:w-5 md:h-5" />
-                <span>Share</span>
-              </button>
-            </div>
+              <FileText className="text-blue-400 w-6 h-6 md:w-7 md:h-7" />
+              {isEditingTitle ? (
+                  <input
+                  className="bg-transparent border-b border-blue-400 text-white text-lg md:text-xl px-3 py-1 w-40 md:w-80 outline-none"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  onBlur={() => setIsEditingTitle(false)}
+                  autoFocus
+                  />
+              ) : (
+                  <h1
+                  className="text-white text-lg md:text-xl max-w-[140px] md:max-w-80 truncate cursor-pointer"
+                  onClick={() => setIsEditingTitle(true)}
+                  >
+                  {title}
+                  </h1>
+              )}
           </div>
 
-          {/* Editor Container */}
-          <div className="flex-1 overflow-y-auto overflow-hidden">
-            <div 
-              className="w-[95%] md:w-[90%] mx-auto max-w-[1200px] h-full"
-              ref={wrapperRef}
+          <div className="flex items-center space-x-3 md:space-x-6">
+            <button onClick={() => setShowHistory(!showHistory)} className="p-1 md:p-0">
+              <History className="w-5 h-5 md:w-7 md:h-7 text-gray-200" />
+            </button>
+            <button
+              className="bg-blue-200 px-3 py-1 md:px-4 md:py-2 rounded-full flex items-center space-x-2 text-sm md:text-base"
+              onClick={() => setShowShareDrawer(true)}
             >
-              {/* Place Quill or other editor here */}
-              <div className="bg-white text-black p-4 min-h-[70vh] text-base leading-relaxed rounded-md shadow-sm">
-                {/* Example content placeholder */}
-                <p>Start writing your document...</p>
-              </div>
+              <LockKeyhole className="w-4 h-4 md:w-5 md:h-5" />
+              <span>Share</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Editor Container */}
+        <div className="flex-1 overflow-y-auto overflow-hidden">
+          <div 
+            className="w-[95%] md:w-[90%] mx-auto max-w-[1200px] h-full"
+            ref={wrapperRef}
+          >
+            {/* Place Quill or other editor here */}
+            <div className="bg-white text-black p-4 min-h-[70vh] text-base leading-relaxed rounded-md shadow-sm">
+              {/* Example content placeholder */}
+              <p>Start writing your document...</p>
             </div>
           </div>
+        </div>
 
-          {/* Share Drawer */}
-          {showShareDrawer && (
-            <div className="fixed inset-0 flex items-center justify-center bg-black/40 backdrop-blur-md z-50">
-              <ShareDrawer 
-                id={documentId} 
-                title={title} 
-                accessType={accessType} 
-                onClose={() => setShowShareDrawer(false)}
-              />
-            </div>
-          )}
+        {/* Share Drawer */}
+        {showShareDrawer && (
+          <div className="fixed inset-0 flex items-center justify-center bg-black/40 backdrop-blur-md z-50">
+            <ShareDrawer 
+              id={documentId} 
+              title={title} 
+              accessType={accessType} 
+              onClose={() => setShowShareDrawer(false)}
+            />
+          </div>
+        )}
 
-
-        </motion.div>
         {/* History Sidebar */}
         {showHistory && (
   <div className="fixed top-0 right-0 z-50 h-screen w-full md:w-[300px] bg-white shadow-lg overflow-y-auto">
@@ -892,8 +889,9 @@ function TextEditor() {
       })}
     </ul>
   </div>
-        )}
-      </>
+)}
+
+      </motion.div>
     );
 }
 

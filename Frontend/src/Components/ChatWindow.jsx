@@ -350,64 +350,90 @@ function ChatWindow({onBack = () => {}}) {
 
       {/* Messages */}
       <div className="flex-1 overflow-y-auto p-4 space-y-2">
-        {messages.map((msg, index) => {
-          const sender = allUsers.find(u => u._id === msg.sender);
-          const isCurrentUser = msg.sender === currentUser._id;
+  {messages.map((msg, index) => {
+    const sender = allUsers.find(u => u._id === msg.sender);
+    const isCurrentUser = msg.sender === currentUser._id;
+    const messageDate = new Date(msg.timestamp);
+    const today = new Date();
+    const isToday = 
+      messageDate.getDate() === today.getDate() &&
+      messageDate.getMonth() === today.getMonth() &&
+      messageDate.getFullYear() === today.getFullYear();
+    
+    return (
+      <div 
+        key={index} 
+        className={`flex ${isCurrentUser ? 'justify-end' : 'justify-start'}`}
+      >
+        <div 
+          className={`max-w-xs md:max-w-md rounded-lg p-3 ${
+            isCurrentUser 
+              ? 'bg-blue-500 text-white rounded-tr-none' 
+              : 'bg-gray-500 text-white rounded-tl-none'
+          }`}
+        >
+          {currentChat.isGroup && !isCurrentUser && (
+            <p className="font-medium text-xs mb-1">
+              {sender?.name || 'Unknown'}
+            </p>
+          )}
           
-          return (
-            <div 
-              key={index} 
-              className={`flex ${isCurrentUser ? 'justify-end' : 'justify-start'}`}
-            >
-              <div 
-                className={`max-w-xs md:max-w-md rounded-lg p-3 ${
-                  isCurrentUser 
-                    ? 'bg-blue-500 text-white rounded-tr-none' 
-                    : 'bg-gray-500 text-gray-800 rounded-tl-none'
-                }`}
-              >
-                {currentChat.isGroup && !isCurrentUser && (
-                  <p className="font-medium text-xs mb-1">
-                    {sender?.name || 'Unknown'}
+          {msg.file && (
+            <div className="mb-2">
+              {msg.file.type.startsWith('image/') ? (
+                <>
+                  <img 
+                    src={msg.file.url} 
+                    alt="Shared content" 
+                    className="rounded-lg max-h-60 object-contain"
+                  />
+                  <p className="text-xs mt-1 text-white/80 truncate">
+                    {msg.file.name}
                   </p>
-                )}
-                
-                {msg.file && (
-                  msg.file.type.startsWith('image/') ? (
-                    <img 
-                      src={msg.file.url} 
-                      alt="Shared content" 
-                      className="rounded-lg mb-2 max-h-60 object-contain"
-                    />
-                  ) : (
-                    <a 
-                      href={msg.file.url} 
-                      download
-                      className="flex items-center gap-2 text-white hover:underline"
-                    >
-                      <Paperclip size={16} />
-                      {msg.file.name}
-                    </a>
-                  )
-                )}
-                
-                <p className="whitespace-pre-wrap text-white">{msg.content}</p>
-                
-                <div className={`flex items-center justify-end gap-1 mt-1 text-xs ${
-                  isCurrentUser ? 'text-blue-100' : 'text-gray-700'
-                }`}>
-                  {new Date(msg.timestamp).toLocaleTimeString([], { 
-                    hour: '2-digit', 
-                    minute: '2-digit' 
-                  })}
-                  {msg.status === 'read' && <CheckCheck size={14} className="ml-1" />}
-                </div>
-              </div>
+                </>
+              ) : (
+                <a 
+                  href={msg.file.url} 
+                  download
+                  className="flex items-center gap-2 hover:underline"
+                >
+                  <Paperclip size={16} />
+                  <span className="truncate max-w-[200px]">
+                    {msg.file.name}
+                  </span>
+                </a>
+              )}
             </div>
-          );
-        })}
-        <div ref={messagesEndRef} />
+          )}
+          
+          {msg.content && (
+            <p className="whitespace-pre-wrap">{msg.content}</p>
+          )}
+          
+          <div className={`flex items-center justify-end gap-1 mt-1 text-xs ${
+            isCurrentUser ? 'text-blue-100' : 'text-gray-300'
+          }`}>
+            {isToday ? (
+              new Date(msg.timestamp).toLocaleTimeString([], { 
+                hour: '2-digit', 
+                minute: '2-digit' 
+              })
+            ) : (
+              new Date(msg.timestamp).toLocaleString([], {
+                month: 'short',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+              })
+            )}
+            {msg.status === 'read' && <CheckCheck size={14} className="ml-1" />}
+          </div>
+        </div>
       </div>
+    );
+  })}
+  <div ref={messagesEndRef} />
+</div>
       
       {file && (
         <div className="flex items-center gap-2 p-2 border-t bg-gray-800">
