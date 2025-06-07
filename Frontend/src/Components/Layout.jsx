@@ -43,7 +43,9 @@ function Layout() {
       {isMobile && (
         <div className="w-[calc(100%-14px)] h-16 bg-gray-900 mx-2 mt-2 text-white flex items-center justify-between rounded-md px-4 shadow-md z-50 ">
           {/* Logo */}
-          <div className="font-bold text-lg">YourLogo</div>
+          <div className="font-bold text-lg w-10 h-10">
+            <img src="./research-logo.svg"/>
+          </div>
 
           {/* Hamburger Menu */}
           <button
