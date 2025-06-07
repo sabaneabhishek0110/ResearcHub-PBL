@@ -43,7 +43,6 @@ exports.CreateTeam = async (req,res) =>{
     }
 }
 
-
 exports.getAllTeams = async (req,res) =>{
     try{
         console.log("Entered into getAllTeams into dashBoardController.js");

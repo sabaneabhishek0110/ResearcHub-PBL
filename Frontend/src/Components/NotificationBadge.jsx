@@ -9,7 +9,7 @@ function NotificationBadge({customFilter = {} }) {
   const [notifications, setNotifications] = useState([]);
   const navigate = useNavigate();
 
-   const BASE_URL = "https://researchub-pbl.onrender.com"
+  const BASE_URL = "https://researchub-pbl.onrender.com"
 
   
   const fetchUnreadCount = async () => {

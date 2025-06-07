@@ -6,7 +6,6 @@ require('dotenv').config();
 
 const BASE_URL = "https://researchub-pbl.onrender.com"
 
-
 passport.use(
   new GoogleStrategy( // Wrap options in GoogleStrategy
     {

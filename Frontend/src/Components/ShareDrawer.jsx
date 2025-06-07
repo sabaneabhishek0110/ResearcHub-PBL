@@ -144,131 +144,131 @@ function ShareDrawer({ title, id,accessType, onClose }) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-opacity-50 px-4 overflow-y-auto">
-  <div className="bg-white p-4 sm:p-6 rounded-lg w-full max-w-lg sm:max-w-xl md:max-w-2xl lg:max-w-xl shadow-lg mt-10 mb-10 max-h-[90vh] overflow-y-auto">
-    <h2 className="text-lg sm:text-xl font-semibold text-black">{title}</h2>
+      <div className="bg-white p-4 sm:p-6 rounded-lg w-full max-w-lg sm:max-w-xl md:max-w-2xl lg:max-w-xl shadow-lg mt-10 mb-10 max-h-[90vh] overflow-y-auto">
+        <h2 className="text-lg sm:text-xl font-semibold text-black">{title}</h2>
 
-    {accessType === "owner" && (
-      <div>
-        <div className="mt-4">
-          <Select
-            isMulti
-            options={allMembers}
-            value={selectedMembers}
-            onChange={setSelectedMembers}
-            className="text-black"
-            placeholder="Select members..."
-          />
-        </div>
+        {accessType === "owner" && (
+          <div>
+            <div className="mt-4">
+              <Select
+                isMulti
+                options={allMembers}
+                value={selectedMembers}
+                onChange={setSelectedMembers}
+                className="text-black"
+                placeholder="Select members..."
+              />
+            </div>
 
-        <div className="mt-4 flex flex-col sm:flex-row sm:gap-6 gap-3">
-          <label className="flex items-center gap-2 cursor-pointer text-gray-700 hover:text-blue-600">
-            <input
-              type="radio"
-              name="accessType"
-              value="Viewer"
-              checked={accessType1 === "Viewer"}
-              onChange={() => setAccessType1("Viewer")}
-              className="hidden"
-            />
-            <span
-              className={`w-5 h-5 rounded-full border-2 border-gray-400 flex items-center justify-center ${
-                accessType1 === "Viewer" ? "border-blue-500" : ""
-              }`}
+            <div className="mt-4 flex flex-col sm:flex-row sm:gap-6 gap-3">
+              <label className="flex items-center gap-2 cursor-pointer text-gray-700 hover:text-blue-600">
+                <input
+                  type="radio"
+                  name="accessType"
+                  value="Viewer"
+                  checked={accessType1 === "Viewer"}
+                  onChange={() => setAccessType1("Viewer")}
+                  className="hidden"
+                />
+                <span
+                  className={`w-5 h-5 rounded-full border-2 border-gray-400 flex items-center justify-center ${
+                    accessType1 === "Viewer" ? "border-blue-500" : ""
+                  }`}
+                >
+                  {accessType1 === "Viewer" && (
+                    <span className="w-3 h-3 bg-blue-500 rounded-full"></span>
+                  )}
+                </span>
+                Viewer
+              </label>
+
+              <label className="flex items-center gap-2 cursor-pointer text-gray-700 hover:text-blue-600">
+                <input
+                  type="radio"
+                  name="accessType"
+                  value="Editor"
+                  checked={accessType1 === "Editor"}
+                  onChange={() => setAccessType1("Editor")}
+                  className="hidden"
+                />
+                <span
+                  className={`w-5 h-5 rounded-full border-2 border-gray-400 flex items-center justify-center ${
+                    accessType1 === "Editor" ? "border-blue-500" : ""
+                  }`}
+                >
+                  {accessType1 === "Editor" && (
+                    <span className="w-3 h-3 bg-blue-500 rounded-full"></span>
+                  )}
+                </span>
+                Editor
+              </label>
+            </div>
+
+            <button
+              onClick={giveAccess}
+              className="mt-4 bg-blue-600 text-white hover:bg-blue-700 px-4 py-2 rounded transition w-full sm:w-auto"
+              disabled={loading}
             >
-              {accessType1 === "Viewer" && (
-                <span className="w-3 h-3 bg-blue-500 rounded-full"></span>
-              )}
-            </span>
-            Viewer
-          </label>
+              {loading ? "Sharing..." : "Share"}
+            </button>
+          </div>
+        )}
 
-          <label className="flex items-center gap-2 cursor-pointer text-gray-700 hover:text-blue-600">
-            <input
-              type="radio"
-              name="accessType"
-              value="Editor"
-              checked={accessType1 === "Editor"}
-              onChange={() => setAccessType1("Editor")}
-              className="hidden"
-            />
-            <span
-              className={`w-5 h-5 rounded-full border-2 border-gray-400 flex items-center justify-center ${
-                accessType1 === "Editor" ? "border-blue-500" : ""
-              }`}
-            >
-              {accessType1 === "Editor" && (
-                <span className="w-3 h-3 bg-blue-500 rounded-full"></span>
-              )}
-            </span>
-            Editor
-          </label>
-        </div>
+        {/* List of Accessed Members */}
+        <h3 className="mt-6 font-semibold">People with access:</h3>
+        <ul className="mt-2">
+          <div className="flex justify-between items-center p-2 border-b">
+            <span>{owner?.name || "Loading..."}</span>
+            <p>Owner</p>
+          </div>
 
+          {accessType === "owner"
+            ? accessedMembers.map((member) => (
+                <li
+                  key={member.user._id}
+                  className="flex justify-between items-center p-2 border-b"
+                >
+                  <span>{member.user.name}</span>
+                  <div className="flex flex-col sm:flex-row gap-2">
+                    <select
+                      value={member.access}
+                      onChange={(e) =>
+                        updateAccess(member.user._id, e.target.value)
+                      }
+                      className="px-2 py-1 border rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    >
+                      <option value="Viewer">👀 Viewer</option>
+                      <option value="Editor">✏️ Editor</option>
+                    </select>
+                    <button
+                      onClick={() => revokeAccess(member.user._id)}
+                      className="text-red-500"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                </li>
+              ))
+            : accessedMembers.map((member) => (
+                <li
+                  key={member.user._id}
+                  className="flex justify-between items-center p-2 border-b"
+                >
+                  <span>{member.user.name}</span>
+                  <p>{member.access === "Viewer" ? "👀 Viewer" : "✏️ Editor"}</p>
+                </li>
+              ))}
+        </ul>
+
+        {/* Close Button */}
         <button
-          onClick={giveAccess}
-          className="mt-4 bg-blue-600 text-white hover:bg-blue-700 px-4 py-2 rounded transition w-full sm:w-auto"
-          disabled={loading}
+          onClick={onClose}
+          className="mt-4 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 w-full sm:w-auto"
         >
-          {loading ? "Sharing..." : "Share"}
+          Close
         </button>
       </div>
-    )}
-
-    {/* List of Accessed Members */}
-    <h3 className="mt-6 font-semibold">People with access:</h3>
-    <ul className="mt-2">
-      <div className="flex justify-between items-center p-2 border-b">
-        <span>{owner?.name || "Loading..."}</span>
-        <p>Owner</p>
-      </div>
-
-      {accessType === "owner"
-        ? accessedMembers.map((member) => (
-            <li
-              key={member.user._id}
-              className="flex justify-between items-center p-2 border-b"
-            >
-              <span>{member.user.name}</span>
-              <div className="flex flex-col sm:flex-row gap-2">
-                <select
-                  value={member.access}
-                  onChange={(e) =>
-                    updateAccess(member.user._id, e.target.value)
-                  }
-                  className="px-2 py-1 border rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                >
-                  <option value="Viewer">👀 Viewer</option>
-                  <option value="Editor">✏️ Editor</option>
-                </select>
-                <button
-                  onClick={() => revokeAccess(member.user._id)}
-                  className="text-red-500"
-                >
-                  ✕
-                </button>
-              </div>
-            </li>
-          ))
-        : accessedMembers.map((member) => (
-            <li
-              key={member.user._id}
-              className="flex justify-between items-center p-2 border-b"
-            >
-              <span>{member.user.name}</span>
-              <p>{member.access === "Viewer" ? "👀 Viewer" : "✏️ Editor"}</p>
-            </li>
-          ))}
-    </ul>
-
-    {/* Close Button */}
-    <button
-      onClick={onClose}
-      className="mt-4 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 w-full sm:w-auto"
-    >
-      Close
-    </button>
-  </div>
-</div>
+    </div>
 
 
   );

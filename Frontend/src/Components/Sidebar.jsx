@@ -36,8 +36,6 @@ function Sidebar({onClose}) {
   }
 
   return (
-    // <div className="text-white flex h-screen w-full">
-    // {/* </div> */}
       <div className="rounded-lg bg-gray-900 w-full h-[95%] text-white flex flex-col shadow-xl backdrop-blur-lg p-4">
         {/* Logo / Brand Name */}
         <div className="flex items-center justify-center my-3">

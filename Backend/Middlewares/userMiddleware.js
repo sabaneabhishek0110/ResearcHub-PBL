@@ -8,11 +8,8 @@ const userMiddleware = (req, res, next) => {
     return res.status(401).json({ message: "Unauthorized: No token provided" });
   }
   const authToken = token.split(" ")[1];
-  // console.log("Extracted Token:", authToken);
   try {
     console.log("Entered into userMiddleware in userMiddleware.js");
-
-    // console.log("Headers:", req.headers);
 
     const decoded = jwt.verify(authToken, JWT_SECRET); 
     console.log("Decoded token:", decoded);
@@ -22,7 +19,6 @@ const userMiddleware = (req, res, next) => {
     }
 
     req.user = decoded;
-    // console.log("User get added to req");
 
     console.log("completed userMiddleware in userMiddleware.js");
     next();

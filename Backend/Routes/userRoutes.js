@@ -62,11 +62,11 @@ router.get('/all', auth, async (req, res) => {
     });
   }
 });
+router.get('/getAllUsers',userController.getAllUsers);
+router.get('/getUser',userMiddleware,userController.getUser);
 
 router.post('/createUser',userController.CreateUser);
 router.post('/getParticularUser',userController.getParticularUser);
-router.get('/getAllUsers',userController.getAllUsers);
-router.get('/getUser',userMiddleware,userController.getUser);
 router.post('/set-password',userController.set_password);
 
 router.get("/google",

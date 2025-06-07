@@ -154,41 +154,6 @@ Base Styles
     background-color: #3a7bc8;
 }
 
-/* Responsive Design
-/* @media (max-width: 768px) {
-    .container {
-        width: 95%;
-    }
-
-    .toolbar {
-        padding: 10px;
-    }
-
-    .title, .title-input {
-        max-width: 200px;
-    }
-
-    .history-bar {
-        width: 250px;
-    }
-}
-
-@media (max-width: 480px) {
-    .toolbar {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 10px;
-    }
-
-    .title, .title-input {
-        max-width: 150px;
-    }
-
-    .history-bar {
-        width: 100%;
-    }
-}  */
-
 
 .container {
     width: 90%;

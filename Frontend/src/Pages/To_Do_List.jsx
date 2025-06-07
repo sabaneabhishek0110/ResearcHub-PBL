@@ -229,107 +229,6 @@ catch(error){
     }
   }
 
-  // const createTasks = async () =>{
-  //   try{
-  //     const token = localStorage.getItem("token");
-  //     if (!token) {
-  //         console.error("No token found in localStorage!");
-  //         // alert("You are not logged in!");
-  //         toast.success("You are not logged in!");
-  //         return;
-  //     }
-  //     const response = await fetch("${BASE_URL}/api/tasks/createtask",{
-  //       method : "POST",
-  //       headers:{
-  //         "Content-Type":"application/json",
-  //         "Authorization":`Bearer ${token}`
-  //       },
-  //       body:JSON.stringify({...task,status:"ongoing"}),
-  //     })
-  //     if(response.ok){
-  //       console.log("Task created successfully");
-  //     }
-  //     else{
-  //       console.log("Task not created");
-  //       const data = await response.json();
-  //       // alert(data.message || "Task not created")
-  //       toast.success(data.message || "Task not created")
-  //     }
-  //   }catch(error){
-  //     res.status(400).json({message : error.message});
-  //   }
-  // }
-
-  // function handleSelectedMembers(selected){
-  //   const selectedMembers = selected.map((item)=>item.value);
-  //   settask((prev)=>({
-  //     ...prev,
-  //     members:selectedMembers,
-  //   }))
-  // }
-
-  // function handlechange(e){
-  //   const {name,value} = e.target;
-
-  //   let formattedvalue = value;
-  //   if(name==="deadline"){
-  //     const [year,month,day] = value.split("-");
-  //     formattedvalue = `${day}-${month}-${year}`;
-  //   }
-  //   settask((prev)=>(
-  //     {...prev,
-  //       [name]:formattedvalue,
-  //     }
-  //   ))
-  // }
-
-
-  // async function handleClick(e){
-  //   e.preventDefault();
-  //   if (!task.title || !task.description || !task.deadline) {
-  //     alert("Please fill in all fields before submitting.");
-  //     return;
-  //   }
-  //   // console.log(task);
-  //   await createTasks();
-  //   setOngoing([...Ongoing,task]);
-  //   settask({
-  //     title:"",
-  //     description:"",
-  //     members:[],
-  //     deadline:"",
-  //     progress:0,
-  //   }) 
-  // }
-
-  // const  getUsers = async() => {
-  //   try{
-  //     const response = await fetch("${BASE_URL}/api/users/getAllUsers",{
-  //       method:"GET",
-  //       headers:{"description-type" : "application/json"},
-  //     })
-  //     if(!response.ok){
-  //       throw new Error(`Http error! Status:${response.status}`);
-  //     }
-  //     const data = await response.json();
-  //     console.log("Fetched Users:", data); // Debugging
-  //     const userOptions = data.map((user)=>({
-  //       value:user._id,
-  //       label:user.name,
-  //     }));
-
-  //     setUsers(userOptions);
-  //   }catch(error){
-  //     console.log(error);
-  //     setUsers([]);
-  //   }
-    
-  // }
-
-  // useEffect(() => {
-  //   getUsers();
-  // }, [])
-
 
   function handleCompleted() {
     let completedTasks = [];
@@ -510,8 +409,6 @@ catch(error){
         </div>
       )}
     </motion.div>
-
-
   )
 }
 

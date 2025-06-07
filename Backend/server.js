@@ -18,12 +18,6 @@ const http = require('http');
 const jwt = require('jsonwebtoken');
 require("dotenv").config();
 
-// Debug environment variables
-// console.log('Environment variables loaded:');
-// console.log('JWT_SECRET:', process.env.JWT_SECRET);
-// console.log('PORT:', process.env.PORT);
-// console.log('MONGODB_URI:', process.env.MONGODB_URI ? 'Present' : 'Missing');
-
 require('./config/passportConfig');
 
 const app = express();
@@ -38,14 +32,6 @@ app.use(cors({
 
 app.use(express.json());
 app.use(passport.initialize());
-
-// if(process.env.NODE_ENV === "production"){
-//   app.use(express.static(path.join(__dirname, '/Frontend/dist')));
-//   // Fallback: send index.html for all other routes (React Router support)
-//   app.get('*', (req, res) => {
-//     res.sendFile(path.join(__dirname, 'Frontend','dist', 'index.html'));
-//   });
-// }
 
 
 // Error handling middleware

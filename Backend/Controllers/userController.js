@@ -7,47 +7,6 @@ const {generateOTP,sendOTP} = require('../Services/otpService');
 
 const JWT_SECRET = process.env.JWT_SECRET ;
 
-// exports.CreateUser = async (req,res) => {
-//     try{
-//         console.log("Entered in CreateUser in userController.js");
-//         const {name,email,password} = req.body;
-        
-//         if(!validator.isEmail(email)){
-//             res.status(400).json({message : "Incorrect Email"});
-//             return;
-//         }
-//         console.log(req.body); 
-//         const existUser = await User.findOne({ email });
-//         if(existUser){
-//             return res.status(409).json({message : "User is Already Exists" });
-//         }
-        
-//         const newUser = new User({
-//             name,
-//             email,
-//             password,
-//             isEmailVerified: false,
-//         });
-//         await newUser.save();
-
-//         const otp = generateOTP();
-//         const otpExpires = new Date(Date.now() + 10 * 60 * 1000);
-//         await sendOTP(email, otp);
-//         await User.findOneAndUpdate(
-//             { email: userEmail },
-//             { otp, otpExpires }, // Save OTP + expiry time
-//             { upsert: true, new: true }
-//         );
-        
-//         const token = jwt.sign({userId : newUser._id},JWT_SECRET,{expiresIn:"10h"});
-//         console.log("Completed CreateUser successfully in userController.js");
-//         res.status(201).json({token,message:"User Created Successfully",user : newUser});
-//     }
-//     catch(error){
-//         res.status(400).json({error : error.message})
-//     }
-// }
-
 exports.CreateUser = async (req, res) => {
     try {
       console.log("Entered in CreateUser in userController.js");
@@ -92,7 +51,7 @@ exports.CreateUser = async (req, res) => {
       console.error("Error in CreateUser:", error);
       res.status(500).json({ error: error.message });
     }
-  };
+};
 
 exports.getParticularUser = async (req,res) =>{
     try{

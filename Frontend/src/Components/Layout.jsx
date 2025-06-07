@@ -83,15 +83,12 @@ function Layout() {
           <div className="fixed inset-0 bg-black bg-opacity-10 z-40" onClick={() => setSidebarOpen(false)}></div>
 
           <div className="fixed top-0 left-0 w-full h-full bg-gray-900 z-50 transition-transform transform translate-x-0 p-4">
-            {/* <div className="flex justify-between items-center mb-4"> */}
-              {/* <div className="text-white font-semibold text-lg">Menu</div> */}
               <button
                 className="absolute text-white text-2xl right-4 top-2 z-10"
                 onClick={() => setSidebarOpen(false)}
               >
                 ✖
               </button>
-            {/* </div> */}
             <Sidebar onClose={()=>setSidebarOpen(false)}/>
           </div>
         </>

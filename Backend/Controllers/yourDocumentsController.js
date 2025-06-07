@@ -195,46 +195,6 @@ exports.revokeAccess = async (req,res) =>{
     }
 }
 
-// exports.getTeamMembers = async (req,res) => {
-//     try{
-//         console.log("Entered into yourDocumentsController.js")
-//         console.log("Entered into getTeamMembers in yourDocuments.js");
-//         const userId = req.user.userId;
-//         const {id} = req.params;
-
-//         const document = await Document.findOne({_id : id});
-
-//         if(!document){
-//            return res.status(404).json({message : "No document is avilable of provided id"});
-//         }
-
-//         // const accessedMembers = [];
-//         // document.permissions.map((perm)=>accessedMembers.push(perm.user));
-//         const accessedMembers = document.permissions.map(p => String(p.user));
-
-        
-//         const team = await Team.findById(document.team);
-//         if (!team) {
-//             return res.status(404).json({ message: "Team not found" });
-//         }
-
-//         const teamMemberIds = team.members.map(id => String(id));
-
-//         const notAccessMembers = [];
-//         accessedMembers.map((member)=>{
-//             if(!teamMemberIds.includes(String(member))){
-//                 notAccessMembers.push(member);
-//             }
-//         })
-
-
-//         console.log("Completed getTeamMembers successfully in yourDocuments.js");
-//         res.status(200).json(notAccessMembers);
-//     }
-//     catch(error){
-//         res.status(400).json({error : error.message});
-//     }
-// }
 
 exports.getTeamMembers = async (req, res) => {
     try {
@@ -342,37 +302,6 @@ exports.getOwner = async (req,res) =>{
     }
 }
 
-// exports.getUserAccess = async (req,res) =>{
-//     try{
-//         const userId = req.user.userId;
-//         const {id} = req.params;
-
-//         if (!id) {
-//             return res.status(400).json({ message: "Document ID and an array of users are required" });
-//         }
-
-//         const document = await Document.findById(id);
-
-//         if(!document){
-//            return res.status(501).json({message : "No document is avilable of provided id"});
-//         }
-//         const Permission= document.permissions.some((perm)=>perm.user.toString()===userId);
-//         const isOwner = document.owner.toString()===userId;
-
-//         if(!Permission && !isOwner){
-//             return res.status(400).json({ message: "Member is not have any access of this this document" });
-//         }
-//         if(!Permission){
-//             return res.status(201).json({message : "accessType of user is fetch successfully",accessType : "owner"});
-//         }
-
-//         return res.status(201).json({message : "accessType of user is fetch successfully",accessType : Permission});
-//     }
-//     catch(error){
-//         console.log(error);
-//         res.status(500).json({message : "failed to get accessType of user ",error});
-//     }
-// }
 
 exports.getUserAccess = async (req, res) => {
   try {
@@ -571,7 +500,6 @@ exports.getDocumentTeam = async (req,res) => {
         res.status(400).json({error : error.message});
     }
 }
-
 
 exports.getUserDocumentRelatedToTeam = async (req,res) =>{
     try{
