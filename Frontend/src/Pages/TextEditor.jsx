@@ -857,7 +857,7 @@ function TextEditor() {
 
         {/* History Sidebar */}
         {showHistory && (
-              <div className="fixed top-0 right-0 z-50 h-screen w-full md:w-[300px] bg-white shadow-lg overflow-y-auto">
+              <div className="absolute top-0 right-0 z-50 h-screen w-full md:w-[300px] bg-white shadow-lg overflow-y-auto">
                   <div className="flex justify-between items-center px-4 py-3 border-b border-gray-200">
                     <h2 className="text-lg font-semibold">Version History</h2>
                     <button onClick={() => setShowHistory(false)} className="p-1">
