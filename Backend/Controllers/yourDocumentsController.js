@@ -5,7 +5,14 @@ const Team = require('../Models/Team');
 exports.getUserDocuments = async (req,res) =>{
     try{
         const userId = req.user.userId;
-        const documents = await Document.find({owner : userId})
+        // const documents = await Document.find({owner : userId});
+        const documents = await Document.find({
+            $or: [
+                { owner: userId },
+                { 'permissions.user': userId }
+            ]
+        });
+
 
         if(documents.length===0){
            return res.status(200).json({message : "No document is avilable or accessible"});
