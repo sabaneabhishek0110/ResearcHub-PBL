@@ -713,8 +713,8 @@ function TextEditor() {
             modules: { toolbar: TOOLBAR_OPTIONS },
         });
 
-        q.disable();
-        q.setText("Loading...");
+        // q.disable();
+        // q.setText("Loading...");
         setQuill(q);
         // Make toolbar horizontally scrollable
         const toolbar = wrapper.querySelector('.ql-toolbar');
