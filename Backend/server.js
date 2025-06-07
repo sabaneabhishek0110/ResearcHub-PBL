@@ -74,8 +74,8 @@ const server = http.createServer(app);
 // Initialize Socket.IO
 const io = Socket(server, {
   cors: {
-    origin: "http://localhost:5173",
-    // origin: ["http://localhost:5173", "http://localhost:5000"],
+    // origin: "http://localhost:5173",
+    origin: ['http://localhost:5173', "https://researc-hub-pbl.vercel.app"],
     methods: ["GET", "POST"],
     credentials: true,
     reconnectionAttempts: 5,
