@@ -103,12 +103,12 @@ function ShowPropertiesOfDocument({ documentId, onClose = () => {} }) {
 
       <div className="space-y-4">
         <div className="bg-gray-800/70 p-3 rounded-lg border-l-2 border-gray-500">
-          <p className="text-sm font-medium text-blue-300">Title</p>
+          <p className="text-sm font-medium text-gray-300">Title</p>
           <p className="text-white font-semibold truncate">{document.title}</p>
         </div>
 
         <div className="bg-gray-800/70 p-3 rounded-lg border-l-2 border-gray-500">
-          <p className="text-sm font-medium text-blue-300">Description</p>
+          <p className="text-sm font-medium text-gray-300">Description</p>
           <p className="text-white font-semibold">{document.description || 'N/A'}</p>
         </div>
 
@@ -128,14 +128,14 @@ function ShowPropertiesOfDocument({ documentId, onClose = () => {} }) {
 
         <div className="grid grid-cols-2 gap-4">
           <div className="bg-gray-800/70 p-3 rounded-lg border-l-2 border-gray-500">
-            <p className="text-sm font-medium text-blue-300">Created</p>
+            <p className="text-sm font-medium text-gray-300">Created</p>
             <p className="text-white font-semibold text-sm">
               {new Date(document.createdAt).toLocaleString()}
             </p>
           </div>
 
           <div className="bg-gray-800/70 p-3 rounded-lg border-l-2 border-gray-500">
-            <p className="text-sm font-medium text-blue-300">Updated</p>
+            <p className="text-sm font-medium text-gray-300">Updated</p>
             <p className="text-white font-semibold text-sm">
               {new Date(document.updatedAt).toLocaleString()}
             </p>
@@ -143,7 +143,7 @@ function ShowPropertiesOfDocument({ documentId, onClose = () => {} }) {
         </div>
 
         <div className="bg-gray-800/70 p-3 rounded-lg border-l-2 border-gray-500">
-          <p className="text-sm font-medium text-blue-300">Team</p>
+          <p className="text-sm font-medium text-gray-300">Team</p>
           <p className="text-white font-semibold">
             {document.team?.Team_name || 'None'}
           </p>
