@@ -219,7 +219,7 @@ function Your_Documents() {
     // </motion.div>
 
     <motion.div
-      className="flex flex-col items-center min-h-screen w-full bg-gray-900 p-4 relative"
+      className="flex flex-col items-center h-screen w-full bg-gray-900 p-4 relative"
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
