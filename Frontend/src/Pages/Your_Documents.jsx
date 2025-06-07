@@ -224,7 +224,7 @@ function Your_Documents() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
     >
-      <div className="w-full max-w-7xl rounded-lg bg-gray-900 flex flex-col shadow-xl p-2">
+      <div className="w-full max-w-7xl h-full rounded-lg bg-gray-900 flex flex-col shadow-xl p-2">
         <div className="sticky top-0 z-30 bg-gray-900">
           <div className="flex flex-wrap gap-3 justify-between items-center mb-6">
             <h2 className="text-white text-2xl sm:text-3xl font-bold">Your Documents</h2>

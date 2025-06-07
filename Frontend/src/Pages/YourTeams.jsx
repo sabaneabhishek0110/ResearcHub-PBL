@@ -895,7 +895,7 @@ function YourTeams() {
     }, []);
 
     return (
-        <motion.div className='text-white flex flex-col h-[calc(100vh-3rem)] w-full bg-gray-900 p-2 sm:p-4'
+        <motion.div className='text-white flex flex-col h-[calc(100vh-3rem)] sm:h-full w-full bg-gray-900 p-2 sm:p-4'
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4 }}>
