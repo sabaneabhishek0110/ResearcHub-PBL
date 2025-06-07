@@ -85,14 +85,14 @@ function ShowPropertiesOfDocument({ documentId, onClose = () => {} }) {
   }
 
   return (
-    <div className="text-white px-6 py-4 bg-blue-900 rounded-xl shadow-xl w-full max-w-md border border-blue-700">
-      <div className="flex justify-between items-center mb-6 pb-2 border-b border-blue-700">
+    <div className="text-white px-6 py-4 bg-gray-900 rounded-xl shadow-xl w-full max-w-md border">
+      <div className="flex justify-between items-center mb-6 pb-2 border-b border-gray-700">
         <h2 className="text-xl font-bold text-white">
           Document Properties
         </h2>
         <button
           onClick={onClose}
-          className="text-blue-300 hover:text-white transition-colors duration-200 p-1 rounded-full hover:bg-blue-800"
+          className="text-blue-300 hover:text-white transition-colors duration-200 p-1 rounded-full hover:bg-gray-800"
           aria-label="Close"
         >
           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -102,24 +102,24 @@ function ShowPropertiesOfDocument({ documentId, onClose = () => {} }) {
       </div>
 
       <div className="space-y-4">
-        <div className="bg-blue-800/70 p-3 rounded-lg border-l-2 border-blue-500">
+        <div className="bg-gray-800/70 p-3 rounded-lg border-l-2 border-gray-500">
           <p className="text-sm font-medium text-blue-300">Title</p>
           <p className="text-white font-semibold truncate">{document.title}</p>
         </div>
 
-        <div className="bg-blue-800/70 p-3 rounded-lg border-l-2 border-blue-500">
+        <div className="bg-gray-800/70 p-3 rounded-lg border-l-2 border-gray-500">
           <p className="text-sm font-medium text-blue-300">Description</p>
           <p className="text-white font-semibold">{document.description || 'N/A'}</p>
         </div>
 
         <div className="grid grid-cols-2 gap-4">
-          <div className="bg-blue-800/70 p-3 rounded-lg border-l-2 border-blue-500">
-            <p className="text-sm font-medium text-blue-300">Format</p>
+          <div className="bg-gray-800/70 p-3 rounded-lg border-l-2 border-gray-500">
+            <p className="text-sm font-medium text-gray-300">Format</p>
             <p className="text-white font-semibold">Text File</p>
           </div>
 
-          <div className="bg-blue-800/70 p-3 rounded-lg border-l-2 border-blue-500">
-            <p className="text-sm font-medium text-blue-300">Owner</p>
+          <div className="bg-gray-800/70 p-3 rounded-lg border-l-2 border-gray-500">
+            <p className="text-sm font-medium text-gray-300">Owner</p>
             <p className="text-white font-semibold truncate">
               {document.owner?.name || document.owner?._id || 'N/A'}
             </p>
@@ -127,14 +127,14 @@ function ShowPropertiesOfDocument({ documentId, onClose = () => {} }) {
         </div>
 
         <div className="grid grid-cols-2 gap-4">
-          <div className="bg-blue-800/70 p-3 rounded-lg border-l-2 border-blue-500">
+          <div className="bg-gray-800/70 p-3 rounded-lg border-l-2 border-gray-500">
             <p className="text-sm font-medium text-blue-300">Created</p>
             <p className="text-white font-semibold text-sm">
               {new Date(document.createdAt).toLocaleString()}
             </p>
           </div>
 
-          <div className="bg-blue-800/70 p-3 rounded-lg border-l-2 border-blue-500">
+          <div className="bg-gray-800/70 p-3 rounded-lg border-l-2 border-gray-500">
             <p className="text-sm font-medium text-blue-300">Updated</p>
             <p className="text-white font-semibold text-sm">
               {new Date(document.updatedAt).toLocaleString()}
@@ -142,7 +142,7 @@ function ShowPropertiesOfDocument({ documentId, onClose = () => {} }) {
           </div>
         </div>
 
-        <div className="bg-blue-800/70 p-3 rounded-lg border-l-2 border-blue-500">
+        <div className="bg-gray-800/70 p-3 rounded-lg border-l-2 border-gray-500">
           <p className="text-sm font-medium text-blue-300">Team</p>
           <p className="text-white font-semibold">
             {document.team?.Team_name || 'None'}
