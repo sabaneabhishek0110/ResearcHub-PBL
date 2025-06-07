@@ -46,9 +46,9 @@ function ShowPropertiesOfDocument({ documentId, onClose = () => {} }) {
 
   if (!documentId) {
     return (
-      <div className="text-white px-6 py-4 bg-blue-900 rounded-xl shadow-md w-full max-w-md">
+      <div className="text-white px-6 py-4 bg-gray-900 rounded-xl shadow-md w-full max-w-md">
         <div className="flex items-center justify-center h-32">
-          <p className="text-blue-200">No document selected</p>
+          <p className="text-gray-200">No document selected</p>
         </div>
       </div>
     );
@@ -56,17 +56,17 @@ function ShowPropertiesOfDocument({ documentId, onClose = () => {} }) {
 
   if (loading) {
     return (
-      <div className="text-white px-6 py-4 bg-blue-900 rounded-xl shadow-xl w-full max-w-md border border-blue-700">
-        <div className="flex justify-between items-center mb-6 pb-2 border-b border-blue-700">
-          <div className="h-8 w-40 bg-blue-800 rounded animate-pulse"></div>
-          <div className="h-5 w-5 bg-blue-800 rounded-full animate-pulse"></div>
+      <div className="text-white px-6 py-4 bg-gray-900 rounded-xl shadow-xl w-full max-w-md border border-gray-700">
+        <div className="flex justify-between items-center mb-6 pb-2 border-b border-gray-700">
+          <div className="h-8 w-40 bg-gray-800 rounded animate-pulse"></div>
+          <div className="h-5 w-5 bg-gray-800 rounded-full animate-pulse"></div>
         </div>
         
         <div className="space-y-4">
           {[...Array(5)].map((_, i) => (
-            <div key={i} className="bg-blue-800/70 p-3 rounded-lg border-l-2 border-blue-500">
-              <div className="h-4 w-24 bg-blue-700 rounded mb-2 animate-pulse"></div>
-              <div className="h-5 w-full bg-blue-700 rounded animate-pulse"></div>
+            <div key={i} className="bg-gray-800/70 p-3 rounded-lg border-l-2 border-gray-500">
+              <div className="h-4 w-24 bg-gray-700 rounded mb-2 animate-pulse"></div>
+              <div className="h-5 w-full bg-gray-700 rounded animate-pulse"></div>
             </div>
           ))}
         </div>
@@ -76,7 +76,7 @@ function ShowPropertiesOfDocument({ documentId, onClose = () => {} }) {
 
   if (!document) {
     return (
-      <div className="text-white px-6 py-4 bg-blue-900 rounded-xl shadow-md w-full max-w-md">
+      <div className="text-white px-6 py-4 bg-gray-900 rounded-xl shadow-md w-full max-w-md">
         <div className="flex items-center justify-center h-32">
           <p className="text-blue-200">Failed to load document</p>
         </div>
@@ -92,7 +92,7 @@ function ShowPropertiesOfDocument({ documentId, onClose = () => {} }) {
         </h2>
         <button
           onClick={onClose}
-          className="text-blue-300 hover:text-white transition-colors duration-200 p-1 rounded-full hover:bg-gray-800"
+          className="text-gray-300 hover:text-white transition-colors duration-200 p-1 rounded-full hover:bg-gray-800"
           aria-label="Close"
         >
           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
