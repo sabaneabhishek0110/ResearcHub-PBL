@@ -529,7 +529,7 @@ function ProfilePage() {
 
   return (
    <motion.div 
-      className="flex flex-col lg:flex-row w-full h-[calc(100vh-4rem)] bg-gray-900 p-4 lg:p-6" 
+      className="flex flex-col lg:flex-row w-full h-[calc(100vh-3rem)] bg-gray-900 p-4 lg:p-6" 
       initial={{ opacity: 0, y: -20 }} 
       animate={{ opacity: 1, y: 0 }} 
       transition={{ duration: 0.4 }}
