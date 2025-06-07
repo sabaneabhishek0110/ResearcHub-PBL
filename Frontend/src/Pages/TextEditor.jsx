@@ -857,39 +857,40 @@ function TextEditor() {
 
         {/* History Sidebar */}
         {showHistory && (
-          <div className="fixed top-0 right-0 w-full md:w-[300px] h-screen bg-white shadow-lg z-50 overflow-y-auto">
-            <div className="flex justify-between items-center px-4 py-3 border-b border-gray-200">
-              <h2 className="text-lg font-semibold">Version History</h2>
-              <button onClick={() => setShowHistory(false)} className="p-1">
-                <X className="w-5 h-5 text-gray-600" />
-              </button>
-            </div>
-            <ul className="p-4 space-y-3">
-              {versions.map((version, index) => {
-                const date = new Date(version.timestamp);
-                const formattedDate = date.toLocaleString("en-US", {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                  hour: "2-digit",
-                  minute: "2-digit",
-                  hour12: true,
-                });
+  <div className="fixed top-0 right-0 z-50 h-screen w-full md:w-[300px] bg-white shadow-lg overflow-y-auto">
+    <div className="flex justify-between items-center px-4 py-3 border-b border-gray-200">
+      <h2 className="text-lg font-semibold">Version History</h2>
+      <button onClick={() => setShowHistory(false)} className="p-1">
+        <X className="w-5 h-5 text-gray-600" />
+      </button>
+    </div>
+    <ul className="p-4 space-y-3">
+      {versions.map((version, index) => {
+        const date = new Date(version.timestamp);
+        const formattedDate = date.toLocaleString("en-US", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: true,
+        });
 
-                return (
-                  <li
-                    key={index}
-                    className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer"
-                    onClick={() => restoreVersion(version)}
-                  >
-                    <div className="font-medium">{formattedDate}</div>
-                    <div className="text-sm text-gray-600">{version.updated_by.name}</div>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-        )}
+        return (
+          <li
+            key={index}
+            className="p-3 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer"
+            onClick={() => restoreVersion(version)}
+          >
+            <div className="font-medium">{formattedDate}</div>
+            <div className="text-sm text-gray-600">{version.updated_by.name}</div>
+          </li>
+        );
+      })}
+    </ul>
+  </div>
+)}
+
       </motion.div>
     );
 }
