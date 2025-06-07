@@ -572,6 +572,7 @@ exports.getDocumentTeam = async (req,res) => {
     }
 }
 
+
 exports.getUserDocumentRelatedToTeam = async (req,res) =>{
     try{
         const userId = req.user.userId;
@@ -612,5 +613,24 @@ exports.upLoadDocuments = async (req, res) => {
       console.error(error);
       res.status(500).json({ message: 'File upload failed', error });
     }
-  }
+}
   
+exports.getParticularDocument = async (req,res) => {
+    try{
+        console.log("Entered into getParticularDocument yourDocumentsController.js")
+        const {id} = req.params;
+
+        const document = await Document.findOne({_id : id}).populate({path : "team",select : "Team_name _id"})
+                                                            .populate({path : "owner",select : "name email _id"})
+                                                            .populate({path : "permissions.user" , select : "name email _id"});
+        if(!document){
+            console.log("Document of given id is not available");
+            return;
+        }
+        console.log("Completed getParticularDocument in yourDocumentsController.js");
+        res.status(200).json(document);
+    }
+    catch(error){
+        res.status(400).json({error : error.message});
+    }
+}

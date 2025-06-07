@@ -4,6 +4,7 @@ import {motion} from 'framer-motion'
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import TeamSelector from '../Components/TeamSelector';
+import ShowPropertiesOfDocument from '../Components/ShowPropertiesOfDocument';
 
 function Your_Documents() {
     const [documents,setDocuments] = useState([]);
@@ -11,6 +12,8 @@ function Your_Documents() {
     const [openMenuId, setOpenMenuId] = useState(null);
     const [team,setTeam] = useState(null);
     const [userTeams,setuserTeams] = useState([]);
+    const [openProperties,setOpenProperties] = useState(false);
+    const [selectedDocument,setSelectedDocument] = useState(null);
     const navigate = useNavigate();
 
     const BASE_URL = "https://researchub-pbl.onrender.com"
@@ -85,7 +88,7 @@ function Your_Documents() {
         });
         if (!response.ok) throw new Error("Failed to remove document");
         console.log("document removed successfully ");
-        fetchAccessedMembers(); // Refresh list
+        fetchDocuments();
       } catch (error) {
         console.log("Error revoking access:", error);
       }
@@ -216,90 +219,81 @@ function Your_Documents() {
     // </motion.div>
 
     <motion.div
-      className=" flex flex-col items-center h-screen w-full bg-gray-900 p-4"
+      className="flex flex-col items-center min-h-screen w-full bg-gray-900 p-4"
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
     >
-      {/* Header Section */}
-      <div className="rounded-lg bg-gray-900 w-full h-full mb-1 flex flex-col shadow-xl p-2">
-        <div className='sticky top-0 z-30 bg-gray-900'>
-          <div className="flex justify-between items-center mb-6">
-            <h2 className="text-white text-3xl font-bold">Your Documents</h2>
+      <div className="w-full max-w-7xl rounded-lg bg-gray-900 flex flex-col shadow-xl p-2">
+        <div className="sticky top-0 z-30 bg-gray-900">
+          <div className="flex flex-wrap gap-3 justify-between items-center mb-6">
+            <h2 className="text-white text-2xl sm:text-3xl font-bold">Your Documents</h2>
             <button
-              className=" flex items-center gap-2 px-5 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition"
-              onClick={()=>{
-                console.log(userTeams);
-                if(userTeams.length===0){
-                  toast.error("You should join atleast one team to create your document");
+              className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition"
+              onClick={() => {
+                if (userTeams.length === 0) {
+                  toast.error("You should join at least one team to create your document");
                   return;
                 }
                 setIsOpen(true);
-              }
-              }
+              }}
             >
               <FilePlus size={20} />
-              {window.innerWidth > 750 && (<span className='text-white'>Create New</span>)}
+              <span className="text-white hidden sm:block">Create New</span>
             </button>
-
-            {isOpen && (
-              <TeamSelector className="fixed inset-0 bg-black/80 bg-opacity-10 flex justify-center items-center z-50" teams={userTeams} team={team} setTeam={setTeam} onDone={()=>{
-                if (!team) {
-                  toast.error("Please select a team");
-                  return;
-                }
-                setTeam(team);
-                setIsOpen(false);
-                createDocument();
-              }} 
-              onClose={() => setIsOpen(false)}/>
-            )}
           </div>
-
           <hr className="border-gray-700 mb-6" />
         </div>
 
-        {/* Documents List */}
         {documents?.length > 0 ? (
           <div className="text-white grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {documents.map((document) => (
               <div
                 key={document._id}
                 onClick={() => showDocument(document._id)}
-                className="relative flex flex-row justify-between items-center gap-3 p-4 bg-gray-800 rounded-lg hover:bg-gray-700 transition cursor-pointer shadow-lg"
+                className="relative flex justify-between items-center gap-3 p-4 bg-gray-800 rounded-lg hover:bg-gray-700 transition cursor-pointer shadow-lg"
               >
-                <div className="flex flex-row space-x-2 items-center">
-                  <FileText size={24} className="text-gray-400" />
+                <div className="flex flex-row space-x-2 items-center w-full">
+                  <FileText size={24} className="text-gray-400 shrink-0" />
                   <p className="truncate w-full text-lg">{document.title}</p>
                 </div>
 
-                {/* More Options Button */}
-                <div className="relative">
+                <div className="relative shrink-0">
                   <button
-                    className="cursor-pointer hover:bg-gray-800 p-1 border border-transparent rounded-full"
-                    onClick={(event) => {
-                      event.stopPropagation(); // Prevents opening the document
-                      setOpenMenuId((prevId) => (prevId === document._id ? null : document._id));
+                    className="cursor-pointer hover:bg-gray-700 p-1 border border-transparent rounded-full"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setOpenMenuId(prev => (prev === document._id ? null : document._id));
                     }}
                   >
                     <MoreVertical className="w-5 h-5" />
                   </button>
 
-                  {/* Dropdown Menu */}
                   {openMenuId === document._id && (
                     <div
                       className="absolute right-0 mt-2 w-40 bg-gray-800 rounded-lg shadow-lg z-50"
-                      onClick={(e) => e.stopPropagation()} // Prevents closing when clicking inside
+                      onClick={(e) => e.stopPropagation()}
                     >
                       <button
-                        className="w-full text-left px-4 py-2 cursor-pointer hover:bg-gray-700 transition"
+                        className="w-full text-left px-4 py-2 hover:bg-gray-700 transition"
                         onClick={(e) => {
-                          e.stopPropagation(); // Prevents opening the document
+                          e.stopPropagation();
                           removeDocument(document._id);
                           setOpenMenuId(null);
                         }}
                       >
                         Delete
+                      </button>
+                      <button
+                        className="w-full text-left px-4 py-2 hover:bg-gray-700 transition"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setOpenProperties(true);
+                          setSelectedDocument(document._id);
+                          setOpenMenuId(null);
+                        }}
+                      >
+                        Properties
                       </button>
                     </div>
                   )}
@@ -308,13 +302,37 @@ function Your_Documents() {
             ))}
           </div>
         ) : (
-          // Empty State (No Documents)
           <div className="flex flex-col items-center justify-center h-64 text-gray-400">
             <FileText size={50} className="mb-4" />
             <p className="text-lg">No Documents Available</p>
           </div>
         )}
       </div>
+
+      {openProperties && (
+        <ShowPropertiesOfDocument
+          onClose={() => setOpenProperties(false)}
+          documentId={selectedDocument}
+        />
+      )}
+
+      {isOpen && (
+        <TeamSelector
+          className="fixed inset-0 bg-black/60 flex justify-center items-center z-50"
+          teams={userTeams}
+          team={team}
+          setTeam={setTeam}
+          onDone={() => {
+            if (!team) {
+              toast.error("Please select a team");
+              return;
+            }
+            createDocument();
+            setIsOpen(false);
+          }}
+          onClose={() => setIsOpen(false)}
+        />
+      )}
     </motion.div>
   )
 }

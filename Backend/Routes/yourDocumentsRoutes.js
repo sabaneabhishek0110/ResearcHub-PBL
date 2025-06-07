@@ -14,6 +14,7 @@ router.get('/getUserTeams',userMiddleware,yourDocumentsController.getUserTeams);
 router.get('/getDocumentTeam/:id',userMiddleware,yourDocumentsController.getDocumentTeam);
 router.get('/getOwner/:id',userMiddleware,yourDocumentsController.getOwner);
 router.get('/getUserDocumentRelatedToTeam/:teamId',userMiddleware,yourDocumentsController.getUserDocumentRelatedToTeam);
+router.get('/getParticularDocument/:id',userMiddleware,yourDocumentsController.getParticularDocument);
 
 router.post('/createDocument',userMiddleware,yourDocumentsController.createDocument);
 router.post('/upload',userMiddleware,upload.array('files'),yourDocumentsController.upLoadDocuments);
